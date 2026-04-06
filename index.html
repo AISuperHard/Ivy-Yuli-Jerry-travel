@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>IVY'S TRAVEL CENTER</title>
+    <title>玥玥的第一次四國冒險</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
@@ -11,166 +11,153 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
     
     <style>
-        :root { --brand: #2C3E50; --gold: #D4AF37; --bg: #F8F9FA; }
+        :root { --brand: #2C3E50; --gold: #D4AF37; --bg: #F8F9FA; --expense: #E74C3C; }
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg); color: var(--brand); letter-spacing: 0.02em; }
         .modern-font { font-family: 'Montserrat', sans-serif; }
         
-        /* 分頁切換 */
-        .page { display: none; }
-        .page.active { display: block; animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* 切換分頁邏輯 */
+        .page { display: none; padding-bottom: 120px; }
+        .page.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* 卡片與按鈕 */
-        .card { background: white; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); overflow: hidden; margin-bottom: 25px; border: 1px solid rgba(0,0,0,0.02); }
-        .nav-btn { background: var(--brand); color: white; border-radius: 14px; padding: 14px; font-weight: 600; font-size: 13px; text-align: center; width: 100%; display: block; }
+        /* 精品卡片設計 */
+        .card { background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 30px; border: 1px solid rgba(0,0,0,0.03); transition: transform 0.2s; }
+        .card:active { transform: scale(0.98); }
+        .img-container { height: 250px; background-color: #EEE; /* 圖片載入前的底色佔位 */ background-size: cover; background-position: center; position: relative; }
+        .img-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.7)); color: white; }
         
-        /* 預算介面 */
-        .budget-card { background: linear-gradient(135deg, #2C3E50 0%, #4A6072 100%); color: white; border-radius: 30px; padding: 35px; margin-bottom: 30px; box-shadow: 0 20px 40px rgba(44,62,80,0.2); }
-        .input-field { background: #FFF; border: 1px solid #E9ECEF; border-radius: 12px; padding: 15px; width: 100%; margin-bottom: 12px; font-size: 14px; color: var(--brand); }
-        .expense-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px solid #F1F3F5; }
+        /* 專業導航按鈕 */
+        .nav-btn { background: var(--brand); color: white; border-radius: 12px; padding: 14px; font-weight: 600; font-size: 13px; text-align: center; width: 100%; display: block; box-shadow: 0 6px 15px rgba(44,62,80,0.2); }
+        .nav-btn:active { background: #1a252f; transform: scale(0.98); }
         
-        .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); height: 90px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -5px 25px rgba(0,0,0,0.03); padding-bottom: 25px; z-index: 1000; }
-        .tab-item { opacity: 0.25; transition: 0.3s; text-align: center; }
-        .tab-item.active { opacity: 1; color: var(--brand); }
+        .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; height: 85px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); padding-bottom: 20px; z-index: 1000; }
+        .tab-item { opacity: 0.3; transition: 0.3s; }
+        .tab-item.active { opacity: 1; }
     </style>
 </head>
 <body class="pb-32">
 
-    <div id="page-trip" class="page active">
-        <header class="p-10 bg-white text-center rounded-b-[50px]">
-            <p class="modern-font text-[9px] tracking-[0.4em] text-gray-400 mb-2 uppercase">Setouchi Adventure 2026</p>
-            <h1 class="text-2xl font-bold tracking-widest">玥玥的第一次四國冒險</h1>
-        </header>
+    <header class="p-10 bg-white text-center">
+        <p class="modern-font text-[10px] tracking-[0.3em] text-gray-400 mb-2 uppercase font-light">SETOUCHI ADVENTURE 2026</p>
+        <h1 class="text-2xl font-bold tracking-widest">玥玥的四國冒險中控台</h1>
+    </header>
 
-        <main class="px-6 mt-10">
-            <div class="card p-6">
-                <h3 class="font-bold text-lg mb-2">10/29 (四) | 姬路城快閃拍照</h3>
-                <p class="text-xs text-gray-400 mb-5 leading-relaxed">取車直奔姬路城三之丸廣場。不進城，拍下白鷺城全景，隨後去市立動物園。</p>
-                <button onclick="navTo('姬路城三之丸廣場')" class="nav-btn">📍 開啟導航</button>
-            </div>
-            
-            <div class="card p-6">
-                <h3 class="font-bold text-lg mb-2">10/31 (六) | 與島 PA ➔ 源平之里</h3>
-                <p class="text-xs text-gray-400 mb-5 leading-relaxed">Ivy 指定：停在橋中央海島休息站。中午在源平之里享用鰤魚漬丼。</p>
-                <button onclick="navTo('源平之里牟禮')" class="nav-btn">📍 開啟導航</button>
-            </div>
+    <main class="px-6 mt-8">
 
-            <div class="card p-6">
-                <h3 class="font-bold text-lg mb-2">11/03 (二) | 二次元之森親子日</h3>
-                <p class="text-xs text-gray-400 mb-5 leading-relaxed">國定假日：玥玥的小新區與爸爸的哥吉拉。隨後前往明石海峽公園玩溜滑梯。</p>
-                <button onclick="navTo('國營明石海峽公園')" class="nav-btn">📍 開啟導航</button>
-            </div>
-        </main>
-    </div>
+        <div class="day-header pb-4 border-b-2 border-dashed border-gray-100 mb-8">
+            <h2 class="modern-font text-5xl font-black text-gray-200">01</h2>
+            <p class="text-xl font-bold mt-[-10px]">10/29 (四) | 姬路拍照行程</p>
+        </div>
+        
+        <div class="card p-6">
+            <h3 class="text-xl font-bold mb-3">1. 取車奔襲 ➔ 龍野西 SA</h3>
+            <p class="text-xs text-gray-500 mb-5 leading-relaxed">取車直奔姬路。中午停靠 **龍野西 SA** 體驗自駕第一站限定定食。</p>
+            <button onclick="navTo('龍野西SA 下行')" class="nav-btn">📍 前往龍野西 SA 導航 (KIX 起跑)</button>
+        </div>
 
-    <div id="page-budget" class="page">
-        <header class="p-10">
-            <h2 class="text-xl font-bold tracking-widest mb-6 text-center">旅程費用即時監控</h2>
-            <div class="budget-card">
-                <p class="modern-font text-[10px] opacity-80 mb-2 tracking-widest uppercase">Current Total (JPY)</p>
-                <div id="total-sum" class="text-5xl font-bold modern-font">¥ 0</div>
-            </div>
-        </header>
-
-        <main class="px-6">
-            <div class="card p-6 bg-stone-50">
-                <h3 class="font-bold mb-4 text-sm">新增一筆支出</h3>
-                <input id="note" type="text" placeholder="品項 (例如：神戶牛晚餐)" class="input-field">
-                <input id="amount" type="number" placeholder="金額 (日幣 JPY)" class="input-field">
-                <select id="cat" class="input-field">
-                    <option value="🍱 美食">🍱 美食</option>
-                    <option value="🚗 交通">🚗 交通</option>
-                    <option value="🏨 住宿">🏨 住宿</option>
-                    <option value="🛍️ 購物">🛍️ 購物</option>
-                    <option value="🎟️ 門票">🎟️ 門票</option>
-                </select>
-                <button onclick="saveExpense()" class="nav-btn bg-amber-500 border-none shadow-none mt-2">確認記帳並同步</button>
-            </div>
-
-            <div id="list" class="mt-8 space-y-1">
-                <h3 class="font-bold mb-4 text-sm text-gray-400">最新支出明細</h3>
+        <div class="card">
+            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=1000')">
+                <div class="img-overlay">
+                    <h3 class="text-xl font-bold">2. 姬路城三之丸廣場拍照</h3>
                 </div>
-        </main>
-    </div>
+            </div>
+            <div class="p-6">
+                <p class="text-xs text-gray-500 mb-5 leading-relaxed">不進城爬坡，在三之丸廣場拍全景，適合玥玥跑跑。</p>
+                <button onclick="navTo('姬路城三之丸廣場')" class="nav-btn">📍 前往拍照點導航 (從龍野西SA出發)</button>
+            </div>
+        </div>
+
+        <div class="card p-6 border-l-[10px] border-amber-100">
+            <h3 class="text-xl font-bold mb-2">3. 姬路市立動物園</h3>
+            <p class="text-xs text-gray-500 mb-4">就在城內，佛心票價，適合小孩互動。</p>
+            <button onclick="navTo('姬路市立動物園')" class="nav-btn">📍 導航開啟</button>
+        </div>
+
+        <div class="day-header pb-4 border-b-2 border-dashed border-gray-100 mb-8 mt-16">
+            <h2 class="modern-font text-5xl font-black text-gray-200">02</h2>
+            <p class="text-xl font-bold mt-[-10px]">10/30 (五) | 岡山 ➔ 倉敷採買</p>
+        </div>
+        <div class="card">
+            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1590559063414-068307223b9d?q=80&w=1000')">
+                <div class="img-overlay">
+                    <h3 class="text-xl font-bold">🌳 道之驛岡山花園 ➔ 倉敷</h3>
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-xs text-gray-500 mb-5 leading-relaxed">精品休息站 **Okayama Garden**。採買如竹堂紙膠帶與帆布包。</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="navTo('Okayama Garden')" class="nav-btn text-xs">岡山花園導航</button>
+                    <button onclick="navTo('倉敷美觀地區')" class="nav-btn text-xs">倉敷老街導航</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="day-header pb-4 border-b-2 border-dashed border-gray-200 mb-8 mt-16">
+            <h2 class="modern-font text-5xl font-black text-gray-200">03</h2>
+            <p class="text-xl font-bold mt-[-10px]">10/31 (六) | 跨越大橋 ➔ 與島 PA</p>
+        </div>
+        <div class="card p-6">
+            <h3 class="text-xl font-bold mb-3">🌉 與島 PA ➔ 源平之里</h3>
+            <p class="text-xs text-gray-500 mb-5">跨大橋停橋中間海島 **與島PA**。**必吃點菜：源平之里鰤魚漬丼**。</p>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="navTo('與島PA')" class="nav-btn text-xs">與島 PA 導航</button>
+                <button onclick="navTo('源平之里牟禮')" class="nav-btn text-xs">源平之里導航</button>
+            </div>
+        </div>
+
+        <div class="day-header pb-4 border-b-2 border-dashed border-gray-200 mb-8 mt-16">
+            <h2 class="modern-font text-5xl font-black text-gray-200">06</h2>
+            <p class="text-xl font-bold mt-[-10px]">11/03 (二) | 二次元之森放電</p>
+        </div>
+        <div class="card border-l-[12px] border-orange-100 p-6">
+            <h3 class="text-xl font-bold mb-2">🧅 Nijigen no Mori ➔ 溜滑梯公園</h3>
+            <p class="text-xs text-gray-500 mb-5">玥玥玩蠟筆小新區，爸爸玩哥吉拉。隨後去國營明石海峽公園玩溜滑梯。</p>
+            <button onclick="navTo('二次元之森 F停車場')" class="nav-btn bg-amber-500">📍 二次元之森導航 (直達小新區)</button>
+        </div>
+
+        <div class="day-header pb-4 border-b-2 border-dashed border-gray-200 mb-8 mt-16 pb-20 border-b-0">
+            <h2 class="modern-font text-5xl font-black text-gray-200">08</h2>
+            <p class="text-xl font-bold mt-[-10px]">11/05 (四) | 最後衝刺歸台</p>
+        </div>
+        <div class="card p-6">
+            <h3 class="text-xl font-bold mb-3">🛍️ AEON Mall 臨空泉南返台</h3>
+            <p class="text-xs text-gray-500 mb-5 leading-relaxed">離機場 10 分鐘，大掃貨。✈️ 18:10 起飛歸台。**機場還車處導航已就緒。**</p>
+            <button onclick="navTo('AEON Mall Rinku Sennan')" class="nav-btn">📍 導航：前往 AEON Mall</button>
+        </div>
+
+    </main>
 
     <nav class="tab-bar">
-        <div id="tab-trip" class="tab-item active" onclick="showPage('trip')">
-            <span class="text-2xl">🗺️</span><br><span class="text-[9px] font-bold">PLAN</span>
-        </div>
-        <div id="tab-budget" class="tab-item" onclick="showPage('budget')">
-            <span class="text-2xl">💰</span><br><span class="text-[9px] font-bold">BUDGET</span>
-        </div>
-        <div class="tab-item" onclick="window.location.reload()">
-            <span class="text-2xl">☁️</span><br><span class="text-[9px] font-bold">SYNC</span>
-        </div>
+        <button class="flex flex-col items-center gap-1 opacity-100"><span class="text-2xl">🗺️</span><span class="text-[10px] font-bold">Plan</span></button>
+        <button class="flex flex-col items-center gap-1 opacity-30" onclick="alert('飯店：Fav Hotel / Grand Nikko Awaji')"><span class="text-2xl">🏡</span><span class="text-[10px] font-bold">Stay</span></button>
+        <button class="flex flex-col items-center gap-1 opacity-30" onclick="syncData()"><span class="text-2xl">☁️</span><span class="text-[10px] font-bold">Sync</span></button>
     </nav>
 
-    <script>
-        // Firebase 身分證
-        const firebaseConfig = {
-            apiKey: "AIzaSyD2s8AR6z1Nq602jUlPPsWaGT-1KTysvbA",
-            authDomain: "ivy-yuli-jerry.firebaseapp.com",
-            databaseURL: "https://ivy-yuli-jerry-default-rtdb.firebaseio.com",
-            projectId: "ivy-yuli-jerry",
-            storageBucket: "ivy-yuli-jerry.firebasestorage.app",
-            messagingSenderId: "737681740145",
-            appId: "1:737681740145:web:18dd456e079b720097e6d0"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+</div>
 
-        // 頁面切換
-        function showPage(p) {
-            document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-item').forEach(el => el.classList.remove('active'));
-            document.getElementById('page-' + p).classList.add('active');
-            document.getElementById('tab-' + p).classList.add('active');
-        }
+<script>
+    // Firebase Config (Ivy 專屬)
+    const firebaseConfig = {
+        apiKey: "AIzaSyD2s8AR6z1Nq602jUlPPsWaGT-1KTysvbA",
+        authDomain: "ivy-yuli-jerry.firebaseapp.com",
+        databaseURL: "https://ivy-yuli-jerry-default-rtdb.firebaseio.com",
+        projectId: "ivy-yuli-jerry",
+        storageBucket: "ivy-yuli-jerry.firebasestorage.app",
+        messagingSenderId: "737681740145",
+        appId: "1:737681740145:web:18dd456e079b720097e6d0"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-        // 記帳儲存
-        function saveExpense() {
-            const note = document.getElementById('note').value;
-            const amount = parseInt(document.getElementById('amount').value);
-            const cat = document.getElementById('cat').value;
+    function navTo(loc) {
+        window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc)}`, '_blank');
+    }
 
-            if (!note || !amount) { alert('請填寫完整內容'); return; }
+    function syncData() {
+        db.ref('trip/last_view').set(new Date().toLocaleString());
+        alert('Firebase 同步成功！');
+    }
+</script>
 
-            db.ref('trip_expenses').push({
-                note, amount, cat, time: new Date().toLocaleTimeString()
-            }).then(() => {
-                document.getElementById('note').value = '';
-                document.getElementById('amount').value = '';
-                alert('已同步至雲端大腦！');
-            });
-        }
-
-        // 監聽支出明細
-        db.ref('trip_expenses').on('value', (snap) => {
-            const data = snap.val();
-            const list = document.getElementById('list');
-            const sumDisplay = document.getElementById('total-sum');
-            let total = 0;
-            let html = '';
-
-            if (data) {
-                Object.values(data).reverse().forEach(item => {
-                    total += item.amount;
-                    html += `
-                        <div class="expense-row">
-                            <div>
-                                <p class="text-sm font-bold">${item.note}</p>
-                                <p class="text-[10px] text-gray-400">${item.cat} | ${item.time}</p>
-                            </div>
-                            <p class="font-bold modern-font">¥ ${item.amount.toLocaleString()}</p>
-                        </div>
-                    `;
-                });
-            }
-            list.innerHTML = html || '<p class="text-center py-10 text-xs text-gray-300">目前尚無紀錄</p>';
-            sumDisplay.innerText = '¥ ' + total.toLocaleString();
-        });
-
-        function navTo(loc) { window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc)}`, '_blank'); }
-    </script>
 </body>
 </html>
