@@ -3,105 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ivy's Japan 2026</title>
+    <title>Ivy's Seto Drive 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500&display=swap" rel="stylesheet">
-    
     <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&q=80&w=300&h=300">
-    
     <style>
         body { font-family: 'Noto Sans TC', sans-serif; background-color: #FDFBF9; color: #444; }
-        .glass-card { background: white; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 28px; }
-        .nav-btn { background: #4A4A4A; color: white; border-radius: 50px; padding: 10px 24px; font-size: 14px; font-weight: 500; }
-        .day-label { border-left: 4px solid #D4A373; padding-left: 12px; margin: 32px 0 16px 0; font-weight: 500; color: #8B5E3C; font-size: 1.1rem; }
-        .spot-img { width: 100%; height: 220px; object-fit: cover; background-color: #F3F3F3; }
+        .day-label { border-left: 4px solid #D4A373; padding-left: 12px; margin: 40px 0 20px 0; font-weight: 500; color: #8B5E3C; font-size: 1.2rem; }
+        .spot-card { background: white; border-radius: 20px; box-shadow: 0 2px 15px rgba(0,0,0,0.03); margin-bottom: 16px; overflow: hidden; }
+        .nav-btn { background: #4A4A4A; color: white; border-radius: 50px; padding: 6px 16px; font-size: 12px; }
+        .time-tag { background: #F3E9DC; color: #8B5E3C; padding: 2px 8px; border-radius: 6px; font-size: 10px; margin-bottom: 8px; display: inline-block; }
     </style>
 </head>
-<body class="pb-32">
+<body class="pb-32 px-6">
 
-    <header class="pt-16 pb-8 px-6 text-center">
-        <h1 class="text-2xl font-light tracking-[0.3em] text-gray-800 uppercase">瀨戶內海·自駕</h1>
-        <p class="text-[10px] text-gray-400 mt-2 tracking-widest uppercase italic">Ivy • Jiele • YueYue</p>
+    <header class="pt-16 pb-4 text-center">
+        <h1 class="text-2xl font-light tracking-[0.3em] text-gray-800">瀨戶內海・自駕 8D7N</h1>
+        <p class="text-[10px] text-gray-400 mt-2 tracking-widest italic">IVY • JIELE • YUEYUE</p>
     </header>
 
-    <main class="px-6">
-        <div class="day-label">DAY 01 / 10.29 ✈️ 關西抵達</div>
-        <div class="glass-card">
-            <img class="spot-img" src="https://picsum.photos/seed/himeji/800/450">
-            <div class="p-6 flex justify-between items-center">
-                <div><h3 class="text-xl font-medium">姬路城</h3><p class="text-xs text-gray-400 mt-1">#日本第一名城 #外圍跑跳</p></div>
+    <div class="day-label">DAY 01 | 關西機場 ➔ 姬路</div>
+    <div class="spot-card">
+        <img src="https://images.unsplash.com/photo-1621208642232-4e44435b6b14?q=80&w=800" class="w-full h-40 object-cover">
+        <div class="p-5 flex justify-between items-center">
+            <div><span class="time-tag">14:00 抵達</span><h3 class="text-lg font-medium">關西機場取車</h3></div>
+            <a href="https://www.google.com/maps/search/?api=1&query=與島PA" class="nav-btn">導航</a>
+        </div>
+    </div>
+    <div class="spot-card">
+        <div class="p-5 border-l-4 border-gray-200 ml-4">
+            <span class="time-tag">17:00 漫步</span>
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-medium">姬路城 (三之丸廣場)</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=與島PA" class="nav-btn">導航</a>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">#免爬坡 #玥玥草皮放電</p>
+        </div>
+    </div>
+
+    <div class="day-label">DAY 02 | 姬路 ➔ 岡山</div>
+    <div class="spot-card">
+        <img src="https://images.unsplash.com/photo-1590559063414-068307223b9d?q=80&w=800" class="w-full h-40 object-cover">
+        <div class="p-5 flex justify-between items-center">
+            <div><span class="time-tag">10:30 神社</span><h3 class="text-lg font-medium">吉備津神社</h3></div>
+            <a href="https://www.google.com/maps/search/?api=1&query=神戶麵包超人博物館" class="nav-btn">導航</a>
+        </div>
+    </div>
+    <div class="spot-card">
+        <div class="p-5 border-l-4 border-gray-200 ml-4">
+            <span class="time-tag">15:00 甜點時間</span>
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-medium">倉敷美觀地區</h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=神戶麵包超人博物館" class="nav-btn">導航</a>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">#岡山白桃冰淇淋 #老街漫步</p>
+        </div>
+    </div>
+
+    <div class="day-label">DAY 03 | 瀨戶大橋 ➔ 四國</div>
+    <div class="spot-card">
+        <img src="https://images.unsplash.com/photo-1583275484672-5b91a7001476?q=80&w=800" class="w-full h-40 object-cover">
+        <div class="p-5 flex justify-between items-center">
+            <div><span class="time-tag">11:00 購物</span><h3 class="text-lg font-medium">兒島牛仔褲街</h3></div>
+            <a href="https://www.google.com/maps/search/?api=1&query=Himeji+Castle" class="nav-btn">導航</a>
+        </div>
+    </div>
+    <div class="spot-card">
+        <div class="p-5 border-l-4 border-gray-200 ml-4">
+            <span class="time-tag">14:00 海景</span>
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-medium">與島 PA (大橋中央)</h3>
                 <a href="https://www.google.com/maps/search/?api=1&query=Himeji+Castle" class="nav-btn">導航</a>
             </div>
         </div>
+    </div>
 
-        <div class="day-label">DAY 02 / 10.30 ⛩️ 岡山古文化</div>
-        <div class="glass-card">
-            <img class="spot-img" src="https://picsum.photos/seed/okayama/800/450">
-            <div class="p-6 flex justify-between items-center">
-                <div><h3 class="text-xl font-medium">吉備津神社</h3><p class="text-xs text-gray-400 mt-1">#桃太郎傳說 #360M長廊</p></div>
-                <a href="https://www.google.com/maps/search/?api=1&query=Kibitsu+Shrine" class="nav-btn">導航</a>
-            </div>
+    <div class="day-label">DAY 04 | 四國水族館 ➔ 德島</div>
+    <div class="spot-card">
+        <img src="https://images.unsplash.com/photo-1544552866-d3ed42536cfd?q=80&w=800" class="w-full h-40 object-cover">
+        <div class="p-5 flex justify-between items-center">
+            <div><span class="time-tag">10:00  dolphin秀</span><h3 class="text-lg font-medium">四國水族館</h3></div>
+            <a href="https://www.google.com/maps/search/?api=1&query=Kibitsu+Shrine" class="nav-btn">導航</a>
         </div>
+    </div>
 
-        <div class="day-label">DAY 03 / 10.31 🌉 跨越瀨戶大橋</div>
-        <div class="glass-card">
-            <img class="spot-img" src="https://picsum.photos/seed/bridge/800/450">
-            <div class="p-6 flex justify-between items-center">
-                <div><h3 class="text-xl font-medium">與島 PA 休息站</h3><p class="text-xs text-gray-400 mt-1">#大橋正中央 #海景咖啡</p></div>
-                <a href="https://www.google.com/maps/search/?api=1&query=Yoshima+Parking+Area" class="nav-btn">導航</a>
-            </div>
+    <div class="day-label">DAY 07 | 神戶親子日</div>
+    <div class="spot-card">
+        <img src="https://images.unsplash.com/photo-1558900664-07301c3491ba?q=80&w=800" class="w-full h-40 object-cover">
+        <div class="p-5 flex justify-between items-center">
+            <div><span class="time-tag">10:00 玥玥時間</span><h3 class="text-lg font-medium">麵包超人博物館</h3></div>
+            <a href="https://www.google.com/maps/search/?api=1&query=Otsuka+Museum+of+Art" class="nav-btn">導航</a>
         </div>
-
-        <div class="day-label">DAY 04 / 11.01 🐬 四國冒險</div>
-        <div class="glass-card">
-            <img class="spot-img" src="https://picsum.photos/seed/aquarium/800/450">
-            <div class="p-6 flex justify-between items-center">
-                <div><h3 class="text-xl font-medium">四國水族館</h3><p class="text-xs text-gray-400 mt-1">#海豚秀 #天空之鏡</p></div>
-                <a href="https://www.google.com/maps/search/?api=1&query=Shikoku+Aquarium" class="nav-btn">導航</a>
-            </div>
-        </div>
-
-        <div class="day-label">DAY 05 / 11.02 🎨 藝術朝聖</div>
-        <div class="glass-card">
-            <img class="spot-img" src="https://picsum.photos/seed/museum/800/450">
-            <div class="p-6 flex justify-between items-center">
-                <div><h3 class="text-xl font-medium">大塚國際美術館</h3><p class="text-xs text-gray-400 mt-1">#名畫陶板畫 #室內行程</p></div>
+    </div>
+    <div class="spot-card">
+        <div class="p-5 border-l-4 border-gray-200 ml-4">
+            <span class="time-tag">18:00 夜景</span>
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-medium">神戶港 Mosaic 晚餐</h3>
                 <a href="https://www.google.com/maps/search/?api=1&query=Otsuka+Museum+of+Art" class="nav-btn">導航</a>
             </div>
         </div>
+    </div>
 
-        <div class="day-label">DAY 06 / 11.03 🧅 淡路親子日</div>
-        <div class="glass-card">
-            <img class="spot-img" src="https://picsum.photos/seed/park/800/450">
-            <div class="p-6 flex justify-between items-center">
-                <div><h3 class="text-xl font-medium">明石海峽公園</h3><p class="text-xs text-gray-400 mt-1">#巨型溜滑梯 #玥玥放電</p></div>
-                <a href="https://www.google.com/maps/search/?api=1&query=Akashi+Kaikyo+Park" class="nav-btn">導航</a>
-            </div>
-        </div>
-
-        <div class="day-label">DAY 07 / 11.04 🍞 麵包超人</div>
-        <div class="glass-card">
-            <img class="spot-img" src="https://picsum.photos/seed/anpanman/800/450">
-            <div class="p-6 flex justify-between items-center">
-                <div><h3 class="text-xl font-medium">神戶麵包超人館</h3><p class="text-xs text-gray-400 mt-1">#玥玥最愛 #神戶港夜景</p></div>
-                <a href="https://www.google.com/maps/search/?api=1&query=Kobe+Anpanman+Children's+Museum" class="nav-btn">導航</a>
-            </div>
-        </div>
-
-        <div class="day-label">DAY 08 / 11.05 🛍️ 採買回程</div>
-        <div class="glass-card">
-            <img class="spot-img" src="https://picsum.photos/seed/shopping/800/450">
-            <div class="p-6 flex justify-between items-center">
-                <div><h3 class="text-xl font-medium">AEON MALL</h3><p class="text-xs text-gray-400 mt-1">#最後掃貨直接去機場</p></div>
-                <a href="https://www.google.com/maps/search/?api=1&query=AEON+MALL+Rinku+Sennan" class="nav-btn">導航</a>
-            </div>
-        </div>
-    </main>
-
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-4 text-[10px] tracking-widest text-gray-800 shadow-2xl">
-        <div class="text-center font-bold">📅<br>行程</div>
-        <div class="text-center opacity-30">💰<br>記帳</div>
-        <div class="text-center opacity-30">🚑<br>緊急</div>
+    <nav class="fixed bottom-6 left-6 right-6 h-16 bg-white/90 backdrop-blur-md rounded-full shadow-2xl flex items-center justify-around px-8 border border-gray-100">
+        <div class="text-center">📅<br><span class="text-[8px]">行程</span></div>
+        <div class="w-12 h-12 bg-[#4A4A4A] rounded-full flex items-center justify-center -mt-8 shadow-lg text-white text-xl">+</div>
+        <div class="text-center opacity-30">💰<br><span class="text-[8px]">記帳</span></div>
     </nav>
+
 </body>
 </html>
