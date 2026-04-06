@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>IVY'S PREMIUM TRAVEL</title>
+    <title>IVY'S TRAVEL CENTER</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
@@ -15,169 +15,98 @@
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg); color: var(--brand); letter-spacing: 0.02em; }
         .modern-font { font-family: 'Montserrat', sans-serif; }
         
-        /* 精品卡片設計 */
-        .card { background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 30px; border: 1px solid rgba(0,0,0,0.03); }
-        .img-container { height: 250px; background-color: #EEE; background-size: cover; background-position: center; position: relative; }
-        .img-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.6)); color: white; }
+        /* 分頁切換 */
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 卡片與按鈕 */
+        .card { background: white; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); overflow: hidden; margin-bottom: 25px; border: 1px solid rgba(0,0,0,0.02); }
+        .nav-btn { background: var(--brand); color: white; border-radius: 14px; padding: 14px; font-weight: 600; font-size: 13px; text-align: center; width: 100%; display: block; }
         
-        /* 導航按鈕：更專業的視覺 */
-        .nav-btn { background: var(--brand); color: white; border-radius: 12px; padding: 14px; font-weight: 600; font-size: 13px; text-align: center; width: 100%; display: block; transition: all 0.2s; }
-        .nav-btn:active { background: #1a252f; transform: scale(0.98); }
+        /* 預算介面 */
+        .budget-card { background: linear-gradient(135deg, #2C3E50 0%, #4A6072 100%); color: white; border-radius: 30px; padding: 35px; margin-bottom: 30px; box-shadow: 0 20px 40px rgba(44,62,80,0.2); }
+        .input-field { background: #FFF; border: 1px solid #E9ECEF; border-radius: 12px; padding: 15px; width: 100%; margin-bottom: 12px; font-size: 14px; color: var(--brand); }
+        .expense-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px solid #F1F3F5; }
         
-        .tag { font-size: 10px; font-weight: 700; padding: 4px 12px; border-radius: 6px; background: #F1F3F5; color: #495057; margin-right: 6px; }
-        .day-title { font-size: 40px; color: #DEE2E6; font-weight: 800; margin-bottom: -20px; margin-left: -5px; }
-        .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; height: 85px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); padding-bottom: 20px; z-index: 1000; }
+        .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); height: 90px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -5px 25px rgba(0,0,0,0.03); padding-bottom: 25px; z-index: 1000; }
+        .tab-item { opacity: 0.25; transition: 0.3s; text-align: center; }
+        .tab-item.active { opacity: 1; color: var(--brand); }
     </style>
 </head>
 <body class="pb-32">
 
-    <header class="p-10 bg-white text-center">
-        <p class="modern-font text-[10px] tracking-[0.3em] text-gray-400 mb-2 uppercase font-light">Setouchi Autodrive 2026</p>
-        <h1 class="text-2xl font-bold tracking-widest">玥玥的第一次四國冒險</h1>
-        <div class="flex justify-center gap-6 mt-6 text-[10px] font-bold text-gray-500 modern-font">
-            <div class="text-left border-l-2 border-amber-400 pl-2">DEPARTURE<br><span class="text-gray-800">10/29 BR132</span></div>
-            <div class="text-left border-l-2 border-amber-400 pl-2">RETURN<br><span class="text-gray-800">11/05 BR129</span></div>
-        </div>
-    </header>
+    <div id="page-trip" class="page active">
+        <header class="p-10 bg-white text-center rounded-b-[50px]">
+            <p class="modern-font text-[9px] tracking-[0.4em] text-gray-400 mb-2 uppercase">Setouchi Adventure 2026</p>
+            <h1 class="text-2xl font-bold tracking-widest">玥玥的第一次四國冒險</h1>
+        </header>
 
-    <main class="px-6 mt-8">
+        <main class="px-6 mt-10">
+            <div class="card p-6">
+                <h3 class="font-bold text-lg mb-2">10/29 (四) | 姬路城快閃拍照</h3>
+                <p class="text-xs text-gray-400 mb-5 leading-relaxed">取車直奔姬路城三之丸廣場。不進城，拍下白鷺城全景，隨後去市立動物園。</p>
+                <button onclick="navTo('姬路城三之丸廣場')" class="nav-btn">📍 開啟導航</button>
+            </div>
+            
+            <div class="card p-6">
+                <h3 class="font-bold text-lg mb-2">10/31 (六) | 與島 PA ➔ 源平之里</h3>
+                <p class="text-xs text-gray-400 mb-5 leading-relaxed">Ivy 指定：停在橋中央海島休息站。中午在源平之里享用鰤魚漬丼。</p>
+                <button onclick="navTo('源平之里牟禮')" class="nav-btn">📍 開啟導航</button>
+            </div>
 
-        <div class="day-title modern-font">01</div>
-        <h2 class="text-xl font-bold mb-6">10/29 THU | 關西機場 ➔ 姬路</h2>
-        
-        <div class="card">
-            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=1000')">
-                <div class="img-overlay">
-                    <span class="tag">#自駕起點</span><span class="tag">#不進城</span>
-                    <h3 class="text-lg font-bold">姬路城 (外圍) ➔ 動物園</h3>
-                </div>
+            <div class="card p-6">
+                <h3 class="font-bold text-lg mb-2">11/03 (二) | 二次元之森親子日</h3>
+                <p class="text-xs text-gray-400 mb-5 leading-relaxed">國定假日：玥玥的小新區與爸爸的哥吉拉。隨後前往明石海峽公園玩溜滑梯。</p>
+                <button onclick="navTo('國營明石海峽公園')" class="nav-btn">📍 開啟導航</button>
             </div>
-            <div class="p-6">
-                <p class="text-xs text-gray-500 mb-4 leading-relaxed">取車後直奔姬路。中午在 **龍野西 SA** 用餐。下午在三之丸廣場拍全景，帶玥玥去市立動物園互動。</p>
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="navTo('龍野西SA')" class="nav-btn">龍野西 SA</button>
-                    <button onclick="navTo('姬路市立動物園')" class="nav-btn">市立動物園</button>
-                </div>
-            </div>
-        </div>
+        </main>
+    </div>
 
-        <div class="day-title modern-font">02</div>
-        <h2 class="text-xl font-bold mb-6">10/30 FRI | 岡山名園 ➔ 倉敷</h2>
-        <div class="card">
-            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1590559063414-068307223b9d?q=80&w=1000')">
-                <div class="img-overlay">
-                    <span class="tag">#岡山花園</span><span class="tag">#倉敷名產</span>
-                    <h3 class="text-lg font-bold">吉備津神社 ➔ 倉敷美觀</h3>
-                </div>
+    <div id="page-budget" class="page">
+        <header class="p-10">
+            <h2 class="text-xl font-bold tracking-widest mb-6 text-center">旅程費用即時監控</h2>
+            <div class="budget-card">
+                <p class="modern-font text-[10px] opacity-80 mb-2 tracking-widest uppercase">Current Total (JPY)</p>
+                <div id="total-sum" class="text-5xl font-bold modern-font">¥ 0</div>
             </div>
-            <div class="p-6">
-                <p class="text-xs text-gray-500 mb-4 leading-relaxed">造訪桃太郎傳說神社。必停 **岡山花園 (Okayama Garden)** 喝精品咖啡，隨後在倉敷採買帆布與紙膠帶。</p>
-                <button onclick="navTo('Okayama Garden')" class="nav-btn">前往岡山花園休息站</button>
-            </div>
-        </div>
+        </header>
 
-        <div class="day-title modern-font">03</div>
-        <h2 class="text-xl font-bold mb-6">10/31 SAT | 跨越大橋 ➔ 高松</h2>
-        <div class="card">
-            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1621208642232-4e44435b6b14?q=80&w=1000')">
-                <div class="img-overlay">
-                    <span class="tag">#與島PA</span><span class="tag">#鰤魚漬丼</span>
-                    <h3 class="text-lg font-bold">與島 ➔ 源平之里 ➔ 栗林公園</h3>
-                </div>
+        <main class="px-6">
+            <div class="card p-6 bg-stone-50">
+                <h3 class="font-bold mb-4 text-sm">新增一筆支出</h3>
+                <input id="note" type="text" placeholder="品項 (例如：神戶牛晚餐)" class="input-field">
+                <input id="amount" type="number" placeholder="金額 (日幣 JPY)" class="input-field">
+                <select id="cat" class="input-field">
+                    <option value="🍱 美食">🍱 美食</option>
+                    <option value="🚗 交通">🚗 交通</option>
+                    <option value="🏨 住宿">🏨 住宿</option>
+                    <option value="🛍️ 購物">🛍️ 購物</option>
+                    <option value="🎟️ 門票">🎟️ 門票</option>
+                </select>
+                <button onclick="saveExpense()" class="nav-btn bg-amber-500 border-none shadow-none mt-2">確認記帳並同步</button>
             </div>
-            <div class="p-6">
-                <p class="text-xs text-gray-500 mb-4">跨越大橋停 **與島PA** 看海。午餐必吃 **源平之里** 的鰤魚漬丼。下午在栗林公園餵錦鯉。</p>
-                <button onclick="navTo('源平之里 牟禮')" class="nav-btn">前往源平之里 (午餐)</button>
-            </div>
-        </div>
 
-        <div class="day-title modern-font">04</div>
-        <h2 class="text-xl font-bold mb-6">11/01 SUN | 四國冒險 ➔ 鳴門</h2>
-        <div class="card">
-            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1544552866-d3ed42536cfd?q=80&w=1000')">
-                <div class="img-overlay">
-                    <span class="tag">#海豚秀</span><span class="tag">#板野地瓜</span>
-                    <h3 class="text-lg font-bold">四國水族館 ➔ 鳴門觀潮</h3>
+            <div id="list" class="mt-8 space-y-1">
+                <h3 class="font-bold mb-4 text-sm text-gray-400">最新支出明細</h3>
                 </div>
-            </div>
-            <div class="p-6">
-                <p class="text-xs text-gray-500 mb-4">看玥玥最愛海豚秀。前往 **板野休息站** 採買地瓜伴手禮。傍晚搭乘鳴門觀潮船。</p>
-                <button onclick="navTo('四國水族館')" class="nav-btn">前往四國水族館</button>
-            </div>
-        </div>
-
-        <div class="day-title modern-font">05</div>
-        <h2 class="text-xl font-bold mb-6">11/02 MON | 藝術 ➔ 進入淡路島</h2>
-        <div class="card">
-            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=1000')">
-                <div class="img-overlay">
-                    <span class="tag">#大塚名畫</span><span class="tag">#洋蔥漢堡</span>
-                    <h3 class="text-lg font-bold">大塚美術館 ➔ 渦之丘</h3>
-                </div>
-            </div>
-            <div class="p-6">
-                <p class="text-xs text-gray-500 mb-4 leading-relaxed">從飯店直奔 **大塚美術館**。下午進入淡路島 **渦之丘休息站** 拍巨大洋蔥並吃冠軍漢堡。</p>
-                <button onclick="navTo('大塚國際美術館')" class="nav-btn">前往大塚美術館</button>
-            </div>
-        </div>
-
-        <div class="day-title modern-font">06</div>
-        <h2 class="text-xl font-bold mb-6 text-orange-600">11/03 TUE | 淡路親子日 (國假)</h2>
-        <div class="card">
-            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1582236335198-4b7b25e1d528?q=80&w=1000')">
-                <div class="img-overlay">
-                    <span class="tag">#玥玥的小新</span><span class="tag">#爸爸的哥吉拉</span>
-                    <h3 class="text-lg font-bold">二次元之森 ➔ 明石公園</h3>
-                </div>
-            </div>
-            <div class="p-6">
-                <p class="text-xs text-gray-500 mb-4">**二次元之森** 分工：小新區 (玥玥) 與哥吉拉 (爸爸)。隨後去 **明石海峽公園** 玩溜滑梯。</p>
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="navTo('二次元之森')" class="nav-btn">二次元之森</button>
-                    <button onclick="navTo('國營明石海峽公園')" class="nav-btn">溜滑梯公園</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="day-title modern-font">07</div>
-        <h2 class="text-xl font-bold mb-6">11/04 WED | 神戶 ➔ 媽媽時光</h2>
-        <div class="card">
-            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1558900664-07301c3491ba?q=80&w=1000')">
-                <div class="img-overlay">
-                    <span class="tag">#麵包超人</span><span class="tag">#媽媽的推幣機</span>
-                    <h3 class="text-lg font-bold">麵包超人館 ➔ umie ➔ Round 1</h3>
-                </div>
-            </div>
-            <div class="p-6">
-                <p class="text-xs text-gray-500 mb-4">神戶港大掃貨。**媽媽專屬時間**：深夜前往 **Round 1 三宮店** 爽玩推幣機。</p>
-                <button onclick="navTo('Round 1 Sannomiya')" class="nav-btn">前往 Round 1 (推幣機)</button>
-            </div>
-        </div>
-
-        <div class="day-title modern-font">08</div>
-        <h2 class="text-xl font-bold mb-6">11/05 THU | 最終掃貨 ➔ KIX</h2>
-        <div class="card">
-            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1560243563-062bff001d68?q=80&w=1000')">
-                <div class="img-overlay">
-                    <span class="tag">#空箱計畫</span><span class="tag">#機場還車</span>
-                    <h3 class="text-lg font-bold">AEON Mall 臨空泉南 ➔ 返台</h3>
-                </div>
-            </div>
-            <div class="p-6">
-                <p class="text-xs text-gray-500 mb-4">最後掃貨直接去機場。✈️ 18:10 返台。**機場還車處導航已就緒。**</p>
-                <button onclick="navTo('AEON Mall Rinku Sennan')" class="nav-btn">前往最後掃貨 AEON</button>
-            </div>
-        </div>
-
-    </main>
+        </main>
+    </div>
 
     <nav class="tab-bar">
-        <button class="flex flex-col items-center gap-1 opacity-100"><span class="text-xl">📅</span><span class="text-[9px] font-bold">ITINERARY</span></button>
-        <button class="flex flex-col items-center gap-1 opacity-30" onclick="alert('岡山 FAV / 淡路 Grand Nikko / 神戶 Meriken Park')"><span class="text-xl">🏨</span><span class="text-[9px] font-bold">BASE</span></button>
-        <button class="flex flex-col items-center gap-1 opacity-30" onclick="syncData()"><span class="text-xl">☁️</span><span class="text-[9px] font-bold">SYNC</span></button>
+        <div id="tab-trip" class="tab-item active" onclick="showPage('trip')">
+            <span class="text-2xl">🗺️</span><br><span class="text-[9px] font-bold">PLAN</span>
+        </div>
+        <div id="tab-budget" class="tab-item" onclick="showPage('budget')">
+            <span class="text-2xl">💰</span><br><span class="text-[9px] font-bold">BUDGET</span>
+        </div>
+        <div class="tab-item" onclick="window.location.reload()">
+            <span class="text-2xl">☁️</span><br><span class="text-[9px] font-bold">SYNC</span>
+        </div>
     </nav>
 
     <script>
+        // Firebase 身分證
         const firebaseConfig = {
             apiKey: "AIzaSyD2s8AR6z1Nq602jUlPPsWaGT-1KTysvbA",
             authDomain: "ivy-yuli-jerry.firebaseapp.com",
@@ -185,13 +114,63 @@
             projectId: "ivy-yuli-jerry",
             storageBucket: "ivy-yuli-jerry.firebasestorage.app",
             messagingSenderId: "737681740145",
-            appId: "1:737681740145:web:18dd456e079b720097e6d0",
-            measurementId: "G-PQH89KSL9J"
+            appId: "1:737681740145:web:18dd456e079b720097e6d0"
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
+
+        // 頁面切換
+        function showPage(p) {
+            document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('page-' + p).classList.add('active');
+            document.getElementById('tab-' + p).classList.add('active');
+        }
+
+        // 記帳儲存
+        function saveExpense() {
+            const note = document.getElementById('note').value;
+            const amount = parseInt(document.getElementById('amount').value);
+            const cat = document.getElementById('cat').value;
+
+            if (!note || !amount) { alert('請填寫完整內容'); return; }
+
+            db.ref('trip_expenses').push({
+                note, amount, cat, time: new Date().toLocaleTimeString()
+            }).then(() => {
+                document.getElementById('note').value = '';
+                document.getElementById('amount').value = '';
+                alert('已同步至雲端大腦！');
+            });
+        }
+
+        // 監聽支出明細
+        db.ref('trip_expenses').on('value', (snap) => {
+            const data = snap.val();
+            const list = document.getElementById('list');
+            const sumDisplay = document.getElementById('total-sum');
+            let total = 0;
+            let html = '';
+
+            if (data) {
+                Object.values(data).reverse().forEach(item => {
+                    total += item.amount;
+                    html += `
+                        <div class="expense-row">
+                            <div>
+                                <p class="text-sm font-bold">${item.note}</p>
+                                <p class="text-[10px] text-gray-400">${item.cat} | ${item.time}</p>
+                            </div>
+                            <p class="font-bold modern-font">¥ ${item.amount.toLocaleString()}</p>
+                        </div>
+                    `;
+                });
+            }
+            list.innerHTML = html || '<p class="text-center py-10 text-xs text-gray-300">目前尚無紀錄</p>';
+            sumDisplay.innerText = '¥ ' + total.toLocaleString();
+        });
+
         function navTo(loc) { window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc)}`, '_blank'); }
-        function syncData() { db.ref('trip/last_view').set(new Date().toLocaleString()); alert('Firebase 同步完成！'); }
     </script>
 </body>
 </html>
