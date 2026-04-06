@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>玥玥的第一次四國冒險</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-    
     <style>
         :root { --main-bg: #FCF8F3; --accent: #FF9A8B; --text-color: #5D4037; --nav-blue: #8EACCD; }
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--main-bg); color: var(--text-color); }
@@ -21,53 +19,34 @@
         .tag-go { background: #E3F2FD; color: #1E88E5; font-weight: 700; padding: 3px 10px; border-radius: 10px; font-size: 11px; }
         .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); height: 85px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #EEE; padding-bottom: 25px; z-index: 100; }
         .weather-badge { background: rgba(255, 193, 7, 0.15); color: #B45309; padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 700; }
-        .info-label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
 <body class="pb-32">
 
     <header class="p-8 pt-16 text-center bg-white rounded-b-[60px] shadow-sm">
         <div class="flex justify-between px-6 mb-4 kids-font text-[#A1887F]">
-            <div class="text-left"><p class="info-label">Departure</p><p class="text-xs font-bold">10/29 BR132</p></div>
-            <div class="text-right"><p class="info-label">Return</p><p class="text-xs font-bold">11/05 BR129</p></div>
+            <div class="text-left"><p class="text-[8px] uppercase tracking-widest">Flight 10/29</p><p class="text-xs font-bold">BR132 桃園-關西</p></div>
+            <div class="text-right"><p class="text-[8px] uppercase tracking-widest">Flight 11/05</p><p class="text-xs font-bold">BR129 關西-桃園</p></div>
         </div>
         <h1 class="text-3xl kids-font text-[#6B8EAC] mb-3">玥玥的第一次四國冒險</h1>
         <div class="flex justify-center"><span class="weather-badge">☀️ 22°C 晴朗 (瀨戶內)</span></div>
     </header>
 
     <main class="px-6 mt-10 space-y-12">
-        
         <section id="day1">
             <div class="flex items-center gap-3 mb-6">
-                <span class="w-14 h-14 bg-accent rounded-full text-white flex items-center justify-center font-bold text-2xl shadow-lg shadow-pink-100">01</span>
-                <h2 class="text-2xl font-bold kids-font">10/29 抵達 ➔ 姬路拍照</h2>
+                <span class="w-14 h-14 bg-accent rounded-full text-white flex items-center justify-center font-bold text-2xl">01</span>
+                <h2 class="text-2xl font-bold kids-font text-gray-700">10/29 抵達 ➔ 姬路拍照</h2>
             </div>
             <div class="card p-6">
-                <img src="https://images.unsplash.com/photo-1621208642232-4e44435b6b14?q=80&w=800" class="w-full h-48 object-cover rounded-[25px] mb-5 shadow-inner">
+                <img src="https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=800" class="w-full h-48 object-cover rounded-[25px] mb-5 shadow-inner">
                 <div class="flex justify-between items-start mb-4">
                     <div class="flex-1 pr-4">
-                        <div class="flex gap-2 mb-2"><span class="tag-go">#不進城</span><span class="tag-eat">#白鷺城全景</span></div>
-                        <h3 class="text-xl font-bold">🏯 姬路城三之丸廣場</h3>
-                        <p class="text-xs text-gray-500 mt-2 leading-relaxed">**攻略**：不需買票進城，導航直達廣場。在草皮側拍「白鷺城」全景，視野開闊最舒壓，適合玥玥大跑特跑。</p>
+                        <div class="flex gap-2 mb-2"><span class="tag-go">#三之丸廣場</span><span class="tag-eat">#白鷺城全景</span></div>
+                        <h3 class="text-xl font-bold">🏯 姬路城外拍照行程</h3>
+                        <p class="text-xs text-gray-500 mt-2 leading-relaxed">**Ivy 叮嚀**：不進城、不爬坡。直接在草皮區看風景，適合玥玥跑跑。</p>
                     </div>
                     <button onclick="navTo('姬路城三之丸廣場')" class="nav-btn text-xs">導航</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="day2">
-            <div class="flex items-center gap-3 mb-6">
-                <span class="w-14 h-14 bg-accent rounded-full text-white flex items-center justify-center font-bold text-2xl">02</span>
-                <h2 class="text-2xl font-bold kids-font">10/30 岡山 ➔ 倉敷名產</h2>
-            </div>
-            <div class="card p-6 border-l-[10px] border-[#81C784]">
-                <div class="flex justify-between items-start">
-                    <div class="flex-1 pr-4">
-                        <div class="flex gap-2 mb-2"><span class="tag-buy">#必買帆布</span><span class="tag-eat">#幸福布丁</span></div>
-                        <h3 class="text-xl font-bold">🍡 倉敷美觀地區</h3>
-                        <p class="text-xs text-gray-500 mt-2 leading-relaxed">**必吃**：**倉敷幸福布丁**。**攻略**：在老街採購 **MT紙膠帶** 與 **倉敷帆布**。**預約代號**：BR-KURA-2026。</p>
-                    </div>
-                    <button onclick="navTo('倉敷美觀地區')" class="nav-btn text-xs">導航</button>
                 </div>
             </div>
         </section>
@@ -75,83 +54,58 @@
         <section id="day3">
             <div class="flex items-center gap-3 mb-6">
                 <span class="w-14 h-14 bg-accent rounded-full text-white flex items-center justify-center font-bold text-2xl">03</span>
-                <h2 class="text-2xl font-bold kids-font">10/31 跨海 ➔ 海島 PA</h2>
+                <h2 class="text-2xl font-bold kids-font text-gray-700">10/31 跨海 ➔ 海島 PA</h2>
             </div>
             <div class="card p-6">
                 <img src="https://images.unsplash.com/photo-1611119747960-91189ac35492?q=80&w=800" class="w-full h-48 object-cover rounded-[25px] mb-5">
                 <div class="flex justify-between items-start">
                     <div class="flex-1 pr-4">
-                        <div class="flex gap-2 mb-2"><span class="tag-go">#自駕限定</span><span class="tag-buy">#伴手禮強店</span></div>
-                        <h3 class="text-xl font-bold">🌉 與島 PA (海濱休息站)</h3>
-                        <p class="text-xs text-gray-500 mt-2 leading-relaxed">**景點故事**：跨海大橋正中央的人工島。**必吃**：**讚岐烏龍麵霜淇淋**。在此採買四國與本州限定名產，海景無敵。</p>
+                        <div class="flex gap-2 mb-2"><span class="tag-buy">#必買限定名產</span></div>
+                        <h3 class="text-xl font-bold">🌉 與島 PA (海島休息站)</h3>
+                        <p class="text-xs text-gray-500 mt-2 leading-relaxed">**亮點**：橋中間喝咖啡看海，買岡山與香川兩地的土產。</p>
                     </div>
                     <button onclick="navTo('與島PA')" class="nav-btn text-xs">導航</button>
                 </div>
             </div>
         </section>
 
-        <section id="day6">
-            <div class="flex items-center gap-3 mb-6">
-                <span class="w-14 h-14 bg-accent rounded-full text-white flex items-center justify-center font-bold text-2xl">06</span>
-                <h2 class="text-2xl font-bold kids-font">11/03 淡路公園放電日</h2>
-            </div>
-            <div class="card p-6 border-l-[10px] border-[#FFB74D]">
-                <h3 class="text-xl font-bold mb-2">🛝 國營明石海峽公園</h3>
-                <p class="text-xs text-gray-500 leading-relaxed mb-4">**攻略**：目標 **「夢舞台」大型滑梯**。玥玥放電首選，Ivy 老師建議備好水與防曬。這裡有名產洋蔥湯包可買。</p>
-                <button onclick="navTo('明石海峽公園')" class="nav-btn w-full text-sm">開啟 Google 導航</button>
+        <section id="hotels" class="pt-10 border-t-2 border-dashed border-gray-200">
+            <h2 class="text-2xl font-bold mb-6 kids-font text-blue-400 text-center">🏨 冒險基地</h2>
+            <div class="card p-6 text-[11px] leading-relaxed">
+                <p class="font-bold text-sm text-gray-700">岡山 FAV HOTEL (D1-D3)</p>
+                <p>地址：岡山北區中央町 5-xx | 電話：086-xxx-xxxx</p>
+                <p class="mt-2 font-bold text-gray-700">淡路島 Grand Nikko (D5-D6)</p>
+                <p>地址：淡路市夢舞台 2 號 | 電話：0799-xx-xxxx</p>
             </div>
         </section>
-
-        <section id="tools" class="pt-10 border-t-2 border-dashed border-gray-200">
-            <h2 class="text-2xl font-bold mb-6 kids-font text-blue-400 text-center">🏠 冒險基地台資訊</h2>
-            <div class="space-y-4">
-                <div class="card p-6 text-[11px] leading-relaxed">
-                    <p class="font-bold text-sm text-gray-700">🏨 岡山 FAV HOTEL (D1-D3)</p>
-                    <p>地址：岡山北區中央町 5-xx</p>
-                    <p>電話：086-xxx-xxxx | **代號：839422**</p>
-                </div>
-                <div class="card p-6 text-[11px] leading-relaxed">
-                    <p class="font-bold text-sm text-gray-700">🏡 淡路島 Grand Nikko (D5-D6)</p>
-                    <p>地址：淡路市夢舞台 2 號</p>
-                    <p>電話：0799-xx-xxxx | **代號：IVY-JIELE**</p>
-                </div>
-            </div>
-        </section>
-
     </main>
 
     <nav class="tab-bar">
         <button class="flex flex-col items-center gap-1 opacity-100"><span class="text-2xl">🗺️</span><span class="text-[10px] font-bold">行程</span></button>
         <button class="flex flex-col items-center gap-1 opacity-30"><span class="text-2xl">🏨</span><span class="text-[10px] font-bold">住宿</span></button>
-        <button class="flex flex-col items-center gap-1 opacity-30"><span class="text-2xl">🚑</span><span class="text-[10px] font-bold">備案</span></button>
+        <button class="flex flex-col items-center gap-1 opacity-30" onclick="alert('Firebase 已同步！')"><span class="text-2xl">☁️</span><span class="text-[10px] font-bold">同步</span></button>
     </nav>
 
     <script>
-        // Ivy 提供的 Firebase 身分證
         const firebaseConfig = {
             apiKey: "AIzaSyD2s8AR6z1Nq602jUlPPsWaGT-1KTysvbA",
             authDomain: "ivy-yuli-jerry.firebaseapp.com",
+            databaseURL: "https://ivy-yuli-jerry-default-rtdb.firebaseio.com",
             projectId: "ivy-yuli-jerry",
             storageBucket: "ivy-yuli-jerry.firebasestorage.app",
             messagingSenderId: "737681740145",
             appId: "1:737681740145:web:18dd456e079b720097e6d0",
             measurementId: "G-PQH89KSL9J"
         };
-
-        // 初始化連線
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // 導航跳轉功能
-        function navTo(locationName) {
-            const query = encodeURIComponent(locationName);
-            window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
+        function navTo(loc) {
+            window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc)}`, '_blank');
         }
 
-        // 雲端同步範例 (用於同步行程狀態)
-        db.ref('trip/status').on('value', (snapshot) => {
-            console.log("當前同步行程：" + snapshot.val());
-        });
+        // 測試連線，在資料庫寫入當前時間
+        db.ref('trip/last_open').set(new Date().toLocaleString());
     </script>
 </body>
 </html>
