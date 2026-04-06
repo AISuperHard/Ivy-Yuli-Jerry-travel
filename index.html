@@ -3,219 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>玥玥的第一次四國冒險</title>
+    <title>IVY'S PREMIUM TRAVEL</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
     
     <style>
-        :root { --paper: #FCF8F3; --ink: #5D4037; --sakura: #FF9A8B; --sky: #8EACCD; }
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--paper); color: var(--ink); -webkit-tap-highlight-color: transparent; }
-        .kids-font { font-family: 'ZCOOL KuaiLe', cursive; }
-        .card { background: white; border-radius: 30px; box-shadow: 0 10px 25px rgba(210,180,140,0.1); border: 4px solid #FFF; overflow: hidden; margin-bottom: 20px; }
-        .tag { font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 10px; display: inline-block; margin-right: 4px; }
-        .tag-eat { background: #FFE5E5; color: #D63484; }
-        .tag-buy { background: #E8FAD0; color: #4F6F52; }
-        .tag-go { background: #E3F2FD; color: #1E88E5; }
-        .nav-btn { background: var(--sky); color: white; border-radius: 15px; padding: 10px; font-weight: 700; font-size: 11px; box-shadow: 0 4px 0 #6B8EAC; text-align: center; width: 100%; display: block; }
-        .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); height: 85px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #EEE; padding-bottom: 25px; z-index: 1000; }
-        .day-header { border-left: 6px solid var(--sakura); padding-left: 12px; margin: 40px 0 20px 0; }
+        :root { --brand: #2C3E50; --gold: #D4AF37; --bg: #F8F9FA; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg); color: var(--brand); letter-spacing: 0.02em; }
+        .modern-font { font-family: 'Montserrat', sans-serif; }
+        
+        /* 精品卡片設計 */
+        .card { background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 30px; border: 1px solid rgba(0,0,0,0.03); }
+        .img-container { height: 250px; background-color: #EEE; background-size: cover; background-position: center; position: relative; }
+        .img-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.6)); color: white; }
+        
+        /* 導航按鈕：更專業的視覺 */
+        .nav-btn { background: var(--brand); color: white; border-radius: 12px; padding: 14px; font-weight: 600; font-size: 13px; text-align: center; width: 100%; display: block; transition: all 0.2s; }
+        .nav-btn:active { background: #1a252f; transform: scale(0.98); }
+        
+        .tag { font-size: 10px; font-weight: 700; padding: 4px 12px; border-radius: 6px; background: #F1F3F5; color: #495057; margin-right: 6px; }
+        .day-title { font-size: 40px; color: #DEE2E6; font-weight: 800; margin-bottom: -20px; margin-left: -5px; }
+        .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; height: 85px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); padding-bottom: 20px; z-index: 1000; }
     </style>
 </head>
-<body class="pb-32 px-4">
+<body class="pb-32">
 
-    <header class="p-6 pt-12 text-center bg-white rounded-b-[50px] shadow-sm mb-6">
-        <div class="flex justify-between kids-font text-gray-400 text-[10px] mb-4 px-2">
-            <span>✈️ 10/29 BR132 (08:20)</span>
-            <span>✈️ 11/05 BR129 (18:10)</span>
+    <header class="p-10 bg-white text-center">
+        <p class="modern-font text-[10px] tracking-[0.3em] text-gray-400 mb-2 uppercase font-light">Setouchi Autodrive 2026</p>
+        <h1 class="text-2xl font-bold tracking-widest">玥玥的第一次四國冒險</h1>
+        <div class="flex justify-center gap-6 mt-6 text-[10px] font-bold text-gray-500 modern-font">
+            <div class="text-left border-l-2 border-amber-400 pl-2">DEPARTURE<br><span class="text-gray-800">10/29 BR132</span></div>
+            <div class="text-left border-l-2 border-amber-400 pl-2">RETURN<br><span class="text-gray-800">11/05 BR129</span></div>
         </div>
-        <h1 class="text-2xl kids-font text-[#6B8EAC]">玥玥的第一次四國冒險</h1>
     </header>
 
-    <div class="day-header">
-        <h2 class="kids-font text-3xl text-orange-400">Day 1 <span class="text-xs">10/29 (四)</span></h2>
-        <p class="text-[10px] text-gray-400">☀️ 姬路 22°C | 關西機場 ➔ 姬路</p>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-go">#自駕取車</span>
-        <h3 class="font-bold">1. 關西機場取車 ➔ 龍野西 SA</h3>
-        <p class="text-xs text-gray-500 my-2">中午在龍野西休息站用餐，體驗自駕第一站名產。</p>
-        <button onclick="navTo('龍野西SA 下行')" class="nav-btn">📍 導航：前往龍野西SA</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-go">#不進城</span><span class="tag tag-go">#拍照點</span>
-        <h3 class="font-bold">2. 姬路城三之丸廣場</h3>
-        <p class="text-xs text-gray-500 my-2">Ivy 要求：不進城爬坡。在廣大草皮側拍白鷺城全景。</p>
-        <button onclick="navTo('姬路城三之丸廣場')" class="nav-btn">📍 導航：前往姬路城拍照點</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-go">#玥玥最愛</span>
-        <h3 class="font-bold">3. 姬路市立動物園</h3>
-        <p class="text-xs text-gray-500 my-2">就在城內，近距離看大象與小動物，適合玥玥互動。</p>
-        <button onclick="navTo('姬路市立動物園')" class="nav-btn">📍 導航：前往動物園</button>
-    </div>
+    <main class="px-6 mt-8">
 
-    <div class="day-header">
-        <h2 class="kids-font text-3xl text-orange-400">Day 2 <span class="text-xs">10/30 (五)</span></h2>
-        <p class="text-[10px] text-gray-400">🌤️ 岡山 20°C | 姬路 ➔ 岡山 ➔ 倉敷</p>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-go">#絕美長廊</span>
-        <h3 class="font-bold">1. 吉備津神社</h3>
-        <p class="text-xs text-gray-500 my-2">走 360 公尺木製長廊，地形平緩好走，拍出空靈感。</p>
-        <button onclick="navTo('吉備津神社')" class="nav-btn">📍 導航：前往吉備津神社</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-buy">#最強休息站1</span>
-        <h3 class="font-bold">2. 道之驛 岡山花園 (Okayama Garden)</h3>
-        <p class="text-xs text-gray-500 my-2">森林系咖啡廳，採買岡山水果加工品、伴手禮。</p>
-        <button onclick="navTo('Okayama Garden')" class="nav-btn">📍 導航：前往岡山花園</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-buy">#名產採買</span>
-        <h3 class="font-bold">3. 倉敷美觀地區</h3>
-        <p class="text-xs text-gray-500 my-2">採買：如竹堂紙膠帶、倉敷帆布。搭乘小船看老街。</p>
-        <button onclick="navTo('倉敷美觀地區')" class="nav-btn">📍 導航：前往倉敷老街</button>
-    </div>
+        <div class="day-title modern-font">01</div>
+        <h2 class="text-xl font-bold mb-6">10/29 THU | 關西機場 ➔ 姬路</h2>
+        
+        <div class="card">
+            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=1000')">
+                <div class="img-overlay">
+                    <span class="tag">#自駕起點</span><span class="tag">#不進城</span>
+                    <h3 class="text-lg font-bold">姬路城 (外圍) ➔ 動物園</h3>
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-xs text-gray-500 mb-4 leading-relaxed">取車後直奔姬路。中午在 **龍野西 SA** 用餐。下午在三之丸廣場拍全景，帶玥玥去市立動物園互動。</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="navTo('龍野西SA')" class="nav-btn">龍野西 SA</button>
+                    <button onclick="navTo('姬路市立動物園')" class="nav-btn">市立動物園</button>
+                </div>
+            </div>
+        </div>
 
-    <div class="day-header">
-        <h2 class="kids-font text-3xl text-orange-400">Day 3 <span class="text-xs">10/31 (六)</span></h2>
-        <p class="text-[10px] text-gray-400">🌊 高松 19°C | 跨越瀨戶大橋之旅</p>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-go">#橋中央</span>
-        <h3 class="font-bold">1. 與島 PA (海島休息站)</h3>
-        <p class="text-xs text-gray-500 my-2">Ivy 指定：停在橋中央看海、喝咖啡。採買兩岸限定特產。</p>
-        <button onclick="navTo('與島PA')" class="nav-btn">📍 導航：前往與島PA</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-eat">#最強休息站2</span>
-        <h3 class="font-bold">2. 道之驛 源平之里 牟禮</h3>
-        <p class="text-xs text-gray-500 my-2">**午餐必吃**：海鮮食堂海鳥「鰤魚漬丼」。</p>
-        <button onclick="navTo('源平之里牟禮')" class="nav-btn">📍 導航：前往源平之里</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-go">#餵錦鯉</span>
-        <h3 class="font-bold">3. 栗林公園</h3>
-        <p class="text-xs text-gray-500 my-2">搭船遊園，玥玥可以餵錦鯉。日式園林藝術極致。</p>
-        <button onclick="navTo('栗林公園')" class="nav-btn">📍 導航：前往栗林公園</button>
-    </div>
+        <div class="day-title modern-font">02</div>
+        <h2 class="text-xl font-bold mb-6">10/30 FRI | 岡山名園 ➔ 倉敷</h2>
+        <div class="card">
+            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1590559063414-068307223b9d?q=80&w=1000')">
+                <div class="img-overlay">
+                    <span class="tag">#岡山花園</span><span class="tag">#倉敷名產</span>
+                    <h3 class="text-lg font-bold">吉備津神社 ➔ 倉敷美觀</h3>
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-xs text-gray-500 mb-4 leading-relaxed">造訪桃太郎傳說神社。必停 **岡山花園 (Okayama Garden)** 喝精品咖啡，隨後在倉敷採買帆布與紙膠帶。</p>
+                <button onclick="navTo('Okayama Garden')" class="nav-btn">前往岡山花園休息站</button>
+            </div>
+        </div>
 
-    <div class="day-header">
-        <h2 class="kids-font text-3xl text-orange-400">Day 4 <span class="text-xs">11/01 (日)</span></h2>
-        <p class="text-[10px] text-gray-400">🐬 德島 21°C | 海生館與漩渦</p>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-go">#天空之鏡</span>
-        <h3 class="font-bold">1. 四國水族館</h3>
-        <p class="text-xs text-gray-500 my-2">玥玥最愛海豚秀、絕美天空水槽。親子避暑/雨首選。</p>
-        <button onclick="navTo('四國水族館')" class="nav-btn">📍 導航：前往四國水族館</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-buy">#最強休息站3</span>
-        <h3 class="font-bold">2. 道之驛 板野 (Itano)</h3>
-        <p class="text-xs text-gray-500 my-2">德島最新大型休息站，地瓜名產採買聖地。</p>
-        <button onclick="navTo('道の駅 板野')" class="nav-btn">📍 導航：前往道之驛板野</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-go">#壯觀體驗</span>
-        <h3 class="font-bold">3. 鳴門觀潮船</h3>
-        <p class="text-xs text-gray-500 my-2">近距離看橋下大漩渦。**攻略**：注意潮汐預報。</p>
-        <button onclick="navTo('鳴門觀潮船')" class="nav-btn">📍 導航：前往觀潮船</button>
-    </div>
+        <div class="day-title modern-font">03</div>
+        <h2 class="text-xl font-bold mb-6">10/31 SAT | 跨越大橋 ➔ 高松</h2>
+        <div class="card">
+            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1621208642232-4e44435b6b14?q=80&w=1000')">
+                <div class="img-overlay">
+                    <span class="tag">#與島PA</span><span class="tag">#鰤魚漬丼</span>
+                    <h3 class="text-lg font-bold">與島 ➔ 源平之里 ➔ 栗林公園</h3>
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-xs text-gray-500 mb-4">跨越大橋停 **與島PA** 看海。午餐必吃 **源平之里** 的鰤魚漬丼。下午在栗林公園餵錦鯉。</p>
+                <button onclick="navTo('源平之里 牟禮')" class="nav-btn">前往源平之里 (午餐)</button>
+            </div>
+        </div>
 
-    <div class="day-header">
-        <h2 class="kids-font text-3xl text-orange-400">Day 5 <span class="text-xs">11/02 (一)</span></h2>
-        <p class="text-[10px] text-gray-400">🎨 鳴門 ➔ 淡路島</p>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-go">#藝術朝聖</span>
-        <h3 class="font-bold">1. 大塚國際美術館</h3>
-        <p class="text-xs text-gray-500 my-2">Ivy 指定：1:1 陶板名畫。室內不限天氣，好拍好逛。</p>
-        <button onclick="navTo('大塚國際美術館')" class="nav-btn">📍 導航：前往大塚美術館</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-eat">#最強休息站4</span>
-        <h3 class="font-bold">2. 道之驛 渦之丘 (Uzushio)</h3>
-        <p class="text-xs text-gray-500 my-2">**必吃**：洋蔥牛肉漢堡。與巨大洋蔥拍搞怪照。</p>
-        <button onclick="navTo('道之驛 渦之丘')" class="nav-btn">📍 導航：前往渦之丘</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-go">#飯店放鬆</span>
-        <h3 class="font-bold">3. 淡路島 Grand Nikko 入住</h3>
-        <p class="text-xs text-gray-500 my-2">安藤忠雄設計，享受飯店設施與海景晚餐。</p>
-        <button onclick="navTo('Grand Nikko Awaji')" class="nav-btn">📍 導航：前往淡路島飯店</button>
-    </div>
+        <div class="day-title modern-font">04</div>
+        <h2 class="text-xl font-bold mb-6">11/01 SUN | 四國冒險 ➔ 鳴門</h2>
+        <div class="card">
+            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1544552866-d3ed42536cfd?q=80&w=1000')">
+                <div class="img-overlay">
+                    <span class="tag">#海豚秀</span><span class="tag">#板野地瓜</span>
+                    <h3 class="text-lg font-bold">四國水族館 ➔ 鳴門觀潮</h3>
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-xs text-gray-500 mb-4">看玥玥最愛海豚秀。前往 **板野休息站** 採買地瓜伴手禮。傍晚搭乘鳴門觀潮船。</p>
+                <button onclick="navTo('四國水族館')" class="nav-btn">前往四國水族館</button>
+            </div>
+        </div>
 
-    <div class="day-header">
-        <h2 class="kids-font text-3xl text-orange-400">Day 6 <span class="text-xs">11/03 (二)</span></h2>
-        <p class="text-[10px] text-orange-400 font-bold">國定假 | 淡路島親子主題日</p>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-go">#玥玥的小新</span><span class="tag tag-go">#爸爸的哥吉拉</span>
-        <h3 class="font-bold">1. 二次元之森 (Nijigen no Mori)</h3>
-        <p class="text-xs text-gray-500 my-2">攻略：玥玥玩小新區，爸爸挑戰哥吉拉。請停 F 停車場。</p>
-        <button onclick="navTo('二次元之森')" class="nav-btn">📍 導航：前往二次元之森</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-go">#巨型溜滑梯</span>
-        <h3 class="font-bold">2. 國營明石海峽公園</h3>
-        <p class="text-xs text-gray-500 my-2">玥玥徹底放電區！超大兒童遊樂設施與花海。</p>
-        <button onclick="navTo('國營明石海峽公園')" class="nav-btn">📍 導航：前往溜滑梯公園</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-eat">#必停美食</span>
-        <h3 class="font-bold">3. 道之驛 あわじ (Awaji)</h3>
-        <p class="text-xs text-gray-500 my-2">就在明石大橋下！拍橋墩特寫。推薦生銀魚丼。</p>
-        <button onclick="navTo('道の駅 あわじ')" class="nav-btn">📍 導航：前往道之驛あわじ</button>
-    </div>
+        <div class="day-title modern-font">05</div>
+        <h2 class="text-xl font-bold mb-6">11/02 MON | 藝術 ➔ 進入淡路島</h2>
+        <div class="card">
+            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=1000')">
+                <div class="img-overlay">
+                    <span class="tag">#大塚名畫</span><span class="tag">#洋蔥漢堡</span>
+                    <h3 class="text-lg font-bold">大塚美術館 ➔ 渦之丘</h3>
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-xs text-gray-500 mb-4 leading-relaxed">從飯店直奔 **大塚美術館**。下午進入淡路島 **渦之丘休息站** 拍巨大洋蔥並吃冠軍漢堡。</p>
+                <button onclick="navTo('大塚國際美術館')" class="nav-btn">前往大塚美術館</button>
+            </div>
+        </div>
 
-    <div class="day-header">
-        <h2 class="kids-font text-3xl text-orange-400">Day 7 <span class="text-xs">11/04 (三)</span></h2>
-        <p class="text-[10px] text-gray-400">🎡 神戶 ➔ 媽媽的快樂時間</p>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-go">#親子必去</span>
-        <h3 class="font-bold">1. 神戶麵包超人博物館</h3>
-        <p class="text-xs text-gray-500 my-2">陪玥玥看秀、做麵包。購物中心區可大買周邊。</p>
-        <button onclick="navTo('神戶麵包超人博物館')" class="nav-btn">📍 導航：前往博物館</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-buy">#一站掃貨</span>
-        <h3 class="font-bold">2. 神戶 umie / Mosaic</h3>
-        <p class="text-xs text-gray-500 my-2">藥妝、衣服、阿卡將一次買齊。神戶港邊夜景晚餐。</p>
-        <button onclick="navTo('umie Mosaic')" class="nav-btn">📍 導航：前往 umie 購物區</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-eat">#媽媽專屬</span>
-        <h3 class="font-bold">3. Round 1 Sannomiya (推幣機)</h3>
-        <p class="text-xs text-gray-500 my-2">Ivy 老師的深夜解憂時間。爽玩推幣機與 3000 枚金幣機。</p>
-        <button onclick="navTo('Round 1 Sannomiya')" class="nav-btn">📍 導航：前往推幣機店</button>
-    </div>
+        <div class="day-title modern-font">06</div>
+        <h2 class="text-xl font-bold mb-6 text-orange-600">11/03 TUE | 淡路親子日 (國假)</h2>
+        <div class="card">
+            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1582236335198-4b7b25e1d528?q=80&w=1000')">
+                <div class="img-overlay">
+                    <span class="tag">#玥玥的小新</span><span class="tag">#爸爸的哥吉拉</span>
+                    <h3 class="text-lg font-bold">二次元之森 ➔ 明石公園</h3>
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-xs text-gray-500 mb-4">**二次元之森** 分工：小新區 (玥玥) 與哥吉拉 (爸爸)。隨後去 **明石海峽公園** 玩溜滑梯。</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="navTo('二次元之森')" class="nav-btn">二次元之森</button>
+                    <button onclick="navTo('國營明石海峽公園')" class="nav-btn">溜滑梯公園</button>
+                </div>
+            </div>
+        </div>
 
-    <div class="day-header">
-        <h2 class="kids-font text-3xl text-orange-400">Day 8 <span class="text-xs">11/05 (四)</span></h2>
-        <p class="text-[10px] text-gray-400">🛍️ 掃貨歸途 ➔ ✈️ 返台</p>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-buy">#終極大掃貨</span>
-        <h3 class="font-bold">1. AEON Mall 臨空泉南</h3>
-        <p class="text-xs text-gray-500 my-2">離機場 10 分鐘。超市補貨、最後藥妝補齊。空箱填滿計畫。</p>
-        <button onclick="navTo('AEON Mall Rinku Sennan')" class="nav-btn">📍 導航：前往最後掃貨點</button>
-    </div>
-    <div class="card p-5">
-        <span class="tag tag-go">#歸國</span>
-        <h3 class="font-bold">2. 關西機場還車 ➔ 回家</h3>
-        <p class="text-xs text-gray-500 my-2">16:00 還車，18:10 飛機返台。結束 8 天完美冒險。</p>
-        <button onclick="navTo('關西機場 租車還車處')" class="nav-btn">📍 導航：前往機場還車處</button>
-    </div>
+        <div class="day-title modern-font">07</div>
+        <h2 class="text-xl font-bold mb-6">11/04 WED | 神戶 ➔ 媽媽時光</h2>
+        <div class="card">
+            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1558900664-07301c3491ba?q=80&w=1000')">
+                <div class="img-overlay">
+                    <span class="tag">#麵包超人</span><span class="tag">#媽媽的推幣機</span>
+                    <h3 class="text-lg font-bold">麵包超人館 ➔ umie ➔ Round 1</h3>
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-xs text-gray-500 mb-4">神戶港大掃貨。**媽媽專屬時間**：深夜前往 **Round 1 三宮店** 爽玩推幣機。</p>
+                <button onclick="navTo('Round 1 Sannomiya')" class="nav-btn">前往 Round 1 (推幣機)</button>
+            </div>
+        </div>
+
+        <div class="day-title modern-font">08</div>
+        <h2 class="text-xl font-bold mb-6">11/05 THU | 最終掃貨 ➔ KIX</h2>
+        <div class="card">
+            <div class="img-container" style="background-image: url('https://images.unsplash.com/photo-1560243563-062bff001d68?q=80&w=1000')">
+                <div class="img-overlay">
+                    <span class="tag">#空箱計畫</span><span class="tag">#機場還車</span>
+                    <h3 class="text-lg font-bold">AEON Mall 臨空泉南 ➔ 返台</h3>
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-xs text-gray-500 mb-4">最後掃貨直接去機場。✈️ 18:10 返台。**機場還車處導航已就緒。**</p>
+                <button onclick="navTo('AEON Mall Rinku Sennan')" class="nav-btn">前往最後掃貨 AEON</button>
+            </div>
+        </div>
+
+    </main>
 
     <nav class="tab-bar">
-        <button class="flex flex-col items-center gap-1 opacity-100"><span class="text-2xl">🗺️</span><span class="text-[10px] font-bold">行程</span></button>
-        <button class="flex flex-col items-center gap-1 opacity-30" onclick="alert('岡山 FAV / 淡路 Grand Nikko / 神戶 Meriken Park')"><span class="text-2xl">🏡</span><span class="text-[10px] font-bold">基地</span></button>
-        <button class="flex flex-col items-center gap-1 opacity-30" onclick="syncData()"><span class="text-2xl">☁️</span><span class="text-[10px] font-bold">同步</span></button>
+        <button class="flex flex-col items-center gap-1 opacity-100"><span class="text-xl">📅</span><span class="text-[9px] font-bold">ITINERARY</span></button>
+        <button class="flex flex-col items-center gap-1 opacity-30" onclick="alert('岡山 FAV / 淡路 Grand Nikko / 神戶 Meriken Park')"><span class="text-xl">🏨</span><span class="text-[9px] font-bold">BASE</span></button>
+        <button class="flex flex-col items-center gap-1 opacity-30" onclick="syncData()"><span class="text-xl">☁️</span><span class="text-[9px] font-bold">SYNC</span></button>
     </nav>
 
     <script>
@@ -232,7 +191,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         function navTo(loc) { window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc)}`, '_blank'); }
-        function syncData() { db.ref('trip/last_view').set(new Date().toLocaleString()); alert('Firebase 同步成功！'); }
+        function syncData() { db.ref('trip/last_view').set(new Date().toLocaleString()); alert('Firebase 同步完成！'); }
     </script>
 </body>
 </html>
