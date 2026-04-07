@@ -1,82 +1,104 @@
+
 <!doctype html>
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>玥玥的第一次四國冒險之旅｜可編輯版</title>
-  <meta name="description" content="可編輯、可拖曳、可同步 Firebase 的手機優先旅遊小工具" />
+  <title>玥玥的第一次四國冒險之旅｜2.1</title>
   <meta name="theme-color" content="#f7f2eb" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="四國冒險" />
-  <link rel="icon" href='data:image/svg+xml;utf8,
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-    <rect width="128" height="128" rx="28" fill="%23efe3d3"/>
-    <text x="64" y="78" font-size="62" text-anchor="middle" fill="%231d3557">旅</text>
-  </svg>' />
   <style>
     :root{
       --bg:#f7f2eb;--paper:#fffdf9;--ink:#202124;--muted:#6b7280;--line:#e7e0d7;
       --brand:#1d3557;--brand2:#b56576;--accent:#d4a373;--good:#2f855a;--warn:#b7791f;--danger:#c53030;
       --food:#ffe8d6;--menu:#e7f5ff;--buy:#f3f0ff;--book:#ffe3e3;--drive:#eef8e8;
-      --radius:20px;--shadow:0 10px 30px rgba(25,25,25,.08);
-      --safe-top:calc(env(safe-area-inset-top) + 12px);--safe-bottom:calc(env(safe-area-inset-bottom) + 14px)
+      --safe-top:calc(env(safe-area-inset-top) + 12px);--safe-bottom:calc(env(safe-area-inset-bottom) + 14px);
+      --shadow:0 10px 30px rgba(25,25,25,.08);
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang TC","Noto Sans TC","Segoe UI",sans-serif}
-    body{padding-bottom:100px}
-    a{text-decoration:none;color:inherit} button,input,textarea,select{font:inherit} img{display:block;max-width:100%}
+    body{padding-bottom:96px}
+    a{text-decoration:none;color:inherit}
+    button,input,select,textarea{font:inherit}
     .app{max-width:560px;margin:0 auto;min-height:100vh}
-    .hero{padding:var(--safe-top) 18px 16px;background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,255,255,.74)),url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1400&q=80') center/cover;position:sticky;top:0;z-index:40;backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.35)}
+    .hero{
+      padding:var(--safe-top) 18px 16px;
+      background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,255,255,.74)),
+      url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1400&q=80') center/cover;
+      position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.35)
+    }
     .eyebrow{font-size:12px;letter-spacing:.16em;color:var(--brand2);font-weight:800}
     h1{margin:6px 0 4px;font-size:28px;line-height:1.14;letter-spacing:-.02em}
     .sub{font-size:13px;color:var(--muted);line-height:1.6}
-    .hero-actions,.toolbar{display:flex;gap:10px;overflow:auto;padding-bottom:2px}
+    .toolbar,.hero-actions{display:flex;gap:10px;overflow:auto;padding-bottom:2px}
     .hero-actions{margin-top:14px}.toolbar{margin-top:12px}
-    .pill{white-space:nowrap;border:1px solid var(--line);background:rgba(255,255,255,.82);border-radius:999px;padding:10px 14px;font-size:13px;font-weight:800}
+    .pill{
+      white-space:nowrap;border:1px solid var(--line);background:rgba(255,255,255,.86);
+      border-radius:999px;padding:10px 14px;font-size:13px;font-weight:800
+    }
     .pill.brand{background:var(--brand);color:#fff;border-color:var(--brand)}
     .pill.good{background:#edf9f0;color:var(--good);border-color:#c6efcf}
     .pill.warn{background:#fff8e6;color:var(--warn);border-color:#f4df9b}
-    .banner{margin:12px 16px 0;padding:12px 14px;background:#fff6dd;border:1px solid #f3df9a;border-radius:16px;font-size:13px;line-height:1.65}
-    .badge-inline{display:inline-block;padding:3px 8px;border-radius:999px;background:#fff;border:1px solid #eed6a1;font-weight:800;font-size:12px;margin-right:8px}
-    .section{padding:16px}.section h2{margin:0 0 10px;font-size:18px;letter-spacing:-.02em}.hint{font-size:13px;color:var(--muted);margin-bottom:10px}
+    .banner{
+      margin:12px 16px 0;padding:12px 14px;background:#fff6dd;border:1px solid #f3df9a;border-radius:16px;
+      font-size:13px;line-height:1.65
+    }
+    .section{padding:16px}.section h2{margin:0 0 8px;font-size:18px}.hint{font-size:13px;color:var(--muted);margin-bottom:10px}
     .stack{display:grid;gap:14px}
     .day-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
-    .day-card.dragging{opacity:.45}.day-drop-top{outline:2px dashed var(--brand)}
     .day-cover{position:relative;padding:16px;min-height:164px;color:#fff;background-size:cover;background-position:center}
-    .day-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.65))}
+    .day-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.66))}
     .day-cover-inner{position:relative;z-index:1;display:flex;flex-direction:column;gap:10px}
-    .day-no{font-size:12px;font-weight:800;letter-spacing:.14em}.day-title{font-size:23px;font-weight:800;line-height:1.15}.day-route{font-size:13px;line-height:1.45;opacity:.96}
-    .weather{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.16);border-radius:14px;padding:10px 12px;backdrop-filter:blur(10px);width:max-content;max-width:100%}
+    .day-no{font-size:12px;font-weight:800;letter-spacing:.14em}
+    .day-title{font-size:23px;font-weight:800;line-height:1.15}
+    .day-route{font-size:13px;line-height:1.45;opacity:.96}
+    .weather{
+      display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.16);border-radius:14px;
+      padding:10px 12px;backdrop-filter:blur(10px);width:max-content;max-width:100%
+    }
     .weather .temp{font-size:20px;font-weight:800}.weather .meta{font-size:12px;line-height:1.35}
-    .day-body{padding:14px}.meta-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .day-body{padding:14px}
+    .meta-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
     .tag{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:800;border:1px solid var(--line);background:#faf7f2}
     .food{background:var(--food)} .menu{background:var(--menu)} .buy{background:var(--buy)} .book{background:var(--book)} .drive{background:var(--drive)}
     .story{border-left:4px solid var(--accent);padding:10px 12px;background:#fcfaf6;border-radius:12px;font-size:13px;line-height:1.7;color:#4b5563}
-    .story b{color:var(--ink)}
     .grid{display:grid;gap:12px;margin-top:12px}
-    .item-card{border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff;position:relative}
-    .item-card.dragging{opacity:.45}.item-card.drop-target{outline:2px dashed var(--brand)}
+    .item-card,.transport-card{
+      border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff
+    }
     .item-type{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--brand);text-transform:uppercase}
-    .item-title{font-size:16px;font-weight:800;line-height:1.35;margin-top:2px}.item-desc{font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px}
+    .item-title{font-size:16px;font-weight:800;line-height:1.35;margin-top:2px}
+    .item-desc{font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px}
     .action-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .btn{appearance:none;border:none;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:800;cursor:pointer}
-    .btn.primary{background:var(--brand);color:#fff}.btn.secondary{background:#f2efe9;color:var(--ink);border:1px solid var(--line)}
-    .btn.danger{background:#fff1f1;color:var(--danger);border:1px solid #f3c3c3}.btn.small{padding:7px 10px;font-size:12px}
-    .drag-handle{position:absolute;right:12px;top:12px;font-size:18px;opacity:.5;display:none;cursor:grab}
-    .editing .drag-handle{display:block}
+    .btn{
+      appearance:none;border:none;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:800;cursor:pointer
+    }
+    .btn.primary{background:var(--brand);color:#fff}
+    .btn.secondary{background:#f2efe9;color:var(--ink);border:1px solid var(--line)}
+    .btn.danger{background:#fff1f1;color:var(--danger);border:1px solid #f3c3c3}
+    .btn.good{background:#edf9f0;color:var(--good);border:1px solid #c6efcf}
+    .btn.small{padding:7px 10px;font-size:12px}
+    .transport-card{background:#faf8f4}
+    .transport-line{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+    .transport-main{font-size:14px;font-weight:800;color:var(--ink);margin-top:4px}
+    .sync-box{margin-top:10px;padding:12px 14px;border-radius:16px;border:1px solid var(--line);background:#fff}
+    .sync-status{font-size:13px;color:var(--muted);line-height:1.6}
     .split{display:grid;gap:12px}
     .info-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}
     .small-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
     .small-list li{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px dashed var(--line);font-size:14px}
     .small-list li:first-child{border-top:none;padding-top:0}
     .field{display:grid;gap:6px}.label{font-size:12px;color:var(--muted);font-weight:800;letter-spacing:.08em}
-    input,textarea,select{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 14px;font-size:15px}
+    input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 14px;font-size:15px}
     .budget-row{display:grid;grid-template-columns:1.2fr .8fr .8fr auto;gap:8px;align-items:center}
     .budget-actions{display:flex;justify-content:space-between;align-items:center;gap:8px}.budget-total{font-size:16px;font-weight:800}.empty{font-size:13px;color:var(--muted);padding:8px 0}
-    .sync-box{margin-top:10px;padding:12px 14px;border-radius:16px;border:1px solid var(--line);background:#fff}.sync-status{font-size:13px;color:var(--muted);line-height:1.6}
     .footer-space{height:18px}
-    .tabbar{position:fixed;left:50%;transform:translateX(-50%);bottom:0;max-width:560px;width:100%;padding:10px 12px var(--safe-bottom);z-index:50;background:linear-gradient(180deg,rgba(247,242,235,0),rgba(247,242,235,.92) 25%,rgba(247,242,235,1))}
+    .tabbar{
+      position:fixed;left:50%;transform:translateX(-50%);bottom:0;max-width:560px;width:100%;
+      padding:10px 12px var(--safe-bottom);z-index:60;background:linear-gradient(180deg,rgba(247,242,235,0),rgba(247,242,235,.92) 25%,rgba(247,242,235,1))
+    }
     .tabbar-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:22px;padding:8px;box-shadow:var(--shadow)}
     .tab-btn{border:none;background:transparent;border-radius:16px;padding:10px 8px;font-size:12px;font-weight:800;color:var(--muted)}
     .tab-btn.active{background:#f2ede6;color:var(--brand)}
@@ -87,9 +109,9 @@
 <body>
   <div class="app">
     <header class="hero">
-      <div class="eyebrow">TRAVEL MINI APP · EDITABLE · FIREBASE SYNC</div>
+      <div class="eyebrow">TRAVEL MINI APP · FIREBASE SYNC · DRIVE TIME</div>
       <h1>玥玥的第一次四國冒險之旅</h1>
-      <div class="sub">可編輯、可拖曳、可同步 Firebase 的手機優先旅遊小工具。</div>
+      <div class="sub">已修正 Firebase 巢狀陣列問題，新增手機友善排序與點對點自動估車程時間。</div>
       <div class="hero-actions">
         <a class="pill" href="#tab-plan">行程總覽</a>
         <a class="pill" href="#tab-pocket">航班/住宿</a>
@@ -104,14 +126,13 @@
     </header>
 
     <div class="banner">
-      <span class="badge-inline">升級版</span>
-      現在可以拖曳調整順序、直接編輯行程文字、替每日封面換照片。改完後再按「同步到 Firebase」。
+      這版已加入：<b>Firebase 同步修正</b>、<b>手機版上移/下移</b>、<b>點與點之間自動估車程時間</b>。
     </div>
 
     <main id="tab-plan" data-tab-panel="plan" class="active">
       <section class="section">
         <h2>每日行程</h2>
-        <div class="hint">編輯模式開啟後，可拖曳整天順序，也可拖曳每一天內的景點卡。</div>
+        <div class="hint">編輯模式開啟後，可直接用「上移 / 下移」調整順序。每張卡片之間會自動估算車程時間。</div>
         <div class="sync-box"><div class="sync-status" id="syncStatus">同步狀態：尚未初始化</div></div>
         <div class="stack" id="dayCards"></div>
         <div class="action-row" style="margin-top:12px">
@@ -124,12 +145,11 @@
     <main id="tab-guide" data-tab-panel="guide">
       <section class="section">
         <h2>導遊口袋筆記</h2>
-        <div class="hint">這塊先維持靜態版，避免行程編輯功能太肥。</div>
         <div class="split">
           <div class="info-card">
             <h3>必吃美食</h3>
             <ul class="small-list">
-              <li><span><b>淡路島洋蔥漢堡</b><br><span class="muted">排在うずの丘 / うずまちテラス最順。</span></span><span class="tag food">必吃</span></li>
+              <li><span><b>淡路島洋蔥漢堡</b></span><span class="tag food">必吃</span></li>
               <li><span><b>鳴門海鮮丼</b></span><span class="tag food">必吃</span></li>
               <li><span><b>讚岐烏龍麵</b></span><span class="tag food">必吃</span></li>
               <li><span><b>倉敷町家甜點</b></span><span class="tag food">必吃</span></li>
@@ -139,8 +159,8 @@
           <div class="info-card">
             <h3>重要預約代號</h3>
             <ul class="small-list">
-              <li><span><b>去程航班</b><br><span class="muted">10/29（四） BR132</span></span><span class="tag book">08:20</span></li>
-              <li><span><b>回程航班</b><br><span class="muted">11/5（四） BR129</span></span><span class="tag book">18:10</span></li>
+              <li><span><b>去程航班</b></span><span class="tag book">BR132</span></li>
+              <li><span><b>回程航班</b></span><span class="tag book">BR129</span></li>
               <li><span><b>二次元之森</b></span><span class="tag book">預約</span></li>
               <li><span><b>大塚國際美術館</b></span><span class="tag book">預約</span></li>
               <li><span><b>麵包超人博物館</b></span><span class="tag book">預約</span></li>
@@ -157,19 +177,19 @@
           <div class="info-card">
             <h3>航班資訊</h3>
             <ul class="small-list">
-              <li><span><b>去程</b><br><span class="muted">10/29（四）桃園 → 關西機場</span></span><span>BR132 08:20</span></li>
-              <li><span><b>回程</b><br><span class="muted">11/5（四）關西機場 → 桃園</span></span><span>BR129 18:10</span></li>
+              <li><span><b>去程</b><br><span style="color:#6b7280">10/29（四）桃園 → 關西</span></span><span>BR132 08:20</span></li>
+              <li><span><b>回程</b><br><span style="color:#6b7280">11/5（四）關西 → 桃園</span></span><span>BR129 18:10</span></li>
             </ul>
           </div>
           <div class="info-card">
             <h3>住宿資訊</h3>
             <ul class="small-list">
-              <li><span><b>10/29</b><br><span class="muted">淡路島北部</span></span><span class="tag">待訂</span></li>
-              <li><span><b>10/30</b><br><span class="muted">南淡路</span></span><span class="tag">待訂</span></li>
-              <li><span><b>10/31</b><br><span class="muted">德島</span></span><span class="tag">待訂</span></li>
-              <li><span><b>11/1</b><br><span class="muted">琴平溫泉</span></span><span class="tag">待訂</span></li>
-              <li><span><b>11/2–11/3</b><br><span class="muted">岡山</span></span><span class="tag">待訂</span></li>
-              <li><span><b>11/4</b><br><span class="muted">神戶</span></span><span class="tag">待訂</span></li>
+              <li><span><b>10/29</b><br><span style="color:#6b7280">淡路島北部</span></span><span class="tag">待訂</span></li>
+              <li><span><b>10/30</b><br><span style="color:#6b7280">南淡路</span></span><span class="tag">待訂</span></li>
+              <li><span><b>10/31</b><br><span style="color:#6b7280">德島</span></span><span class="tag">待訂</span></li>
+              <li><span><b>11/1</b><br><span style="color:#6b7280">琴平溫泉</span></span><span class="tag">待訂</span></li>
+              <li><span><b>11/2–11/3</b><br><span style="color:#6b7280">岡山</span></span><span class="tag">待訂</span></li>
+              <li><span><b>11/4</b><br><span style="color:#6b7280">神戶</span></span><span class="tag">待訂</span></li>
             </ul>
           </div>
           <div class="info-card">
@@ -203,7 +223,6 @@
     <main id="tab-budget" data-tab-panel="budget">
       <section class="section">
         <h2>記帳 / 預算表</h2>
-        <div class="hint">預算表先維持本機儲存。</div>
         <div class="info-card">
           <div class="budget-row" style="margin-bottom:8px">
             <input id="budget-item" placeholder="項目" />
@@ -256,10 +275,12 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const DOC_PATH = ["tripApps", "yueyue-shikoku-trip-v1"];
-    const LOCAL_KEY = "trip_editor_state_v1";
-    const NOTES_KEY = "trip_notes_v3";
-    const BUDGET_KEY = "trip_budget_v3";
+
+    const DOC_PATH = ["tripApps", "yueyue-shikoku-trip-v2"];
+    const LOCAL_KEY = "trip_editor_state_v2";
+    const NOTES_KEY = "trip_notes_v4";
+    const BUDGET_KEY = "trip_budget_v4";
+    const ROUTE_CACHE_KEY = "trip_route_cache_v1";
 
     const defaultTripDays = [
       {
@@ -272,9 +293,9 @@
         story:"第一天不要貪心。明石海峽公園最適合接在入境與取車後，避免把抵達日玩成壓力測試。",
         tags:[{label:"抵達日",class:"drive"},{label:"公園型景點",class:""}],
         items:[
-          {type:"景點",title:"明石海峽公園",desc:"大型花園與草地遊具型景點，適合先放電。",place:"明石海峽公園",map:"https://www.google.com/maps/search/?api=1&query=%E6%98%8E%E7%9F%B3%E6%B5%B7%E5%B3%BD%E5%85%AC%E5%9C%92",chips:[["必看",""],["草地放電","menu"]]},
-          {type:"餐廳",title:"機場或沿路簡餐",desc:"第一天以效率優先，不用為了吃太多而壓縮節奏。",place:"關西機場",map:"https://www.google.com/maps/search/?api=1&query=%E9%97%9C%E8%A5%BF%E6%A9%9F%E5%A0%B4+%E9%A4%90%E5%BB%B3",chips:[["先求穩","food"]]},
-          {type:"交通",title:"KIX 取車直奔淡路島",desc:"抵達日不加第二個正式景點。",place:"Kansai International Airport Rent a Car",map:"https://www.google.com/maps/search/?api=1&query=Kansai+International+Airport+Rent+a+Car",chips:[["自駕","drive"],["租車訂單","book"]]}
+          {type:"交通",title:"KIX 取車直奔淡路島",desc:"抵達日不加第二個正式景點。",place:"Kansai International Airport Rent a Car",map:"https://www.google.com/maps/search/?api=1&query=Kansai+International+Airport+Rent+a+Car",chips:[{label:"自駕",class:"drive"},{label:"租車訂單",class:"book"}]},
+          {type:"餐廳",title:"機場或沿路簡餐",desc:"第一天以效率優先，不用為了吃太多而壓縮節奏。",place:"關西機場",map:"https://www.google.com/maps/search/?api=1&query=%E9%97%9C%E8%A5%BF%E6%A9%9F%E5%A0%B4+%E9%A4%90%E5%BB%B3",chips:[{label:"先求穩",class:"food"}]},
+          {type:"景點",title:"明石海峽公園",desc:"大型花園與草地遊具型景點，適合先放電。",place:"明石海峽公園",map:"https://www.google.com/maps/search/?api=1&query=%E6%98%8E%E7%9F%B3%E6%B5%B7%E5%B3%BD%E5%85%AC%E5%9C%92",chips:[{label:"必看",class:""},{label:"草地放電",class:"menu"}]}
         ]
       },
       {
@@ -287,10 +308,10 @@
         story:"只玩蠟筆小新與哥吉拉，所以傍晚再接南淡路代表點是成立的。",
         tags:[{label:"淡路島 1.5 天核心",class:"drive"},{label:"親子日",class:""}],
         items:[
-          {type:"景點",title:"二次元之森（蠟筆小新、哥吉拉）",desc:"只玩兩區，時間比較可控。",place:"二次元之森",map:"https://www.google.com/maps/search/?api=1&query=%E4%BA%8C%E6%AC%A1%E5%85%83%E4%B9%8B%E6%A3%AE",chips:[["門票","book"]]},
-          {type:"景點",title:"淡路花さじき",desc:"高地花海與開闊景觀，拍照很值得。",place:"淡路花さじき",map:"https://www.google.com/maps/search/?api=1&query=%E6%B7%A1%E8%B7%AF%E8%8A%B1%E3%81%95%E3%81%98%E3%81%8D",chips:[["風景點","menu"]]},
-          {type:"景點",title:"うずの丘",desc:"南淡路代表觀景與洋蔥打卡地標。",place:"うずの丘 大鳴門橋記念館",map:"https://www.google.com/maps/search/?api=1&query=%E3%81%86%E3%81%9A%E3%81%AE%E4%B8%98+%E5%A4%A7%E9%B3%B4%E9%96%80%E6%A9%8B%E8%A8%98%E5%BF%B5%E9%A4%A8",chips:[["洋蔥打卡","menu"],["伴手禮","buy"]]},
-          {type:"餐廳",title:"道之驛うずしお in うずまちテラス",desc:"買淡路洋蔥土產、吃洋蔥漢堡。",place:"道之驛うずしお in うずまちテラス",map:"https://www.google.com/maps/search/?api=1&query=%E9%81%93%E4%B9%8B%E9%A9%9B+%E3%81%86%E3%81%9A%E3%81%97%E3%81%8A+in+%E3%81%86%E3%81%9A%E3%81%BE%E3%81%A1%E3%83%86%E3%83%A9%E3%82%B9",chips:[["洋蔥漢堡","food"],["必買","buy"]]}
+          {type:"景點",title:"二次元之森（蠟筆小新、哥吉拉）",desc:"只玩兩區，時間比較可控。",place:"二次元之森",map:"https://www.google.com/maps/search/?api=1&query=%E4%BA%8C%E6%AC%A1%E5%85%83%E4%B9%8B%E6%A3%AE",chips:[{label:"門票",class:"book"}]},
+          {type:"景點",title:"淡路花さじき",desc:"高地花海與開闊景觀，拍照很值得。",place:"淡路花さじき",map:"https://www.google.com/maps/search/?api=1&query=%E6%B7%A1%E8%B7%AF%E8%8A%B1%E3%81%95%E3%81%98%E3%81%8D",chips:[{label:"風景點",class:"menu"}]},
+          {type:"景點",title:"うずの丘",desc:"南淡路代表觀景與洋蔥打卡地標。",place:"うずの丘 大鳴門橋記念館",map:"https://www.google.com/maps/search/?api=1&query=%E3%81%86%E3%81%9A%E3%81%AE%E4%B8%98+%E5%A4%A7%E9%B3%B4%E9%96%80%E6%A9%8B%E8%A8%98%E5%BF%B5%E9%A4%A8",chips:[{label:"洋蔥打卡",class:"menu"},{label:"伴手禮",class:"buy"}]},
+          {type:"餐廳",title:"道之驛うずしお in うずまちテラス",desc:"買淡路洋蔥土產、吃洋蔥漢堡。",place:"道之驛うずしお in うずまちテラス",map:"https://www.google.com/maps/search/?api=1&query=%E9%81%93%E4%B9%8B%E9%A9%9B+%E3%81%86%E3%81%9A%E3%81%97%E3%81%8A+in+%E3%81%86%E3%81%9A%E3%81%BE%E3%81%A1%E3%83%86%E3%83%A9%E3%82%B9",chips:[{label:"洋蔥漢堡",class:"food"},{label:"必買",class:"buy"}]}
         ]
       },
       {
@@ -303,10 +324,10 @@
         story:"先鳴門、後市區最順。鳴門段一口氣處理完，再去德島市區。",
         tags:[{label:"德島豐富版",class:"drive"},{label:"美術館日",class:""}],
         items:[
-          {type:"景點",title:"大塚國際美術館",desc:"鳴門主景點，值得給完整時段。",place:"大塚國際美術館",map:"https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E5%A1%9A%E5%9C%8B%E9%9A%9B%E7%BE%8E%E8%A1%93%E9%A4%A8",chips:[["門票","book"],["必看",""]]},
-          {type:"餐廳",title:"道之驛くるくるなると",desc:"鳴門午餐與伴手禮補給站。",place:"道之驛くるくるなると",map:"https://www.google.com/maps/search/?api=1&query=%E9%81%93%E4%B9%8B%E9%A9%9B+%E3%81%8F%E3%82%8B%E3%81%8F%E3%82%8B%E3%81%AA%E3%82%8B%E3%81%A8",chips:[["鳴門金時","buy"],["海鮮","food"]]},
-          {type:"景點",title:"漩渦觀光船",desc:"把鳴門海峽的記憶點補滿。",place:"鳴門觀潮船",map:"https://www.google.com/maps/search/?api=1&query=%E9%B3%B4%E9%96%80%E8%A7%80%E6%BD%AE%E8%88%B9",chips:[["班次","book"]]},
-          {type:"景點",title:"阿波舞會館",desc:"德島市區文化收尾。",place:"阿波舞會館",map:"https://www.google.com/maps/search/?api=1&query=%E9%98%BF%E6%B3%A2%E8%88%9E%E6%9C%83%E9%A4%A8",chips:[["德島代表","menu"]]}
+          {type:"景點",title:"大塚國際美術館",desc:"鳴門主景點，值得給完整時段。",place:"大塚國際美術館",map:"https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E5%A1%9A%E5%9C%8B%E9%9A%9B%E7%BE%8E%E8%A1%93%E9%A4%A8",chips:[{label:"門票",class:"book"},{label:"必看",class:""}]},
+          {type:"餐廳",title:"道之驛くるくるなると",desc:"鳴門午餐與伴手禮補給站。",place:"道之驛くるくるなると",map:"https://www.google.com/maps/search/?api=1&query=%E9%81%93%E4%B9%8B%E9%A9%9B+%E3%81%8F%E3%82%8B%E3%81%8F%E3%82%8B%E3%81%AA%E3%82%8B%E3%81%A8",chips:[{label:"鳴門金時",class:"buy"},{label:"海鮮",class:"food"}]},
+          {type:"景點",title:"漩渦觀光船",desc:"把鳴門海峽的記憶點補滿。",place:"鳴門觀潮船",map:"https://www.google.com/maps/search/?api=1&query=%E9%B3%B4%E9%96%80%E8%A7%80%E6%BD%AE%E8%88%B9",chips:[{label:"班次",class:"book"}]},
+          {type:"景點",title:"阿波舞會館",desc:"德島市區文化收尾。",place:"阿波舞會館",map:"https://www.google.com/maps/search/?api=1&query=%E9%98%BF%E6%B3%A2%E8%88%9E%E6%9C%83%E9%A4%A8",chips:[{label:"德島代表",class:"menu"}]}
         ]
       },
       {
@@ -319,99 +340,100 @@
         story:"水族館讓小孩買單，栗林公園讓大人舒服，晚上用溫泉把全家收好。",
         tags:[{label:"親子主場",class:""},{label:"溫泉收尾",class:"menu"}],
         items:[
-          {type:"景點",title:"四國水族館",desc:"香川親子主力。",place:"四國水族館",map:"https://www.google.com/maps/search/?api=1&query=%E5%9B%9B%E5%9C%8B%E6%B0%B4%E6%97%8F%E9%A4%A8",chips:[["親子",""]]},
-          {type:"景點",title:"栗林公園",desc:"香川代表性園林。",place:"栗林公園",map:"https://www.google.com/maps/search/?api=1&query=%E6%A0%97%E6%9E%97%E5%85%AC%E5%9C%92",chips:[["風景點","menu"]]},
-          {type:"餐廳",title:"讚岐烏龍麵",desc:"香川必吃正事。",place:"高松讚岐烏龍麵",map:"https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E6%9D%BE+%E8%AE%9A%E5%B2%90%E7%83%8F%E9%BE%8D%E9%BA%B5",chips:[["必吃","food"],["冷烏龍","menu"]]},
-          {type:"交通",title:"入住琴平溫泉（一泊二食）",desc:"晚上重點是舒服。",place:"琴平溫泉",map:"https://www.google.com/maps/search/?api=1&query=%E7%90%B4%E5%B9%B3%E6%BA%AB%E6%B3%89",chips:[["旅館","book"]]}
-        ]
-      },
-      {
-        day:"DAY 5",
-        date:"11/2（一）",
-        title:"香川 → 瀨戶大橋 → 倉敷",
-        route:"鷲羽山展望台 → 倉敷美觀地區 → 岡山住宿",
-        locationForWeather:"Kurashiki, Okayama, Japan",
-        cover:"https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1400&q=80",
-        story:"高屋神社拿掉後，Day 5 終於回到正確定位：倉敷主行程日。",
-        tags:[{label:"倉敷主行程日",class:"drive"},{label:"老街散步",class:""}],
-        items:[
-          {type:"景點",title:"鷲羽山展望台",desc:"若天氣對，就停下看橋景。",place:"鷲羽山展望台",map:"https://www.google.com/maps/search/?api=1&query=%E9%B7%B2%E7%BE%BD%E5%B1%B1+%E5%B1%95%E6%9C%9B%E5%8F%B0",chips:[["候補","book"]]},
-          {type:"景點",title:"倉敷美觀地區",desc:"白壁倉庫、河道、町家、散步感都在這裡。",place:"倉敷美觀地區",map:"https://www.google.com/maps/search/?api=1&query=%E5%80%89%E6%95%B7%E7%BE%8E%E8%A7%80%E5%9C%B0%E5%8D%80",chips:[["必看",""],["帆布/丹寧","buy"]]},
-          {type:"餐廳",title:"倉敷甜點 / 咖啡",desc:"布丁、聖代、町家咖啡都很適合。",place:"倉敷咖啡 布丁",map:"https://www.google.com/maps/search/?api=1&query=%E5%80%89%E6%95%B7+%E5%92%96%E5%95%A1+%E5%B8%83%E4%B8%81",chips:[["必吃","food"]]},
-          {type:"交通",title:"晚上住岡山",desc:"隔天岡山日更完整。",place:"Okayama Station",map:"https://www.google.com/maps/search/?api=1&query=Okayama+Station",chips:[["自駕","drive"]]}
-        ]
-      },
-      {
-        day:"DAY 6",
-        date:"11/3（二）",
-        title:"岡山完整主題日",
-        route:"吉備津神社 → 岡山後樂園 → 岡山城",
-        locationForWeather:"Okayama, Japan",
-        cover:"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=80",
-        story:"吉備津神社讓這趟多了一層真正的日本感。",
-        tags:[{label:"唯一神社點",class:"book"},{label:"庭園＋城",class:"menu"}],
-        items:[
-          {type:"景點",title:"吉備津神社",desc:"這趟唯一保留的神社主題點。",place:"吉備津神社",map:"https://www.google.com/maps/search/?api=1&query=%E5%90%89%E5%82%99%E6%B4%A5%E7%A5%9E%E7%A4%BE",chips:[["神社","menu"]]},
-          {type:"景點",title:"岡山後樂園",desc:"日本三名園之一。",place:"岡山後樂園",map:"https://www.google.com/maps/search/?api=1&query=%E5%B2%A1%E5%B1%B1%E5%BE%8C%E6%A8%82%E5%9C%92",chips:[["必看",""]]},
-          {type:"景點",title:"岡山城",desc:"和後樂園排成一組最順。",place:"岡山城",map:"https://www.google.com/maps/search/?api=1&query=%E5%B2%A1%E5%B1%B1%E5%9F%8E",chips:[["城郭","menu"]]},
-          {type:"餐廳",title:"岡山市區晚餐",desc:"AEON 可當備援，不當主行程。",place:"岡山市晚餐",map:"https://www.google.com/maps/search/?api=1&query=%E5%B2%A1%E5%B1%B1%E5%B8%82+%E6%99%9A%E9%A4%90",chips:[["備援","book"]]}
-        ]
-      },
-      {
-        day:"DAY 7",
-        date:"11/4（三）",
-        title:"岡山 → 姬路 → 神戶",
-        route:"姬路城 → 姬路動物園 → 神戶住宿",
-        locationForWeather:"Himeji, Hyogo, Japan",
-        cover:"https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1400&q=80",
-        story:"Day 7 的 KPI 很清楚：姬路城 + 動物園。",
-        tags:[{label:"姬路不過夜",class:"drive"},{label:"城郭主場",class:""}],
-        items:[
-          {type:"景點",title:"姬路城",desc:"這次是要真正走進去逛。",place:"姬路城",map:"https://www.google.com/maps/search/?api=1&query=%E5%A7%AC%E8%B7%AF%E5%9F%8E",chips:[["必看",""],["最晚入城","book"]]},
-          {type:"景點",title:"姬路動物園",desc:"就在姬路城旁邊。",place:"姬路市立動物園",map:"https://www.google.com/maps/search/?api=1&query=%E5%A7%AC%E8%B7%AF%E5%B8%82%E7%AB%8B%E5%8B%95%E7%89%A9%E5%9C%92",chips:[["親子",""]]},
-          {type:"餐廳",title:"姬路午餐",desc:"優先找穴子飯或姬路關東煮。",place:"姬路 穴子飯",map:"https://www.google.com/maps/search/?api=1&query=%E5%A7%AC%E8%B7%AF+%E7%A9%B4%E5%AD%90%E9%A3%AF",chips:[["必吃","food"]]},
-          {type:"交通",title:"玩完直接住神戶",desc:"為 Day 8 親子收尾預留完整感。",place:"Kobe",map:"https://www.google.com/maps/search/?api=1&query=Kobe",chips:[["自駕","drive"]]}
-        ]
-      },
-      {
-        day:"DAY 8",
-        date:"11/5（四）",
-        title:"神戶收尾 → 關西機場",
-        route:"麵包超人博物館 → Harborland → Mosaic → KIX",
-        locationForWeather:"Kobe, Hyogo, Japan",
-        cover:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80",
-        story:"最後一天就做一件事：好好收尾，不要壓線。",
-        tags:[{label:"收尾日",class:"drive"},{label:"親子收尾",class:""}],
-        items:[
-          {type:"景點",title:"神戶麵包超人博物館",desc:"上午先打這個主場。",place:"神戶麵包超人博物館",map:"https://www.google.com/maps/search/?api=1&query=%E7%A5%9E%E6%88%B6%E9%BA%B5%E5%8C%85%E8%B6%85%E4%BA%BA%E5%8D%9A%E7%89%A9%E9%A4%A8",chips:[["門票","book"],["親子","menu"]]},
-          {type:"景點",title:"Harborland / Mosaic / 神戶港",desc:"吃飯、散步、最後採買。",place:"Kobe Harborland",map:"https://www.google.com/maps/search/?api=1&query=Kobe+Harborland",chips:[["港景",""],["最後採買","buy"]]},
-          {type:"交通",title:"神戶 → 關西機場還車",desc:"請預留足夠還車與進機場緩衝。",place:"Kansai International Airport",map:"https://www.google.com/maps/search/?api=1&query=Kansai+International+Airport",chips:[["BR129 18:10","book"],["自駕","drive"]]}
+          {type:"景點",title:"四國水族館",desc:"香川親子主力。",place:"四國水族館",map:"https://www.google.com/maps/search/?api=1&query=%E5%9B%9B%E5%9C%8B%E6%B0%B4%E6%97%8F%E9%A4%A8",chips:[{label:"親子",class:""}]},
+          {type:"景點",title:"栗林公園",desc:"香川代表性園林。",place:"栗林公園",map:"https://www.google.com/maps/search/?api=1&query=%E6%A0%97%E6%9E%97%E5%85%AC%E5%9C%92",chips:[{label:"風景點",class:"menu"}]},
+          {type:"餐廳",title:"讚岐烏龍麵",desc:"香川必吃正事。",place:"高松讚岐烏龍麵",map:"https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E6%9D%BE+%E8%AE%9A%E5%B2%90%E7%83%8F%E9%BE%8D%E9%BA%B5",chips:[{label:"必吃",class:"food"},{label:"冷烏龍",class:"menu"}]},
+          {type:"交通",title:"入住琴平溫泉（一泊二食）",desc:"晚上重點是舒服。",place:"琴平溫泉",map:"https://www.google.com/maps/search/?api=1&query=%E7%90%B4%E5%B9%B3%E6%BA%AB%E6%B3%89",chips:[{label:"旅館",class:"book"}]}
         ]
       }
     ];
 
     let state = { days: JSON.parse(JSON.stringify(defaultTripDays)), isEditing: false };
-    let dragDayIndex = null;
-    let dragItemInfo = null;
+    const routeCache = JSON.parse(localStorage.getItem(ROUTE_CACHE_KEY) || "{}");
 
     function updateSyncStatus(text){ document.getElementById("syncStatus").textContent = "同步狀態：" + text; }
     function saveLocalState(){ localStorage.setItem(LOCAL_KEY, JSON.stringify(state.days)); }
     function loadLocalState(){ const raw = localStorage.getItem(LOCAL_KEY); if(raw){ try{ state.days = JSON.parse(raw); }catch(e){} } }
-    function weatherText(code){ const map={0:'晴朗',1:'大致晴',2:'局部多雲',3:'陰天',45:'有霧',48:'霧凇',51:'毛毛雨',53:'小雨',55:'細雨',61:'小雨',63:'降雨',65:'大雨',71:'小雪',73:'下雪',75:'大雪',80:'陣雨',81:'強陣雨',82:'豪雨',95:'雷雨'}; return map[code] || '天氣更新中'; }
-    function chipHtml(label, cls){ return '<span class="tag ' + (cls || '') + '">' + label + '</span>'; }
-    function escapeAttr(text){ return String(text || '').replace(/"/g,'&quot;'); }
+    function saveRouteCache(){ localStorage.setItem(ROUTE_CACHE_KEY, JSON.stringify(routeCache)); }
+
+    function weatherText(code){
+      const map={0:'晴朗',1:'大致晴',2:'局部多雲',3:'陰天',45:'有霧',48:'霧凇',51:'毛毛雨',53:'小雨',55:'細雨',61:'小雨',63:'降雨',65:'大雨',71:'小雪',73:'下雪',75:'大雪',80:'陣雨',81:'強陣雨',82:'豪雨',95:'雷雨'};
+      return map[code] || '天氣更新中';
+    }
+
+    function chipHtml(chip){
+      return '<span class="tag ' + (chip.class || '') + '">' + (chip.label || '') + '</span>';
+    }
+
+    function escapeAttr(text){
+      return String(text || '').replace(/"/g,'&quot;');
+    }
+
+    function normalizeDaysForCloud(days){
+      return days.map(day => ({
+        ...day,
+        tags: (day.tags || []).map(tag => ({ label: tag.label || "", class: tag.class || "" })),
+        items: (day.items || []).map(item => ({
+          ...item,
+          chips: (item.chips || []).map(chip => {
+            if(Array.isArray(chip)) return { label: chip[0] || "", class: chip[1] || "" };
+            return { label: chip.label || "", class: chip.class || "" };
+          })
+        }))
+      }));
+    }
+
+    function normalizeLoadedDays(days){
+      return (days || []).map(day => ({
+        ...day,
+        tags: (day.tags || []).map(tag => ({
+          label: tag.label || "",
+          class: tag.class || ""
+        })),
+        items: (day.items || []).map(item => ({
+          ...item,
+          chips: (item.chips || []).map(chip => {
+            if(Array.isArray(chip)) return { label: chip[0] || "", class: chip[1] || "" };
+            return { label: chip.label || "", class: chip.class || "" };
+          })
+        }))
+      }));
+    }
+
+    function moveDay(index, direction){
+      const target = index + direction;
+      if(target < 0 || target >= state.days.length) return;
+      const moved = state.days.splice(index, 1)[0];
+      state.days.splice(target, 0, moved);
+      saveLocalState();
+      renderDays();
+    }
+
+    function moveItem(dayIndex, itemIndex, direction){
+      const items = state.days[dayIndex].items;
+      const target = itemIndex + direction;
+      if(target < 0 || target >= items.length) return;
+      const moved = items.splice(itemIndex, 1)[0];
+      items.splice(target, 0, moved);
+      saveLocalState();
+      renderDays();
+    }
 
     function renderDays(){
       const wrap = document.getElementById("dayCards");
       let html = "";
+
       state.days.forEach((d, dayIndex) => {
-        let tagsHtml = ""; (d.tags || []).forEach(t => tagsHtml += chipHtml(t.label, t.class));
+        let tagsHtml = "";
+        (d.tags || []).forEach(t => { tagsHtml += chipHtml(t); });
+
         let itemsHtml = "";
         (d.items || []).forEach((item, itemIndex) => {
-          let itemTags = ""; (item.chips || []).forEach(c => itemTags += chipHtml(c[0], c[1]));
+          let itemTags = "";
+          (item.chips || []).forEach(chip => { itemTags += chipHtml(chip); });
+
           itemsHtml += `
-            <div class="item-card ${state.isEditing ? "editing" : ""}" draggable="${state.isEditing}" data-day-index="${dayIndex}" data-item-index="${itemIndex}">
-              <div class="drag-handle">⋮⋮</div>
+            <div class="item-card">
               <div class="item-type">${item.type || "景點"}</div>
               <div class="item-title">${item.title || ""}</div>
               <div class="item-desc">${item.desc || ""}</div>
@@ -419,14 +441,28 @@
               <div class="action-row">
                 <a class="btn primary" href="${item.map || '#'}" target="_blank" rel="noreferrer">導航</a>
                 <button class="btn secondary copy-btn" data-place="${escapeAttr(item.place || '')}">複製地點</button>
-                ${state.isEditing ? `<button class="btn secondary small edit-item-btn" data-day-index="${dayIndex}" data-item-index="${itemIndex}">編輯</button><button class="btn danger small delete-item-btn" data-day-index="${dayIndex}" data-item-index="${itemIndex}">刪除</button>` : ``}
+                ${state.isEditing ? `
+                  <button class="btn secondary small move-item-up" data-day-index="${dayIndex}" data-item-index="${itemIndex}">上移</button>
+                  <button class="btn secondary small move-item-down" data-day-index="${dayIndex}" data-item-index="${itemIndex}">下移</button>
+                  <button class="btn secondary small edit-item-btn" data-day-index="${dayIndex}" data-item-index="${itemIndex}">編輯</button>
+                  <button class="btn danger small delete-item-btn" data-day-index="${dayIndex}" data-item-index="${itemIndex}">刪除</button>
+                ` : ``}
               </div>
             </div>
           `;
+
+          if(itemIndex < d.items.length - 1){
+            itemsHtml += `
+              <div class="transport-card" id="transport-${dayIndex}-${itemIndex}">
+                <div class="transport-line">🚗 點與點之間車程</div>
+                <div class="transport-main">估算中…</div>
+              </div>
+            `;
+          }
         });
 
         html += `
-          <article class="day-card ${state.isEditing ? "editing" : ""}" draggable="${state.isEditing}" data-day-index="${dayIndex}">
+          <article class="day-card">
             <div class="day-cover" style="background-image:url('${d.cover}')">
               <div class="day-cover-inner">
                 <div class="day-no">${d.day} · ${d.date}</div>
@@ -436,7 +472,16 @@
                   <div class="temp">--°</div>
                   <div class="meta">載入天氣中…<br><span>${d.locationForWeather}</span></div>
                 </div>
-                ${state.isEditing ? `<div class="action-row"><button class="btn secondary small edit-day-btn" data-day-index="${dayIndex}">編輯這一天</button><button class="btn secondary small photo-day-btn" data-day-index="${dayIndex}">換照片</button><button class="btn secondary small add-item-btn" data-day-index="${dayIndex}">新增卡片</button><button class="btn danger small delete-day-btn" data-day-index="${dayIndex}">刪除這一天</button></div>` : ``}
+                ${state.isEditing ? `
+                  <div class="action-row">
+                    <button class="btn secondary small move-day-up" data-day-index="${dayIndex}">整天上移</button>
+                    <button class="btn secondary small move-day-down" data-day-index="${dayIndex}">整天下移</button>
+                    <button class="btn secondary small edit-day-btn" data-day-index="${dayIndex}">編輯這一天</button>
+                    <button class="btn secondary small photo-day-btn" data-day-index="${dayIndex}">換照片</button>
+                    <button class="btn secondary small add-item-btn" data-day-index="${dayIndex}">新增卡片</button>
+                    <button class="btn danger small delete-day-btn" data-day-index="${dayIndex}">刪除這一天</button>
+                  </div>
+                ` : ``}
               </div>
             </div>
             <div class="day-body">
@@ -447,49 +492,31 @@
           </article>
         `;
       });
+
       wrap.innerHTML = html;
-      bindDayEvents(); bindItemEvents(); state.days.forEach(fetchWeatherForDay);
+      bindEvents();
+      state.days.forEach(fetchWeatherForDay);
+      renderAllTransportTimes();
     }
 
-    function bindDayEvents(){
-      document.querySelectorAll('.edit-day-btn').forEach(btn => btn.addEventListener('click', ()=>editDay(Number(btn.dataset.dayIndex))));
-      document.querySelectorAll('.photo-day-btn').forEach(btn => btn.addEventListener('click', ()=>editDayPhoto(Number(btn.dataset.dayIndex))));
-      document.querySelectorAll('.add-item-btn').forEach(btn => btn.addEventListener('click', ()=>addItem(Number(btn.dataset.dayIndex))));
-      document.querySelectorAll('.delete-day-btn').forEach(btn => btn.addEventListener('click', ()=>deleteDay(Number(btn.dataset.dayIndex))));
-      document.querySelectorAll('.day-card').forEach(card => {
-        if(!state.isEditing) return;
-        card.addEventListener('dragstart', ()=>{ dragDayIndex = Number(card.dataset.dayIndex); card.classList.add('dragging'); });
-        card.addEventListener('dragend', ()=>{ card.classList.remove('dragging'); dragDayIndex = null; document.querySelectorAll('.day-card').forEach(c=>c.classList.remove('day-drop-top')); });
-        card.addEventListener('dragover', e=>{ e.preventDefault(); card.classList.add('day-drop-top'); });
-        card.addEventListener('dragleave', ()=> card.classList.remove('day-drop-top'));
-        card.addEventListener('drop', e=>{
-          e.preventDefault(); const targetIndex = Number(card.dataset.dayIndex); card.classList.remove('day-drop-top');
-          if(dragDayIndex === null || dragDayIndex === targetIndex) return;
-          const moved = state.days.splice(dragDayIndex,1)[0]; state.days.splice(targetIndex,0,moved); saveLocalState(); renderDays();
+    function bindEvents(){
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          navigator.clipboard.writeText(btn.dataset.place || '').then(() => alert('已複製：' + (btn.dataset.place || '')));
         });
       });
-    }
 
-    function bindItemEvents(){
-      document.querySelectorAll('.copy-btn').forEach(btn => btn.addEventListener('click', ()=> navigator.clipboard.writeText(btn.dataset.place || '').then(()=>alert('已複製：' + (btn.dataset.place || '')))));
-      document.querySelectorAll('.edit-item-btn').forEach(btn => btn.addEventListener('click', ()=> editItem(Number(btn.dataset.dayIndex), Number(btn.dataset.itemIndex))));
-      document.querySelectorAll('.delete-item-btn').forEach(btn => btn.addEventListener('click', ()=> deleteItem(Number(btn.dataset.dayIndex), Number(btn.dataset.itemIndex))));
-      document.querySelectorAll('.item-card').forEach(card => {
-        if(!state.isEditing) return;
-        card.addEventListener('dragstart', ()=>{ dragItemInfo = { dayIndex:Number(card.dataset.dayIndex), itemIndex:Number(card.dataset.itemIndex) }; card.classList.add('dragging'); });
-        card.addEventListener('dragend', ()=>{ card.classList.remove('dragging'); dragItemInfo = null; document.querySelectorAll('.item-card').forEach(c=>c.classList.remove('drop-target')); });
-        card.addEventListener('dragover', e=>{ e.preventDefault(); card.classList.add('drop-target'); });
-        card.addEventListener('dragleave', ()=> card.classList.remove('drop-target'));
-        card.addEventListener('drop', e=>{
-          e.preventDefault(); card.classList.remove('drop-target');
-          if(!dragItemInfo) return;
-          const targetDayIndex = Number(card.dataset.dayIndex); const targetItemIndex = Number(card.dataset.itemIndex);
-          if(dragItemInfo.dayIndex !== targetDayIndex){ alert('目前先支援同一天內拖曳排序'); return; }
-          if(dragItemInfo.itemIndex === targetItemIndex) return;
-          const items = state.days[targetDayIndex].items; const moved = items.splice(dragItemInfo.itemIndex,1)[0];
-          items.splice(targetItemIndex,0,moved); saveLocalState(); renderDays();
-        });
-      });
+      document.querySelectorAll('.move-day-up').forEach(btn => btn.addEventListener('click', () => moveDay(Number(btn.dataset.dayIndex), -1)));
+      document.querySelectorAll('.move-day-down').forEach(btn => btn.addEventListener('click', () => moveDay(Number(btn.dataset.dayIndex), 1)));
+      document.querySelectorAll('.move-item-up').forEach(btn => btn.addEventListener('click', () => moveItem(Number(btn.dataset.dayIndex), Number(btn.dataset.itemIndex), -1)));
+      document.querySelectorAll('.move-item-down').forEach(btn => btn.addEventListener('click', () => moveItem(Number(btn.dataset.dayIndex), Number(btn.dataset.itemIndex), 1)));
+
+      document.querySelectorAll('.edit-day-btn').forEach(btn => btn.addEventListener('click', () => editDay(Number(btn.dataset.dayIndex))));
+      document.querySelectorAll('.photo-day-btn').forEach(btn => btn.addEventListener('click', () => editDayPhoto(Number(btn.dataset.dayIndex))));
+      document.querySelectorAll('.add-item-btn').forEach(btn => btn.addEventListener('click', () => addItem(Number(btn.dataset.dayIndex))));
+      document.querySelectorAll('.delete-day-btn').forEach(btn => btn.addEventListener('click', () => deleteDay(Number(btn.dataset.dayIndex))));
+      document.querySelectorAll('.edit-item-btn').forEach(btn => btn.addEventListener('click', () => editItem(Number(btn.dataset.dayIndex), Number(btn.dataset.itemIndex))));
+      document.querySelectorAll('.delete-item-btn').forEach(btn => btn.addEventListener('click', () => deleteItem(Number(btn.dataset.dayIndex), Number(btn.dataset.itemIndex))));
     }
 
     function editDay(dayIndex){
@@ -500,49 +527,73 @@
       const route = prompt("路線摘要", d.route || ""); if(route === null) return;
       const location = prompt("天氣查詢地點（英文城市名）", d.locationForWeather || ""); if(location === null) return;
       const story = prompt("今日故事 / 說明", d.story || ""); if(story === null) return;
-      d.day = day; d.date = date; d.title = title; d.route = route; d.locationForWeather = location; d.story = story; saveLocalState(); renderDays();
+      d.day = day; d.date = date; d.title = title; d.route = route; d.locationForWeather = location; d.story = story;
+      saveLocalState(); renderDays();
     }
 
     function editDayPhoto(dayIndex){
       const current = state.days[dayIndex].cover || "";
       const url = prompt("請貼上新的封面圖片網址", current);
       if(url === null) return;
-      state.days[dayIndex].cover = url.trim() || current; saveLocalState(); renderDays();
-    }
-
-    function addDay(){
-      state.days.push({day:"NEW DAY",date:"請編輯日期",title:"新的行程日",route:"請編輯路線",locationForWeather:"Kobe, Hyogo, Japan",cover:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80",story:"請補上今天的故事與節奏。",tags:[{label:"新行程",class:"book"}],items:[]});
+      state.days[dayIndex].cover = url.trim() || current;
       saveLocalState(); renderDays();
     }
 
-    function deleteDay(dayIndex){ if(!confirm("確定要刪除這一天嗎？")) return; state.days.splice(dayIndex,1); saveLocalState(); renderDays(); }
-
-    function addItem(dayIndex){
-      const type = prompt("卡片類型（景點 / 餐廳 / 交通）","景點"); if(type === null) return;
-      const title = prompt("卡片標題",""); if(title === null) return;
-      const desc = prompt("卡片說明",""); if(desc === null) return;
-      const place = prompt("地點名稱",""); if(place === null) return;
-      const map = prompt("Google Maps 導航連結","https://www.google.com/maps/search/?api=1&query="); if(map === null) return;
-      state.days[dayIndex].items.push({type,title,desc,place,map,chips:[]}); saveLocalState(); renderDays();
+    function addDay(){
+      state.days.push({
+        day:"NEW DAY",
+        date:"請編輯日期",
+        title:"新的行程日",
+        route:"請編輯路線",
+        locationForWeather:"Kobe, Hyogo, Japan",
+        cover:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80",
+        story:"請補上今天的故事與節奏。",
+        tags:[{label:"新行程",class:"book"}],
+        items:[]
+      });
+      saveLocalState(); renderDays();
     }
 
-    function editItem(dayIndex,itemIndex){
+    function deleteDay(dayIndex){
+      if(!confirm("確定要刪除這一天嗎？")) return;
+      state.days.splice(dayIndex, 1);
+      saveLocalState(); renderDays();
+    }
+
+    function addItem(dayIndex){
+      const type = prompt("卡片類型（景點 / 餐廳 / 交通）", "景點"); if(type === null) return;
+      const title = prompt("卡片標題", ""); if(title === null) return;
+      const desc = prompt("卡片說明", ""); if(desc === null) return;
+      const place = prompt("地點名稱", ""); if(place === null) return;
+      const map = prompt("Google Maps 導航連結", "https://www.google.com/maps/search/?api=1&query="); if(map === null) return;
+      state.days[dayIndex].items.push({ type, title, desc, place, map, chips:[] });
+      saveLocalState(); renderDays();
+    }
+
+    function editItem(dayIndex, itemIndex){
       const item = state.days[dayIndex].items[itemIndex];
       const type = prompt("卡片類型（景點 / 餐廳 / 交通）", item.type || ""); if(type === null) return;
       const title = prompt("卡片標題", item.title || ""); if(title === null) return;
       const desc = prompt("卡片說明", item.desc || ""); if(desc === null) return;
       const place = prompt("地點名稱", item.place || ""); if(place === null) return;
       const map = prompt("Google Maps 導航連結", item.map || ""); if(map === null) return;
-      item.type = type; item.title = title; item.desc = desc; item.place = place; item.map = map; saveLocalState(); renderDays();
+      item.type = type; item.title = title; item.desc = desc; item.place = place; item.map = map;
+      saveLocalState(); renderDays();
     }
 
-    function deleteItem(dayIndex,itemIndex){ if(!confirm("確定要刪除這張卡片嗎？")) return; state.days[dayIndex].items.splice(itemIndex,1); saveLocalState(); renderDays(); }
+    function deleteItem(dayIndex, itemIndex){
+      if(!confirm("確定要刪除這張卡片嗎？")) return;
+      state.days[dayIndex].items.splice(itemIndex, 1);
+      saveLocalState(); renderDays();
+    }
 
     async function fetchWeatherForDay(day, idx){
-      const weatherBox = document.getElementById("weather-" + idx); if(!weatherBox) return;
+      const weatherBox = document.getElementById("weather-" + idx);
+      if(!weatherBox) return;
       try{
         const geoRes = await fetch("https://geocoding-api.open-meteo.com/v1/search?name=" + encodeURIComponent(day.locationForWeather) + "&count=1&language=zh&format=json");
-        const geo = await geoRes.json(); if(!geo.results || !geo.results[0]) throw new Error("geocode");
+        const geo = await geoRes.json();
+        if(!geo.results || !geo.results[0]) throw new Error("geocode");
         const g = geo.results[0];
         const weatherRes = await fetch("https://api.open-meteo.com/v1/forecast?latitude=" + g.latitude + "&longitude=" + g.longitude + "&current=temperature_2m,weather_code&timezone=Asia%2FTokyo");
         const w = await weatherRes.json();
@@ -552,14 +603,79 @@
       }
     }
 
+    async function geocodePlace(place){
+      const key = "geo::" + place;
+      if(routeCache[key]) return routeCache[key];
+      const res = await fetch("https://geocoding-api.open-meteo.com/v1/search?name=" + encodeURIComponent(place) + "&count=1&language=zh&format=json");
+      const data = await res.json();
+      if(!data.results || !data.results[0]) throw new Error("找不到座標：" + place);
+      const result = { lat: data.results[0].latitude, lon: data.results[0].longitude, name: data.results[0].name };
+      routeCache[key] = result;
+      saveRouteCache();
+      return result;
+    }
+
+    async function getDriveEstimate(fromPlace, toPlace){
+      const cacheKey = "route::" + fromPlace + "::" + toPlace;
+      if(routeCache[cacheKey]) return routeCache[cacheKey];
+
+      const from = await geocodePlace(fromPlace);
+      const to = await geocodePlace(toPlace);
+
+      const url = "https://router.project-osrm.org/route/v1/driving/" + from.lon + "," + from.lat + ";" + to.lon + "," + to.lat + "?overview=false";
+      const res = await fetch(url);
+      const data = await res.json();
+      if(!data.routes || !data.routes[0]) throw new Error("route fail");
+
+      const seconds = data.routes[0].duration;
+      const meters = data.routes[0].distance;
+
+      const result = {
+        minutes: Math.round(seconds / 60),
+        km: (meters / 1000).toFixed(1)
+      };
+      routeCache[cacheKey] = result;
+      saveRouteCache();
+      return result;
+    }
+
+    async function renderAllTransportTimes(){
+      for(let dayIndex = 0; dayIndex < state.days.length; dayIndex++){
+        const day = state.days[dayIndex];
+        for(let itemIndex = 0; itemIndex < day.items.length - 1; itemIndex++){
+          const current = day.items[itemIndex];
+          const next = day.items[itemIndex + 1];
+          const box = document.getElementById("transport-" + dayIndex + "-" + itemIndex);
+          if(!box) continue;
+          if(!current.place || !next.place){
+            box.querySelector('.transport-main').textContent = "缺少地點名稱，無法估算";
+            continue;
+          }
+          try{
+            const result = await getDriveEstimate(current.place, next.place);
+            box.querySelector('.transport-main').textContent = "預估車程 " + result.minutes + " 分｜約 " + result.km + " km";
+          }catch(e){
+            box.querySelector('.transport-main').textContent = "暫時無法估算，請稍後再試";
+          }
+        }
+      }
+    }
+
     async function saveToCloud(){
       try{
         updateSyncStatus("同步中…");
-        await setDoc(doc(db, ...DOC_PATH), {days: state.days, updatedAt: serverTimestamp(), appName: "yueyue-shikoku-trip"}, { merge: true });
+        const cleanDays = normalizeDaysForCloud(state.days);
+        await setDoc(doc(db, ...DOC_PATH), {
+          days: cleanDays,
+          updatedAt: serverTimestamp(),
+          appName: "yueyue-shikoku-trip"
+        }, { merge: true });
         updateSyncStatus("已同步到 Firebase");
         alert("已同步到 Firebase");
       }catch(e){
-        console.error(e); updateSyncStatus("同步失敗，請稍後再試"); alert("同步失敗：" + e.message);
+        console.error(e);
+        updateSyncStatus("同步失敗，請稍後再試");
+        alert("同步失敗：" + e.message);
       }
     }
 
@@ -568,22 +684,39 @@
         updateSyncStatus("載入雲端中…");
         const snap = await getDoc(doc(db, ...DOC_PATH));
         if(snap.exists() && snap.data().days){
-          state.days = snap.data().days; saveLocalState(); renderDays(); updateSyncStatus("已載入雲端版本"); alert("已載入 Firebase 雲端版本");
+          state.days = normalizeLoadedDays(snap.data().days);
+          saveLocalState();
+          renderDays();
+          updateSyncStatus("已載入雲端版本");
+          alert("已載入 Firebase 雲端版本");
         }else{
-          updateSyncStatus("雲端尚無資料"); alert("Firebase 雲端還沒有資料，先按一次同步到 Firebase。");
+          updateSyncStatus("雲端尚無資料");
+          alert("Firebase 雲端還沒有資料，先按一次同步到 Firebase。");
         }
       }catch(e){
-        console.error(e); updateSyncStatus("載入雲端失敗"); alert("載入失敗：" + e.message);
+        console.error(e);
+        updateSyncStatus("載入雲端失敗");
+        alert("載入失敗：" + e.message);
       }
     }
 
-    function resetDefault(){ if(!confirm("要還原成預設行程嗎？")) return; state.days = JSON.parse(JSON.stringify(defaultTripDays)); saveLocalState(); renderDays(); }
-    function toggleEdit(){ state.isEditing = !state.isEditing; document.getElementById("toggleEditBtn").textContent = state.isEditing ? "完成編輯模式" : "進入編輯模式"; renderDays(); }
+    function resetDefault(){
+      if(!confirm("要還原成預設行程嗎？")) return;
+      state.days = JSON.parse(JSON.stringify(defaultTripDays));
+      saveLocalState();
+      renderDays();
+    }
 
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', ()=> {
+    function toggleEdit(){
+      state.isEditing = !state.isEditing;
+      document.getElementById("toggleEditBtn").textContent = state.isEditing ? "完成編輯模式" : "進入編輯模式";
+      renderDays();
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => {
       const target = btn.dataset.tab;
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b===btn));
-      document.querySelectorAll('[data-tab-panel]').forEach(panel => panel.classList.toggle('active', panel.dataset.tabPanel===target));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('[data-tab-panel]').forEach(panel => panel.classList.toggle('active', panel.dataset.tabPanel === target));
     }));
 
     document.getElementById("toggleEditBtn").addEventListener("click", toggleEdit);
@@ -593,11 +726,18 @@
     document.getElementById("resetDefaultBtn").addEventListener("click", resetDefault);
 
     function saveNotes(){
-      const data = { car: document.getElementById('note-car').value, hotel: document.getElementById('note-hotel').value, misc: document.getElementById('note-misc').value };
-      localStorage.setItem(NOTES_KEY, JSON.stringify(data)); alert("備註已儲存");
+      const data = {
+        car: document.getElementById('note-car').value,
+        hotel: document.getElementById('note-hotel').value,
+        misc: document.getElementById('note-misc').value
+      };
+      localStorage.setItem(NOTES_KEY, JSON.stringify(data));
+      alert("備註已儲存");
     }
+
     function loadNotes(){
-      const raw = localStorage.getItem(NOTES_KEY); if(!raw) return;
+      const raw = localStorage.getItem(NOTES_KEY);
+      if(!raw) return;
       try{
         const data = JSON.parse(raw);
         document.getElementById('note-car').value = data.car || '';
@@ -605,26 +745,46 @@
         document.getElementById('note-misc').value = data.misc || '';
       }catch(e){}
     }
+
     document.getElementById("saveNotesBtn").addEventListener("click", saveNotes);
 
     function getBudget(){ return JSON.parse(localStorage.getItem(BUDGET_KEY) || '[]'); }
     function setBudget(items){ localStorage.setItem(BUDGET_KEY, JSON.stringify(items)); renderBudget(); }
+
     function addBudgetItem(){
       const item = document.getElementById('budget-item').value.trim();
       const amount = Number(document.getElementById('budget-amount').value);
       const category = document.getElementById('budget-category').value;
       if(!item || !amount){ alert("請先填項目與金額"); return; }
-      const items = getBudget(); items.unshift({ item, amount, category, ts: Date.now() }); setBudget(items);
-      document.getElementById('budget-item').value = ''; document.getElementById('budget-amount').value = '';
+      const items = getBudget();
+      items.unshift({ item, amount, category, ts: Date.now() });
+      setBudget(items);
+      document.getElementById('budget-item').value = '';
+      document.getElementById('budget-amount').value = '';
     }
-    function clearBudget(){ if(confirm("要清空所有記帳資料嗎？")){ localStorage.removeItem(BUDGET_KEY); renderBudget(); } }
-    function deleteBudget(ts){ const items = getBudget().filter(x => x.ts !== ts); setBudget(items); }
+
+    function clearBudget(){
+      if(confirm("要清空所有記帳資料嗎？")){
+        localStorage.removeItem(BUDGET_KEY);
+        renderBudget();
+      }
+    }
+
+    function deleteBudget(ts){
+      const items = getBudget().filter(x => x.ts !== ts);
+      setBudget(items);
+    }
+
     window.deleteBudget = deleteBudget;
 
     function renderBudget(){
-      const items = getBudget(); const box = document.getElementById("budget-list");
+      const items = getBudget();
+      const box = document.getElementById("budget-list");
       document.getElementById("budget-total").textContent = "¥" + items.reduce((sum, x) => sum + Number(x.amount), 0).toLocaleString();
-      if(!items.length){ box.innerHTML = '<div class="empty">還沒有記帳資料，先新增第一筆吧。</div>'; return; }
+      if(!items.length){
+        box.innerHTML = '<div class="empty">還沒有記帳資料，先新增第一筆吧。</div>';
+        return;
+      }
       let html = "";
       items.forEach(x => {
         html += '<div class="item-card" style="margin-bottom:10px"><div class="item-type">' + x.category + '</div><div class="item-title">' + x.item + '</div><div class="item-desc">¥' + Number(x.amount).toLocaleString() + '</div><div class="action-row"><button class="btn secondary" onclick="window.deleteBudget(' + x.ts + ')">刪除</button></div></div>';
@@ -636,6 +796,7 @@
     document.getElementById("clearBudgetBtn").addEventListener("click", clearBudget);
 
     loadLocalState();
+    state.days = normalizeLoadedDays(state.days);
     loadNotes();
     renderDays();
     renderBudget();
@@ -643,3 +804,4 @@
   </script>
 </body>
 </html>
+
