@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>玥玥的第一次四國冒險之旅｜2.2</title>
+  <title>玥玥的第一次四國冒險之旅｜2.3</title>
   <meta name="theme-color" content="#eef8f7" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -45,78 +45,45 @@
       url('https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=80') center/cover;
       border-bottom:1px solid rgba(255,255,255,.4)
     }
-    .eyebrow{
-      font-size:10px;letter-spacing:.14em;color:var(--brand);font-weight:800
-    }
-    h1{
-      margin:4px 0 2px;font-size:20px;line-height:1.2;letter-spacing:-.02em
-    }
-    .sub{
-      font-size:12px;color:var(--muted);line-height:1.5
-    }
-    .hero-actions,.toolbar{
-      display:flex;gap:8px;overflow:auto;padding-bottom:2px
-    }
-    .hero-actions{margin-top:10px}
-    .toolbar{margin-top:8px}
+    .eyebrow{font-size:10px;letter-spacing:.14em;color:var(--brand);font-weight:800}
+    h1{margin:4px 0 2px;font-size:20px;line-height:1.2;letter-spacing:-.02em}
+    .sub{font-size:12px;color:var(--muted);line-height:1.5}
+    .hero-actions,.toolbar{display:flex;gap:8px;overflow:auto;padding-bottom:2px}
+    .hero-actions{margin-top:10px}.toolbar{margin-top:8px}
     .pill{
-      white-space:nowrap;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.88);
-      border-radius:999px;
-      padding:8px 12px;
-      font-size:12px;
-      font-weight:800
+      white-space:nowrap;border:1px solid var(--line);background:rgba(255,255,255,.88);
+      border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800
     }
     .pill.brand{background:var(--brand-dark);color:#fff;border-color:var(--brand-dark)}
     .pill.good{background:#edf9f0;color:var(--good);border-color:#c6efcf}
     .pill.warn{background:#fff8e6;color:var(--warn);border-color:#f4df9b}
     .banner{
-      margin:10px 14px 0;
-      padding:10px 12px;
-      background:#f8fffe;
-      border:1px solid #d7efea;
-      border-radius:14px;
-      font-size:12px;
-      line-height:1.55
+      margin:10px 14px 0;padding:10px 12px;background:#f8fffe;border:1px solid #d7efea;
+      border-radius:14px;font-size:12px;line-height:1.55
     }
     .section{padding:14px}
     .section h2{margin:0 0 8px;font-size:18px}
     .hint{font-size:13px;color:var(--muted);margin-bottom:10px}
     .stack{display:grid;gap:14px}
     .day-card{
-      background:var(--paper);
-      border:1px solid var(--line);
-      border-radius:22px;
-      overflow:hidden;
-      box-shadow:var(--shadow)
+      background:var(--paper);border:1px solid var(--line);border-radius:22px;
+      overflow:hidden;box-shadow:var(--shadow)
     }
     .day-cover{
-      position:relative;
-      padding:14px;
-      min-height:150px;
-      color:#fff;
-      background-size:cover;
-      background-position:center
+      position:relative;padding:14px;min-height:150px;color:#fff;
+      background-size:cover;background-position:center
     }
     .day-cover::after{
-      content:"";
-      position:absolute;inset:0;
+      content:"";position:absolute;inset:0;
       background:linear-gradient(180deg,rgba(12,41,59,.12),rgba(12,41,59,.64))
     }
-    .day-cover-inner{
-      position:relative;z-index:1;
-      display:flex;flex-direction:column;gap:9px
-    }
+    .day-cover-inner{position:relative;z-index:1;display:flex;flex-direction:column;gap:9px}
     .day-no{font-size:11px;font-weight:800;letter-spacing:.12em}
     .day-title{font-size:22px;font-weight:800;line-height:1.15}
     .day-route{font-size:13px;line-height:1.45;opacity:.96}
     .weather{
-      display:flex;align-items:center;gap:10px;
-      background:rgba(255,255,255,.16);
-      border-radius:14px;
-      padding:10px 12px;
-      backdrop-filter:blur(10px);
+      display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.16);
+      border-radius:14px;padding:10px 12px;backdrop-filter:blur(10px);
       width:max-content;max-width:100%
     }
     .weather .temp{font-size:20px;font-weight:800}
@@ -124,11 +91,8 @@
     .day-body{padding:14px}
     .meta-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
     .tag{
-      display:inline-flex;align-items:center;gap:6px;
-      padding:7px 10px;border-radius:999px;
-      font-size:12px;font-weight:800;
-      border:1px solid var(--line);
-      background:#f7fbfb
+      display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;
+      font-size:12px;font-weight:800;border:1px solid var(--line);background:#f7fbfb
     }
     .food{background:var(--food)}
     .menu{background:var(--menu)}
@@ -136,54 +100,25 @@
     .book{background:var(--book)}
     .drive{background:var(--drive)}
     .story{
-      border-left:4px solid var(--accent);
-      padding:10px 12px;
-      background:#fbfdfd;
-      border-radius:12px;
-      font-size:13px;
-      line-height:1.7;
-      color:#4b5563
+      border-left:4px solid var(--accent);padding:10px 12px;background:#fbfdfd;border-radius:12px;
+      font-size:13px;line-height:1.7;color:#4b5563
     }
     .grid{display:grid;gap:12px;margin-top:12px}
     .item-card,.transport-card{
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:14px;
-      background:#fff
+      border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff
     }
     .item-photo{
-      width:100%;
-      aspect-ratio:16/9;
-      border-radius:14px;
-      object-fit:cover;
-      background:#eef4f5;
-      margin-bottom:10px
+      width:100%;aspect-ratio:16/9;border-radius:14px;object-fit:cover;
+      background:#eef4f5;margin-bottom:10px
     }
     .item-type{
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:.12em;
-      color:var(--brand-dark);
-      text-transform:uppercase
+      font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--brand-dark);text-transform:uppercase
     }
-    .item-title{
-      font-size:16px;
-      font-weight:800;
-      line-height:1.35;
-      margin-top:2px
-    }
-    .item-desc{
-      font-size:13px;
-      color:var(--muted);
-      line-height:1.65;
-      margin-top:8px
-    }
-    .action-row{
-      display:flex;gap:8px;flex-wrap:wrap;margin-top:10px
-    }
+    .item-title{font-size:16px;font-weight:800;line-height:1.35;margin-top:2px}
+    .item-desc{font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px}
+    .action-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
     .btn{
-      appearance:none;border:none;border-radius:12px;
-      padding:10px 12px;font-size:13px;font-weight:800;cursor:pointer
+      appearance:none;border:none;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:800;cursor:pointer
     }
     .btn.primary{background:var(--brand-dark);color:#fff}
     .btn.secondary{background:#f3f8f8;color:var(--ink);border:1px solid var(--line)}
@@ -192,22 +127,15 @@
     .transport-card{background:#f8fcfc}
     .transport-line{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
     .transport-main{font-size:14px;font-weight:800;color:var(--ink);margin-top:4px}
-    .sync-box{
-      margin-top:10px;padding:12px 14px;border-radius:16px;border:1px solid var(--line);background:#fff
-    }
+    .sync-box{margin-top:10px;padding:12px 14px;border-radius:16px;border:1px solid var(--line);background:#fff}
     .sync-status{font-size:13px;color:var(--muted);line-height:1.6}
     .split{display:grid;gap:12px}
     .info-card{
-      background:var(--paper);
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:16px;
-      box-shadow:var(--shadow)
+      background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)
     }
     .small-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
     .small-list li{
-      display:flex;justify-content:space-between;gap:10px;
-      padding:10px 0;border-top:1px dashed var(--line);font-size:14px
+      display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px dashed var(--line);font-size:14px
     }
     .small-list li:first-child{border-top:none;padding-top:0}
     .field{display:grid;gap:6px}
@@ -222,21 +150,15 @@
     .footer-space{height:18px}
     .tabbar{
       position:fixed;left:50%;transform:translateX(-50%);bottom:0;max-width:620px;width:100%;
-      padding:10px 12px var(--safe-bottom);
-      z-index:60;
+      padding:10px 12px var(--safe-bottom);z-index:60;
       background:linear-gradient(180deg,rgba(238,248,247,0),rgba(238,248,247,.92) 25%,rgba(238,248,247,1))
     }
     .tabbar-inner{
-      display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
-      background:rgba(255,255,255,.94);
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:8px;
-      box-shadow:var(--shadow)
+      display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:rgba(255,255,255,.94);
+      border:1px solid var(--line);border-radius:22px;padding:8px;box-shadow:var(--shadow)
     }
     .tab-btn{
-      border:none;background:transparent;border-radius:16px;
-      padding:10px 8px;font-size:12px;font-weight:800;color:var(--muted)
+      border:none;background:transparent;border-radius:16px;padding:10px 8px;font-size:12px;font-weight:800;color:var(--muted)
     }
     .tab-btn.active{background:#edf7f6;color:var(--brand-dark)}
     [data-tab-panel]{display:none}
@@ -251,9 +173,9 @@
 <body>
   <div class="app">
     <header class="hero">
-      <div class="eyebrow">TRAVEL MINI APP · AUTO PHOTOS · FIREBASE SYNC</div>
+      <div class="eyebrow">TRAVEL MINI APP · FIXED PHOTO LIBRARY · FIXED COORDS</div>
       <h1>玥玥的第一次四國冒險之旅</h1>
-      <div class="sub">海島清新藍綠風格，景點自動配圖、手機版排序、Firebase 同步、點對點車程預估。</div>
+      <div class="sub">固定景點圖庫 + 固定座標版車程估算，圖片更穩、車程更準。</div>
       <div class="hero-actions">
         <a class="pill" href="#tab-plan">行程總覽</a>
         <a class="pill" href="#tab-pocket">航班/住宿</a>
@@ -268,13 +190,13 @@
     </header>
 
     <div class="banner">
-      這版新增 <b>Wikimedia Commons 景點自動配圖</b>。若抓不到圖，會自動顯示備援圖。
+      這版改成 <b>固定景點圖庫</b> 與 <b>固定座標車程</b>。常用景點不再出怪圖，車程估算成功率會高很多。
     </div>
 
     <main id="tab-plan" data-tab-panel="plan" class="active">
       <section class="section">
         <h2>每日行程</h2>
-        <div class="hint">編輯模式開啟後，可用上移 / 下移調整順序。景點照片會自動生成。</div>
+        <div class="hint">編輯模式開啟後，可用上移 / 下移調整順序。點與點之間的車程採固定座標估算。</div>
         <div class="sync-box"><div class="sync-status" id="syncStatus">同步狀態：尚未初始化</div></div>
         <div class="stack" id="dayCards"></div>
         <div class="action-row" style="margin-top:12px">
@@ -298,6 +220,17 @@
               <li><span><b>姬路穴子飯</b></span><span class="tag food">必吃</span></li>
             </ul>
           </div>
+
+          <div class="info-card">
+            <h3>必買伴手禮</h3>
+            <ul class="small-list">
+              <li><span><b>淡路島洋蔥商品</b></span><span class="tag buy">必買</span></li>
+              <li><span><b>鳴門金時相關點心</b></span><span class="tag buy">必買</span></li>
+              <li><span><b>倉敷帆布 / 丹寧雜貨</b></span><span class="tag buy">必買</span></li>
+              <li><span><b>岡山白桃 / 葡萄系伴手禮</b></span><span class="tag buy">必買</span></li>
+            </ul>
+          </div>
+
           <div class="info-card">
             <h3>重要預約代號</h3>
             <ul class="small-list">
@@ -399,13 +332,73 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const DOC_PATH = ["tripApps", "yueyue-shikoku-trip-v3"];
-    const LOCAL_KEY = "trip_editor_state_v3";
-    const NOTES_KEY = "trip_notes_v5";
-    const BUDGET_KEY = "trip_budget_v5";
-    const ROUTE_CACHE_KEY = "trip_route_cache_v2";
-    const IMAGE_CACHE_KEY = "trip_image_cache_v1";
+    const DOC_PATH = ["tripApps", "yueyue-shikoku-trip-v4"];
+    const LOCAL_KEY = "trip_editor_state_v4";
+    const NOTES_KEY = "trip_notes_v6";
+    const BUDGET_KEY = "trip_budget_v6";
+
     const DEFAULT_FALLBACK_IMAGE = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80";
+
+    const SPOT_IMAGE_MAP = {
+      "Kansai International Airport Rent a Car":"https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+      "關西機場":"https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+      "明石海峽公園":"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+      "二次元之森":"https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80",
+      "二次元之森（蠟筆小新、哥吉拉）":"https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80",
+      "淡路花さじき":"https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=1200&q=80",
+      "うずの丘 大鳴門橋記念館":"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80",
+      "道之驛うずしお in うずまちテラス":"https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=1200&q=80",
+      "大塚國際美術館":"https://images.unsplash.com/photo-1501612780327-45045538702b?auto=format&fit=crop&w=1200&q=80",
+      "道之驛くるくるなると":"https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=1200&q=80",
+      "鳴門觀潮船":"https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=80",
+      "阿波舞會館":"https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1200&q=80",
+      "四國水族館":"https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80",
+      "栗林公園":"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
+      "高松讚岐烏龍麵":"https://images.unsplash.com/photo-1617093727343-374698b1b08d?auto=format&fit=crop&w=1200&q=80",
+      "琴平溫泉":"https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=80",
+      "鷲羽山展望台":"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80",
+      "倉敷美觀地區":"https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80",
+      "岡山城":"https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1200&q=80",
+      "岡山後樂園":"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
+      "吉備津神社":"https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1200&q=80",
+      "姬路城":"https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1200&q=80",
+      "姬路市立動物園":"https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=1200&q=80",
+      "姬路 穴子飯":"https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+      "神戶麵包超人博物館":"https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80",
+      "Kobe Harborland":"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+      "Kansai International Airport":"https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80"
+    };
+
+    const SPOT_COORDS = {
+      "Kansai International Airport Rent a Car": { lat: 34.4361, lon: 135.2442 },
+      "關西機場": { lat: 34.4347, lon: 135.2440 },
+      "明石海峽公園": { lat: 34.6438, lon: 134.9978 },
+      "二次元之森": { lat: 34.5818, lon: 135.0123 },
+      "二次元之森（蠟筆小新、哥吉拉）": { lat: 34.5818, lon: 135.0123 },
+      "淡路花さじき": { lat: 34.5934, lon: 135.0033 },
+      "うずの丘 大鳴門橋記念館": { lat: 34.2587, lon: 134.7152 },
+      "道之驛うずしお in うずまちテラス": { lat: 34.2598, lon: 134.7140 },
+      "大塚國際美術館": { lat: 34.2381, lon: 134.6544 },
+      "道之驛くるくるなると": { lat: 34.1775, lon: 134.6082 },
+      "鳴門觀潮船": { lat: 34.2468, lon: 134.6515 },
+      "阿波舞會館": { lat: 34.0672, lon: 134.5548 },
+      "四國水族館": { lat: 34.3117, lon: 133.8236 },
+      "栗林公園": { lat: 34.3248, lon: 134.0435 },
+      "高松讚岐烏龍麵": { lat: 34.3428, lon: 134.0466 },
+      "琴平溫泉": { lat: 34.1911, lon: 133.8215 },
+      "鷲羽山展望台": { lat: 34.4305, lon: 133.8079 },
+      "倉敷美觀地區": { lat: 34.5978, lon: 133.7720 },
+      "岡山城": { lat: 34.6655, lon: 133.9350 },
+      "岡山後樂園": { lat: 34.6662, lon: 133.9345 },
+      "吉備津神社": { lat: 34.6916, lon: 133.8544 },
+      "姬路城": { lat: 34.8394, lon: 134.6939 },
+      "姬路市立動物園": { lat: 34.8383, lon: 134.6927 },
+      "姬路 穴子飯": { lat: 34.8290, lon: 134.6907 },
+      "神戶麵包超人博物館": { lat: 34.6790, lon: 135.1877 },
+      "Kobe Harborland": { lat: 34.6797, lon: 135.1834 },
+      "Kansai International Airport": { lat: 34.4347, lon: 135.2440 },
+      "琴平溫泉（一泊二食）": { lat: 34.1911, lon: 133.8215 }
+    };
 
     const defaultTripDays = [
       {
@@ -433,7 +426,7 @@
         story:"只玩蠟筆小新與哥吉拉，所以傍晚再接南淡路代表點是成立的。",
         tags:[{label:"淡路島 1.5 天核心",class:"drive"},{label:"親子日",class:""}],
         items:[
-          {type:"景點",title:"二次元之森（蠟筆小新、哥吉拉）",desc:"只玩兩區，時間比較可控。",place:"二次元之森",map:"https://www.google.com/maps/search/?api=1&query=%E4%BA%8C%E6%AC%A1%E5%85%83%E4%B9%8B%E6%A3%AE",chips:[{label:"門票",class:"book"}]},
+          {type:"景點",title:"二次元之森（蠟筆小新、哥吉拉）",desc:"只玩兩區，時間比較可控。",place:"二次元之森（蠟筆小新、哥吉拉）",map:"https://www.google.com/maps/search/?api=1&query=%E4%BA%8C%E6%AC%A1%E5%85%83%E4%B9%8B%E6%A3%AE",chips:[{label:"門票",class:"book"}]},
           {type:"景點",title:"淡路花さじき",desc:"高地花海與開闊景觀，拍照很值得。",place:"淡路花さじき",map:"https://www.google.com/maps/search/?api=1&query=%E6%B7%A1%E8%B7%AF%E8%8A%B1%E3%81%95%E3%81%98%E3%81%8D",chips:[{label:"風景點",class:"menu"}]},
           {type:"景點",title:"うずの丘",desc:"南淡路代表觀景與洋蔥打卡地標。",place:"うずの丘 大鳴門橋記念館",map:"https://www.google.com/maps/search/?api=1&query=%E3%81%86%E3%81%9A%E3%81%AE%E4%B8%98+%E5%A4%A7%E9%B3%B4%E9%96%80%E6%A9%8B%E8%A8%98%E5%BF%B5%E9%A4%A8",chips:[{label:"洋蔥打卡",class:"menu"},{label:"伴手禮",class:"buy"}]},
           {type:"餐廳",title:"道之驛うずしお in うずまちテラス",desc:"買淡路洋蔥土產、吃洋蔥漢堡。",place:"道之驛うずしお in うずまちテラス",map:"https://www.google.com/maps/search/?api=1&query=%E9%81%93%E4%B9%8B%E9%A9%9B+%E3%81%86%E3%81%9A%E3%81%97%E3%81%8A+in+%E3%81%86%E3%81%9A%E3%81%BE%E3%81%A1%E3%83%86%E3%83%A9%E3%82%B9",chips:[{label:"洋蔥漢堡",class:"food"},{label:"必買",class:"buy"}]}
@@ -468,14 +461,12 @@
           {type:"景點",title:"四國水族館",desc:"香川親子主力。",place:"四國水族館",map:"https://www.google.com/maps/search/?api=1&query=%E5%9B%9B%E5%9C%8B%E6%B0%B4%E6%97%8F%E9%A4%A8",chips:[{label:"親子",class:""}]},
           {type:"景點",title:"栗林公園",desc:"香川代表性園林。",place:"栗林公園",map:"https://www.google.com/maps/search/?api=1&query=%E6%A0%97%E6%9E%97%E5%85%AC%E5%9C%92",chips:[{label:"風景點",class:"menu"}]},
           {type:"餐廳",title:"讚岐烏龍麵",desc:"香川必吃正事。",place:"高松讚岐烏龍麵",map:"https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E6%9D%BE+%E8%AE%9A%E5%B2%90%E7%83%8F%E9%BE%8D%E9%BA%B5",chips:[{label:"必吃",class:"food"},{label:"冷烏龍",class:"menu"}]},
-          {type:"交通",title:"入住琴平溫泉（一泊二食）",desc:"晚上重點是舒服。",place:"琴平溫泉",map:"https://www.google.com/maps/search/?api=1&query=%E7%90%B4%E5%B9%B3%E6%BA%AB%E6%B3%89",chips:[{label:"旅館",class:"book"}]}
+          {type:"交通",title:"入住琴平溫泉（一泊二食）",desc:"晚上重點是舒服。",place:"琴平溫泉（一泊二食）",map:"https://www.google.com/maps/search/?api=1&query=%E7%90%B4%E5%B9%B3%E6%BA%AB%E6%B3%89",chips:[{label:"旅館",class:"book"}]}
         ]
       }
     ];
 
     let state = { days: JSON.parse(JSON.stringify(defaultTripDays)), isEditing: false };
-    let routeCache = JSON.parse(localStorage.getItem(ROUTE_CACHE_KEY) || "{}");
-    let imageCache = JSON.parse(localStorage.getItem(IMAGE_CACHE_KEY) || "{}");
 
     function updateSyncStatus(text){
       document.getElementById("syncStatus").textContent = "同步狀態：" + text;
@@ -491,9 +482,6 @@
         try{ state.days = JSON.parse(raw); }catch(e){}
       }
     }
-
-    function saveRouteCache(){ localStorage.setItem(ROUTE_CACHE_KEY, JSON.stringify(routeCache)); }
-    function saveImageCache(){ localStorage.setItem(IMAGE_CACHE_KEY, JSON.stringify(imageCache)); }
 
     function weatherText(code){
       const map={0:'晴朗',1:'大致晴',2:'局部多雲',3:'陰天',45:'有霧',48:'霧凇',51:'毛毛雨',53:'小雨',55:'細雨',61:'小雨',63:'降雨',65:'大雨',71:'小雪',73:'下雪',75:'大雪',80:'陣雨',81:'強陣雨',82:'豪雨',95:'雷雨'};
@@ -555,6 +543,10 @@
       renderDays();
     }
 
+    function getSpotImage(item){
+      return SPOT_IMAGE_MAP[item.place] || SPOT_IMAGE_MAP[item.title] || DEFAULT_FALLBACK_IMAGE;
+    }
+
     function renderDays(){
       const wrap = document.getElementById("dayCards");
       let html = "";
@@ -570,7 +562,7 @@
 
           itemsHtml += `
             <div class="item-card">
-              <img class="item-photo" id="photo-${dayIndex}-${itemIndex}" src="${DEFAULT_FALLBACK_IMAGE}" alt="${item.title || ''}">
+              <img class="item-photo" src="${getSpotImage(item)}" alt="${escapeAttr(item.title || '')}">
               <div class="item-type">${item.type || "景點"}</div>
               <div class="item-title">${item.title || ""}</div>
               <div class="item-desc">${item.desc || ""}</div>
@@ -589,10 +581,11 @@
           `;
 
           if(itemIndex < d.items.length - 1){
+            const transportId = `transport-${dayIndex}-${itemIndex}`;
             itemsHtml += `
-              <div class="transport-card" id="transport-${dayIndex}-${itemIndex}">
+              <div class="transport-card" id="${transportId}">
                 <div class="transport-line">🚗 點與點之間預估車程</div>
-                <div class="transport-main">估算中…</div>
+                <div class="transport-main">${getDriveEstimateText(d.items[itemIndex], d.items[itemIndex+1])}</div>
               </div>
             `;
           }
@@ -633,8 +626,40 @@
       wrap.innerHTML = html;
       bindEvents();
       state.days.forEach(fetchWeatherForDay);
-      renderAllTransportTimes();
-      renderAllItemImages();
+    }
+
+    function haversineKm(lat1, lon1, lat2, lon2){
+      const R = 6371;
+      const toRad = deg => deg * Math.PI / 180;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a =
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    }
+
+    function getCoords(item){
+      return SPOT_COORDS[item.place] || SPOT_COORDS[item.title] || null;
+    }
+
+    function getDriveEstimateText(itemA, itemB){
+      const a = getCoords(itemA);
+      const b = getCoords(itemB);
+
+      if(!a || !b) return "暫時無法估算，請補充固定座標";
+
+      const straightKm = haversineKm(a.lat, a.lon, b.lat, b.lon);
+      const roadKm = straightKm * 1.35;
+
+      let avgSpeed = 38;
+      if(roadKm > 40) avgSpeed = 55;
+      if(roadKm > 80) avgSpeed = 65;
+
+      const minutes = Math.max(5, Math.round((roadKm / avgSpeed) * 60));
+      return `預估車程 ${minutes} 分｜約 ${roadKm.toFixed(1)} km`;
     }
 
     function bindEvents(){
@@ -689,13 +714,15 @@
         tags:[{label:"新行程",class:"book"}],
         items:[]
       });
-      saveLocalState(); renderDays();
+      saveLocalState();
+      renderDays();
     }
 
     function deleteDay(dayIndex){
       if(!confirm("確定要刪除這一天嗎？")) return;
       state.days.splice(dayIndex, 1);
-      saveLocalState(); renderDays();
+      saveLocalState();
+      renderDays();
     }
 
     function addItem(dayIndex){
@@ -705,7 +732,8 @@
       const place = prompt("地點名稱", ""); if(place === null) return;
       const map = prompt("Google Maps 導航連結", "https://www.google.com/maps/search/?api=1&query="); if(map === null) return;
       state.days[dayIndex].items.push({ type, title, desc, place, map, chips:[] });
-      saveLocalState(); renderDays();
+      saveLocalState();
+      renderDays();
     }
 
     function editItem(dayIndex, itemIndex){
@@ -716,13 +744,15 @@
       const place = prompt("地點名稱", item.place || ""); if(place === null) return;
       const map = prompt("Google Maps 導航連結", item.map || ""); if(map === null) return;
       item.type = type; item.title = title; item.desc = desc; item.place = place; item.map = map;
-      saveLocalState(); renderDays();
+      saveLocalState();
+      renderDays();
     }
 
     function deleteItem(dayIndex, itemIndex){
       if(!confirm("確定要刪除這張卡片嗎？")) return;
       state.days[dayIndex].items.splice(itemIndex, 1);
-      saveLocalState(); renderDays();
+      saveLocalState();
+      renderDays();
     }
 
     async function fetchWeatherForDay(day, idx){
@@ -738,119 +768,6 @@
         weatherBox.innerHTML = '<div class="temp">' + Math.round(w.current.temperature_2m) + '°</div><div class="meta">' + weatherText(w.current.weather_code) + '<br><span>' + g.name + '</span></div>';
       }catch(e){
         weatherBox.innerHTML = '<div class="temp">--°</div><div class="meta">天氣載入失敗<br><span>' + day.locationForWeather + '</span></div>';
-      }
-    }
-
-    async function geocodePlace(place){
-      const key = "geo::" + place;
-      if(routeCache[key]) return routeCache[key];
-      const res = await fetch("https://geocoding-api.open-meteo.com/v1/search?name=" + encodeURIComponent(place) + "&count=1&language=zh&format=json");
-      const data = await res.json();
-      if(!data.results || !data.results[0]) throw new Error("找不到座標：" + place);
-      const result = { lat: data.results[0].latitude, lon: data.results[0].longitude };
-      routeCache[key] = result;
-      saveRouteCache();
-      return result;
-    }
-
-    function haversineKm(lat1, lon1, lat2, lon2){
-      const R = 6371;
-      const toRad = deg => deg * Math.PI / 180;
-      const dLat = toRad(lat2 - lat1);
-      const dLon = toRad(lon2 - lon1);
-      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-        Math.sin(dLon/2) * Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return R * c;
-    }
-
-    async function getDriveEstimate(fromPlace, toPlace){
-      const key = "driveEstimate::" + fromPlace + "::" + toPlace;
-      if(routeCache[key]) return routeCache[key];
-
-      const from = await geocodePlace(fromPlace);
-      const to = await geocodePlace(toPlace);
-
-      const straightKm = haversineKm(from.lat, from.lon, to.lat, to.lon);
-      const roadKm = straightKm * 1.35;
-      let avgSpeed = 38;
-      if(roadKm > 40) avgSpeed = 55;
-      if(roadKm > 80) avgSpeed = 65;
-
-      const result = {
-        minutes: Math.max(5, Math.round((roadKm / avgSpeed) * 60)),
-        km: roadKm.toFixed(1)
-      };
-
-      routeCache[key] = result;
-      saveRouteCache();
-      return result;
-    }
-
-    async function renderAllTransportTimes(){
-      for(let dayIndex = 0; dayIndex < state.days.length; dayIndex++){
-        const day = state.days[dayIndex];
-        for(let itemIndex = 0; itemIndex < day.items.length - 1; itemIndex++){
-          const current = day.items[itemIndex];
-          const next = day.items[itemIndex + 1];
-          const box = document.getElementById("transport-" + dayIndex + "-" + itemIndex);
-          if(!box) continue;
-          if(!current.place || !next.place){
-            box.querySelector('.transport-main').textContent = "缺少地點名稱，無法估算";
-            continue;
-          }
-          try{
-            const result = await getDriveEstimate(current.place, next.place);
-            box.querySelector('.transport-main').textContent = "預估車程 " + result.minutes + " 分｜約 " + result.km + " km";
-          }catch(e){
-            box.querySelector('.transport-main').textContent = "暫時無法估算，請檢查地點名稱";
-          }
-        }
-      }
-    }
-
-    async function fetchWikimediaImage(title){
-      const key = "img::" + title;
-      if(imageCache[key]) return imageCache[key];
-
-      try{
-        const api = "https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=" +
-          encodeURIComponent(title) +
-          "&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&origin=*";
-        const res = await fetch(api);
-        const data = await res.json();
-
-        if(data.query && data.query.pages){
-          const pages = Object.values(data.query.pages);
-          if(pages[0] && pages[0].imageinfo && pages[0].imageinfo[0] && pages[0].imageinfo[0].thumburl){
-            imageCache[key] = pages[0].imageinfo[0].thumburl;
-            saveImageCache();
-            return imageCache[key];
-          }
-          if(pages[0] && pages[0].imageinfo && pages[0].imageinfo[0] && pages[0].imageinfo[0].url){
-            imageCache[key] = pages[0].imageinfo[0].url;
-            saveImageCache();
-            return imageCache[key];
-          }
-        }
-      }catch(e){}
-
-      imageCache[key] = DEFAULT_FALLBACK_IMAGE;
-      saveImageCache();
-      return DEFAULT_FALLBACK_IMAGE;
-    }
-
-    async function renderAllItemImages(){
-      for(let dayIndex = 0; dayIndex < state.days.length; dayIndex++){
-        for(let itemIndex = 0; itemIndex < state.days[dayIndex].items.length; itemIndex++){
-          const item = state.days[dayIndex].items[itemIndex];
-          const img = document.getElementById("photo-" + dayIndex + "-" + itemIndex);
-          if(!img) continue;
-          const keyword = item.title || item.place || "Japan travel";
-          const imageUrl = await fetchWikimediaImage(keyword);
-          img.src = imageUrl || DEFAULT_FALLBACK_IMAGE;
-        }
       }
     }
 
