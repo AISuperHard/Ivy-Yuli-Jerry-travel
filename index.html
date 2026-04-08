@@ -35,28 +35,39 @@
       margin:0;padding:0;background:var(--bg);color:var(--ink);
       font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang TC","Noto Sans TC","Segoe UI",sans-serif
     }
+    html{scroll-behavior:smooth}
     body{padding-bottom:96px}
     a{text-decoration:none;color:inherit}
-    button,input,select{font:inherit}
+    button,input,select,textarea{font:inherit}
     .app{max-width:620px;margin:0 auto;min-height:100vh}
+
     .hero{
+      position:sticky;
+      top:0;
+      z-index:100;
       padding:var(--safe-top) 14px 12px;
-      background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.82)),
+      background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.88)),
       url('https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=80') center/cover;
-      border-bottom:1px solid rgba(255,255,255,.4)
+      border-bottom:1px solid rgba(255,255,255,.45);
+      backdrop-filter:blur(14px);
     }
     .eyebrow{font-size:10px;letter-spacing:.14em;color:var(--brand);font-weight:800}
     h1{margin:4px 0 2px;font-size:20px;line-height:1.2;letter-spacing:-.02em}
     .sub{font-size:12px;color:var(--muted);line-height:1.5}
-    .hero-actions,.toolbar{display:flex;gap:8px;overflow:auto;padding-bottom:2px}
-    .hero-actions{margin-top:10px}.toolbar{margin-top:8px}
-    .pill{
+    .hero-actions,.toolbar,.day-jump-bar{display:flex;gap:8px;overflow:auto;padding-bottom:2px}
+    .hero-actions{margin-top:10px}
+    .toolbar{margin-top:8px}
+    .day-jump-bar{margin-top:10px}
+    .pill,.day-jump-btn{
       white-space:nowrap;border:1px solid var(--line);background:rgba(255,255,255,.88);
       border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800
     }
     .pill.brand{background:var(--brand-dark);color:#fff;border-color:var(--brand-dark)}
     .pill.good{background:#edf9f0;color:var(--good);border-color:#c6efcf}
     .pill.warn{background:#fff8e6;color:var(--warn);border-color:#f4df9b}
+    .day-jump-btn{cursor:pointer;color:var(--brand-dark)}
+    .day-jump-btn.active{background:var(--brand-dark);color:#fff;border-color:var(--brand-dark)}
+
     .banner{
       margin:10px 14px 0;padding:10px 12px;background:#f8fffe;border:1px solid #d7efea;
       border-radius:14px;font-size:12px;line-height:1.55
@@ -67,7 +78,8 @@
     .stack{display:grid;gap:14px}
     .day-card{
       background:var(--paper);border:1px solid var(--line);border-radius:22px;
-      overflow:hidden;box-shadow:var(--shadow)
+      overflow:hidden;box-shadow:var(--shadow);
+      scroll-margin-top: 240px;
     }
     .day-cover{
       position:relative;padding:14px;min-height:150px;color:#fff;
@@ -116,6 +128,13 @@
     }
     .item-title{font-size:16px;font-weight:800;line-height:1.35;margin-top:2px}
     .item-desc{font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px}
+    .item-hours{
+      margin-top:8px;font-size:12px;font-weight:800;color:var(--brand-dark);
+      background:#f4fbfb;border:1px solid var(--line);border-radius:10px;padding:8px 10px;
+    }
+    .item-note{
+      margin-top:8px;font-size:12px;color:var(--muted);line-height:1.5;
+    }
     .action-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
     .btn{
       appearance:none;border:none;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:800;cursor:pointer
@@ -140,7 +159,7 @@
     .small-list li:first-child{border-top:none;padding-top:0}
     .field{display:grid;gap:6px}
     .label{font-size:12px;color:var(--muted);font-weight:800}
-    input,select{
+    input,select,textarea{
       width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 14px;font-size:15px
     }
     .budget-row{display:grid;grid-template-columns:1.2fr .8fr .8fr auto;gap:8px;align-items:center}
@@ -173,9 +192,9 @@
 <body>
   <div class="app">
     <header class="hero">
-      <div class="eyebrow">TRAVEL MINI APP · FULL 8 DAYS · FIXED PHOTOS · FIXED COORDS</div>
+      <div class="eyebrow">TRAVEL MINI APP · STICKY HEADER · DAY JUMP · IMAGE URL</div>
       <h1>玥玥的第一次四國冒險之旅</h1>
-      <div class="sub">完整 8 天行程版。保留同步、排序、固定景點圖庫與固定座標車程估算。</div>
+      <div class="sub">完整 8 天版。支援表頭凍結、Day 快捷列、營業時間、自訂圖片網址、Firebase 同步與手機排序。</div>
       <div class="hero-actions">
         <a class="pill" href="#tab-plan">行程總覽</a>
         <a class="pill" href="#tab-pocket">航班/住宿</a>
@@ -187,16 +206,17 @@
         <button class="pill good" id="saveCloudBtn">同步到 Firebase</button>
         <button class="pill warn" id="reloadCloudBtn">載入雲端版本</button>
       </div>
+      <div class="day-jump-bar" id="dayJumpBar"></div>
     </header>
 
     <div class="banner">
-      這版已補回 <b>完整 8 天預設行程</b>。<b>還原預設行程</b> 會回到這份完整版本，不會只剩前半段。
+      這版新增：<b>表頭凍結</b>、<b>Day 快捷列</b>、<b>營業時間</b>、<b>小卡支援 image 網址</b>、<b>中文 / 漢字優先顯示</b>、<b>天氣地名英文短版</b>。
     </div>
 
     <main id="tab-plan" data-tab-panel="plan" class="active">
       <section class="section">
         <h2>每日行程</h2>
-        <div class="hint">編輯模式開啟後，可用上移 / 下移調整順序。點與點之間的車程採固定座標估算。</div>
+        <div class="hint">編輯模式開啟後，可用上移 / 下移調整順序。若小卡有填 image，會優先顯示該網址圖片。</div>
         <div class="sync-box"><div class="sync-status" id="syncStatus">同步狀態：尚未初始化</div></div>
         <div class="stack" id="dayCards"></div>
         <div class="action-row" style="margin-top:12px">
@@ -332,10 +352,10 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const DOC_PATH = ["tripApps", "yueyue-shikoku-trip-v8"];
-    const LOCAL_KEY = "trip_editor_state_v8";
-    const NOTES_KEY = "trip_notes_v8";
-    const BUDGET_KEY = "trip_budget_v8";
+    const DOC_PATH = ["tripApps", "yueyue-shikoku-trip-v9"];
+    const LOCAL_KEY = "trip_editor_state_v9";
+    const NOTES_KEY = "trip_notes_v9";
+    const BUDGET_KEY = "trip_budget_v9";
 
     const DEFAULT_FALLBACK_IMAGE = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80";
 
@@ -355,7 +375,8 @@
       "四國水族館":"https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80",
       "栗林公園":"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
       "高松讚岐烏龍麵":"https://images.unsplash.com/photo-1617093727343-374698b1b08d?auto=format&fit=crop&w=1200&q=80",
-      "琴平溫泉":"https://images.unsplash.com/photo-1519046904884-53103b34c4b4?auto=format&fit=crop&w=1200&q=80",
+      "琴平溫泉":"https://images.unsplash.com/photo-1519046904884-53103b34b260?auto=format&fit=crop&w=1200&q=80",
+      "琴平溫泉（一泊二食）":"https://images.unsplash.com/photo-1519046904884-53103b34b260?auto=format&fit=crop&w=1200&q=80",
       "鷲羽山展望台":"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80",
       "三井 OUTLET 倉敷":"https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80",
       "倉敷美觀地區":"https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80",
@@ -412,14 +433,14 @@
         date:"10/29（四）",
         title:"關西機場 → 淡路島北部",
         route:"KIX → 明石海峽公園 → 淡路島北部住宿",
-        locationForWeather:"Awaji, Hyogo, Japan",
+        locationForWeather:"Awaji",
         cover:"https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1400&q=80",
         story:"第一天不要貪心。明石海峽公園最適合接在入境與取車後，避免把抵達日玩成壓力測試。",
         tags:[{label:"抵達日",class:"drive"},{label:"公園型景點",class:""}],
         items:[
-          {type:"交通",title:"KIX 取車直奔淡路島",desc:"抵達日不加第二個正式景點。",place:"Kansai International Airport Rent a Car",map:"https://www.google.com/maps/search/?api=1&query=Kansai+International+Airport+Rent+a+Car",chips:[{label:"自駕",class:"drive"},{label:"租車訂單",class:"book"}]},
-          {type:"餐廳",title:"機場或沿路簡餐",desc:"第一天以效率優先，不用為了吃太多而壓縮節奏。",place:"關西機場",map:"https://www.google.com/maps/search/?api=1&query=%E9%97%9C%E8%A5%BF%E6%A9%9F%E5%A0%B4+%E9%A4%90%E5%BB%B3",chips:[{label:"先求穩",class:"food"}]},
-          {type:"景點",title:"明石海峽公園",desc:"大型花園與草地遊具型景點，適合先放電。",place:"明石海峽公園",map:"https://www.google.com/maps/search/?api=1&query=%E6%98%8E%E7%9F%B3%E6%B5%B7%E5%B3%BD%E5%85%AC%E5%9C%92",chips:[{label:"必看",class:""},{label:"草地放電",class:"menu"}]}
+          {type:"交通",title:"KIX 取車直奔淡路島",desc:"抵達日不加第二個正式景點。",place:"Kansai International Airport Rent a Car",hours:"依租車公司營業時間",note:"請確認取車櫃台營業時間",image:"",map:"https://www.google.com/maps/search/?api=1&query=Kansai+International+Airport+Rent+a+Car",chips:[{label:"自駕",class:"drive"},{label:"租車訂單",class:"book"}]},
+          {type:"餐廳",title:"機場或沿路簡餐",desc:"第一天以效率優先，不用為了吃太多而壓縮節奏。",place:"關西機場",hours:"依店鋪為準",note:"機場餐廳各自營業時間不同",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E9%97%9C%E8%A5%BF%E6%A9%9F%E5%A0%B4+%E9%A4%90%E5%BB%B3",chips:[{label:"先求穩",class:"food"}]},
+          {type:"景點",title:"明石海峽公園",desc:"大型花園與草地遊具型景點，適合先放電。",place:"明石海峽公園",hours:"09:30–17:00",note:"實際開園時間依季節可能調整",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E6%98%8E%E7%9F%B3%E6%B5%B7%E5%B3%BD%E5%85%AC%E5%9C%92",chips:[{label:"必看",class:""},{label:"草地放電",class:"menu"}]}
         ]
       },
       {
@@ -427,15 +448,15 @@
         date:"10/30（五）",
         title:"北淡路主題日 → 南淡路收尾",
         route:"二次元之森 → 淡路花さじき → うずの丘 → うずまちテラス",
-        locationForWeather:"Awaji, Hyogo, Japan",
+        locationForWeather:"Awaji",
         cover:"https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=1400&q=80",
         story:"只玩蠟筆小新與哥吉拉，所以傍晚再接南淡路代表點是成立的。",
         tags:[{label:"淡路島 1.5 天核心",class:"drive"},{label:"親子日",class:""}],
         items:[
-          {type:"景點",title:"二次元之森（蠟筆小新、哥吉拉）",desc:"只玩兩區，時間比較可控。",place:"二次元之森（蠟筆小新、哥吉拉）",map:"https://www.google.com/maps/search/?api=1&query=%E4%BA%8C%E6%AC%A1%E5%85%83%E4%B9%8B%E6%A3%AE",chips:[{label:"門票",class:"book"}]},
-          {type:"景點",title:"淡路花さじき",desc:"高地花海與開闊景觀，拍照很值得。",place:"淡路花さじき",map:"https://www.google.com/maps/search/?api=1&query=%E6%B7%A1%E8%B7%AF%E8%8A%B1%E3%81%95%E3%81%98%E3%81%8D",chips:[{label:"風景點",class:"menu"}]},
-          {type:"景點",title:"うずの丘",desc:"南淡路代表觀景與洋蔥打卡地標。",place:"うずの丘 大鳴門橋記念館",map:"https://www.google.com/maps/search/?api=1&query=%E3%81%86%E3%81%9A%E3%81%AE%E4%B8%98+%E5%A4%A7%E9%B3%B4%E9%96%80%E6%A9%8B%E8%A8%98%E5%BF%B5%E9%A4%A8",chips:[{label:"洋蔥打卡",class:"menu"},{label:"伴手禮",class:"buy"}]},
-          {type:"餐廳",title:"道之驛うずしお in うずまちテラス",desc:"買淡路洋蔥土產、吃洋蔥漢堡。",place:"道之驛うずしお in うずまちテラス",map:"https://www.google.com/maps/search/?api=1&query=%E9%81%93%E4%B9%8B%E9%A9%9B+%E3%81%86%E3%81%9A%E3%81%97%E3%81%8A+in+%E3%81%86%E3%81%9A%E3%81%BE%E3%81%A1%E3%83%86%E3%83%A9%E3%82%B9",chips:[{label:"洋蔥漢堡",class:"food"},{label:"必買",class:"buy"}]}
+          {type:"景點",title:"二次元之森（蠟筆小新、哥吉拉）",desc:"只玩兩區，時間比較可控。",place:"二次元之森（蠟筆小新、哥吉拉）",hours:"10:00–22:00",note:"各區域最晚入場時間不同",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E4%BA%8C%E6%AC%A1%E5%85%83%E4%B9%8B%E6%A3%AE",chips:[{label:"門票",class:"book"}]},
+          {type:"景點",title:"淡路花さじき",desc:"高地花海與開闊景觀，拍照很值得。",place:"淡路花さじき",hours:"09:00–17:00",note:"雨天與強風時體感差很多",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E6%B7%A1%E8%B7%AF%E8%8A%B1%E3%81%95%E3%81%98%E3%81%8D",chips:[{label:"風景點",class:"menu"}]},
+          {type:"景點",title:"うずの丘",desc:"南淡路代表觀景與洋蔥打卡地標。",place:"うずの丘 大鳴門橋記念館",hours:"09:00–17:00",note:"伴手禮區與餐廳時間可能不同",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E3%81%86%E3%81%9A%E3%81%AE%E4%B8%98+%E5%A4%A7%E9%B3%B4%E9%96%80%E6%A9%8B%E8%A8%98%E5%BF%B5%E9%A4%A8",chips:[{label:"洋蔥打卡",class:"menu"},{label:"伴手禮",class:"buy"}]},
+          {type:"休息站",title:"道之驛うずしお in うずまちテラス",desc:"買淡路洋蔥土產、吃洋蔥漢堡。",place:"道之驛うずしお in うずまちテラス",hours:"09:00–17:00",note:"餐飲與賣場時間可能不同",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E9%81%93%E4%B9%8B%E9%A9%9B+%E3%81%86%E3%81%9A%E3%81%97%E3%81%8A+in+%E3%81%86%E3%81%9A%E3%81%BE%E3%81%A1%E3%83%86%E3%83%A9%E3%82%B9",chips:[{label:"洋蔥漢堡",class:"food"},{label:"必買",class:"buy"}]}
         ]
       },
       {
@@ -443,15 +464,15 @@
         date:"10/31（六）",
         title:"南淡路 → 鳴門 → 德島市區",
         route:"大塚國際美術館 → kurukurunaruto → 漩渦觀光船 → 阿波舞會館",
-        locationForWeather:"Naruto, Tokushima, Japan",
+        locationForWeather:"Naruto",
         cover:"https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1400&q=80",
         story:"先鳴門、後市區最順。鳴門段一口氣處理完，再去德島市區。",
         tags:[{label:"德島豐富版",class:"drive"},{label:"美術館日",class:""}],
         items:[
-          {type:"景點",title:"大塚國際美術館",desc:"鳴門主景點，值得給完整時段。",place:"大塚國際美術館",map:"https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E5%A1%9A%E5%9C%8B%E9%9A%9B%E7%BE%8E%E8%A1%93%E9%A4%A8",chips:[{label:"門票",class:"book"},{label:"必看",class:""}]},
-          {type:"餐廳",title:"道之驛くるくるなると",desc:"鳴門午餐與伴手禮補給站。",place:"道之驛くるくるなると",map:"https://www.google.com/maps/search/?api=1&query=%E9%81%93%E4%B9%8B%E9%A9%9B+%E3%81%8F%E3%82%8B%E3%81%8F%E3%82%8B%E3%81%AA%E3%82%8B%E3%81%A8",chips:[{label:"鳴門金時",class:"buy"},{label:"海鮮",class:"food"}]},
-          {type:"景點",title:"漩渦觀光船",desc:"把鳴門海峽的記憶點補滿。",place:"鳴門觀潮船",map:"https://www.google.com/maps/search/?api=1&query=%E9%B3%B4%E9%96%80%E8%A7%80%E6%BD%AE%E8%88%B9",chips:[{label:"班次",class:"book"}]},
-          {type:"景點",title:"阿波舞會館",desc:"德島市區文化收尾。",place:"阿波舞會館",map:"https://www.google.com/maps/search/?api=1&query=%E9%98%BF%E6%B3%A2%E8%88%9E%E6%9C%83%E9%A4%A8",chips:[{label:"德島代表",class:"menu"}]}
+          {type:"景點",title:"大塚國際美術館",desc:"鳴門主景點，值得給完整時段。",place:"大塚國際美術館",hours:"09:30–17:00",note:"週一休館的可能性請先確認",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E5%A1%9A%E5%9C%8B%E9%9A%9B%E7%BE%8E%E8%A1%93%E9%A4%A8",chips:[{label:"門票",class:"book"},{label:"必看",class:""}]},
+          {type:"休息站",title:"道之驛くるくるなると",desc:"鳴門午餐與伴手禮補給站。",place:"道之驛くるくるなると",hours:"09:00–17:00",note:"部分熟食櫃位提早結束",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E9%81%93%E4%B9%8B%E9%A9%9B+%E3%81%8F%E3%82%8B%E3%81%8F%E3%82%8B%E3%81%AA%E3%82%8B%E3%81%A8",chips:[{label:"鳴門金時",class:"buy"},{label:"海鮮",class:"food"}]},
+          {type:"景點",title:"漩渦觀光船",desc:"把鳴門海峽的記憶點補滿。",place:"鳴門觀潮船",hours:"依船班為準",note:"會受天候與海況影響",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E9%B3%B4%E9%96%80%E8%A7%80%E6%BD%AE%E8%88%B9",chips:[{label:"班次",class:"book"}]},
+          {type:"景點",title:"阿波舞會館",desc:"德島市區文化收尾。",place:"阿波舞會館",hours:"09:00–17:00",note:"表演時間請另查當日場次",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E9%98%BF%E6%B3%A2%E8%88%9E%E6%9C%83%E9%A4%A8",chips:[{label:"德島代表",class:"menu"}]}
         ]
       },
       {
@@ -459,15 +480,15 @@
         date:"11/1（日）",
         title:"德島 → 香川成熟版",
         route:"四國水族館 → 栗林公園 → 讚岐烏龍麵 → 琴平溫泉",
-        locationForWeather:"Utazu, Kagawa, Japan",
+        locationForWeather:"Kotohira",
         cover:"https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=80",
         story:"水族館讓小孩買單，栗林公園讓大人舒服，晚上用溫泉把全家收好。",
         tags:[{label:"親子主場",class:""},{label:"溫泉收尾",class:"menu"}],
         items:[
-          {type:"景點",title:"四國水族館",desc:"香川親子主力。",place:"四國水族館",map:"https://www.google.com/maps/search/?api=1&query=%E5%9B%9B%E5%9C%8B%E6%B0%B4%E6%97%8F%E9%A4%A8",chips:[{label:"親子",class:""}]},
-          {type:"景點",title:"栗林公園",desc:"香川代表性園林。",place:"栗林公園",map:"https://www.google.com/maps/search/?api=1&query=%E6%A0%97%E6%9E%97%E5%85%AC%E5%9C%92",chips:[{label:"風景點",class:"menu"}]},
-          {type:"餐廳",title:"讚岐烏龍麵",desc:"香川必吃正事。",place:"高松讚岐烏龍麵",map:"https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E6%9D%BE+%E8%AE%9A%E5%B2%90%E7%83%8F%E9%BE%8D%E9%BA%B5",chips:[{label:"必吃",class:"food"},{label:"冷烏龍",class:"menu"}]},
-          {type:"交通",title:"入住琴平溫泉（一泊二食）",desc:"晚上重點是舒服。",place:"琴平溫泉（一泊二食）",map:"https://www.google.com/maps/search/?api=1&query=%E7%90%B4%E5%B9%B3%E6%BA%AB%E6%B3%89",chips:[{label:"旅館",class:"book"}]}
+          {type:"景點",title:"四國水族館",desc:"香川親子主力。",place:"四國水族館",hours:"09:00–18:00",note:"最晚入館時間請依官網為準",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E5%9B%9B%E5%9C%8B%E6%B0%B4%E6%97%8F%E9%A4%A8",chips:[{label:"親子",class:""}]},
+          {type:"景點",title:"栗林公園",desc:"香川代表性園林。",place:"栗林公園",hours:"依季節調整",note:"不同季節閉園時間不同",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E6%A0%97%E6%9E%97%E5%85%AC%E5%9C%92",chips:[{label:"風景點",class:"menu"}]},
+          {type:"餐廳",title:"讚岐烏龍麵",desc:"香川必吃正事。",place:"高松讚岐烏龍麵",hours:"依店家為準",note:"熱門店可能提早售完",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E6%9D%BE+%E8%AE%9A%E5%B2%90%E7%83%8F%E9%BE%8D%E9%BA%B5",chips:[{label:"必吃",class:"food"},{label:"冷烏龍",class:"menu"}]},
+          {type:"交通",title:"入住琴平溫泉（一泊二食）",desc:"晚上重點是舒服。",place:"琴平溫泉（一泊二食）",hours:"依旅館 check-in 時間",note:"晚餐時間請先確認",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E7%90%B4%E5%B9%B3%E6%BA%AB%E6%B3%89",chips:[{label:"旅館",class:"book"}]}
         ]
       },
       {
@@ -475,14 +496,14 @@
         date:"11/2（一）",
         title:"香川 → 鷲羽山 → 倉敷",
         route:"鷲羽山展望台 → 三井 OUTLET 倉敷 → 倉敷美觀地區",
-        locationForWeather:"Kurashiki, Okayama, Japan",
+        locationForWeather:"Kurashiki",
         cover:"https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1400&q=80",
         story:"這天是瀨戶內海景觀轉進老街散步日，節奏輕鬆、很適合親子慢慢走。",
         tags:[{label:"瀨戶內海",class:"menu"},{label:"老街日",class:""}],
         items:[
-          {type:"景點",title:"鷲羽山展望台",desc:"看瀨戶大橋與海景，很適合抓天氣好的時段。",place:"鷲羽山展望台",map:"https://www.google.com/maps/search/?api=1&query=%E9%B7%B2%E7%BE%BD%E5%B1%B1%E5%B1%95%E6%9C%9B%E5%8F%B0",chips:[{label:"看景",class:"menu"}]},
-          {type:"購物",title:"三井 OUTLET 倉敷",desc:"安排補貨與休息，雨天也好用。",place:"三井 OUTLET 倉敷",map:"https://www.google.com/maps/search/?api=1&query=Mitsui+Outlet+Park+Kurashiki",chips:[{label:"購物",class:"buy"}]},
-          {type:"景點",title:"倉敷美觀地區",desc:"白壁老街與河道散步，傍晚最有味道。",place:"倉敷美觀地區",map:"https://www.google.com/maps/search/?api=1&query=%E5%80%89%E6%95%B7%E7%BE%8E%E8%A7%80%E5%9C%B0%E5%8D%80",chips:[{label:"必看",class:""},{label:"散步",class:"menu"}]}
+          {type:"景點",title:"鷲羽山展望台",desc:"看瀨戶大橋與海景，很適合抓天氣好的時段。",place:"鷲羽山展望台",hours:"24 小時開放",note:"觀景台本體無明確關閉時間",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E9%B7%B2%E7%BE%BD%E5%B1%B1%E5%B1%95%E6%9C%9B%E5%8F%B0",chips:[{label:"看景",class:"menu"}]},
+          {type:"購物",title:"三井 OUTLET 倉敷",desc:"安排補貨與休息，雨天也好用。",place:"三井 OUTLET 倉敷",hours:"10:00–20:00",note:"部分餐廳與賣場時間不同",image:"",map:"https://www.google.com/maps/search/?api=1&query=Mitsui+Outlet+Park+Kurashiki",chips:[{label:"購物",class:"buy"}]},
+          {type:"景點",title:"倉敷美觀地區",desc:"白壁老街與河道散步，傍晚最有味道。",place:"倉敷美觀地區",hours:"街區全天可逛",note:"各店鋪營業時間不同",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E5%80%89%E6%95%B7%E7%BE%8E%E8%A7%80%E5%9C%B0%E5%8D%80",chips:[{label:"必看",class:""},{label:"散步",class:"menu"}]}
         ]
       },
       {
@@ -490,15 +511,15 @@
         date:"11/3（二）",
         title:"岡山城下町慢遊",
         route:"岡山城 → 岡山後樂園 → 吉備津神社 → AEON MALL 岡山",
-        locationForWeather:"Okayama, Japan",
+        locationForWeather:"Okayama",
         cover:"https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1400&q=80",
         story:"這天把城、庭園、神社與市區採買一次完成，宗教感與城市感兼具。",
         tags:[{label:"城與庭園",class:"menu"},{label:"神社日",class:"book"}],
         items:[
-          {type:"景點",title:"岡山城",desc:"黑色城郭很有辨識度。",place:"岡山城",map:"https://www.google.com/maps/search/?api=1&query=%E5%B2%A1%E5%B1%B1%E5%9F%8E",chips:[{label:"必看",class:""}]},
-          {type:"景點",title:"岡山後樂園",desc:"日本名園之一，適合放慢節奏。",place:"岡山後樂園",map:"https://www.google.com/maps/search/?api=1&query=%E5%B2%A1%E5%B1%B1%E5%BE%8C%E6%A8%82%E5%9C%92",chips:[{label:"庭園",class:"menu"}]},
-          {type:"景點",title:"吉備津神社",desc:"這趟行程保留神社元素的代表點。",place:"吉備津神社",map:"https://www.google.com/maps/search/?api=1&query=%E5%90%89%E5%82%99%E6%B4%A5%E7%A5%9E%E7%A4%BE",chips:[{label:"神社",class:"book"}]},
-          {type:"購物",title:"AEON MALL 岡山",desc:"收尾採買、補給與吃飯都方便。",place:"AEON MALL 岡山",map:"https://www.google.com/maps/search/?api=1&query=AEON+MALL+Okayama",chips:[{label:"補貨",class:"buy"}]}
+          {type:"景點",title:"岡山城",desc:"黑色城郭很有辨識度。",place:"岡山城",hours:"09:00–17:30",note:"最晚入館時間請依官網為準",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E5%B2%A1%E5%B1%B1%E5%9F%8E",chips:[{label:"必看",class:""}]},
+          {type:"景點",title:"岡山後樂園",desc:"日本名園之一，適合放慢節奏。",place:"岡山後樂園",hours:"依季節調整",note:"開園與閉園時間會依季節變動",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E5%B2%A1%E5%B1%B1%E5%BE%8C%E6%A8%82%E5%9C%92",chips:[{label:"庭園",class:"menu"}]},
+          {type:"景點",title:"吉備津神社",desc:"這趟行程保留神社元素的代表點。",place:"吉備津神社",hours:"06:00–18:00",note:"授與所等設施時間另計",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E5%90%89%E5%82%99%E6%B4%A5%E7%A5%9E%E7%A4%BE",chips:[{label:"神社",class:"book"}]},
+          {type:"購物",title:"AEON MALL 岡山",desc:"收尾採買、補給與吃飯都方便。",place:"AEON MALL 岡山",hours:"10:00–21:00",note:"美食街與超市時間可能不同",image:"",map:"https://www.google.com/maps/search/?api=1&query=AEON+MALL+Okayama",chips:[{label:"補貨",class:"buy"}]}
         ]
       },
       {
@@ -506,15 +527,15 @@
         date:"11/4（三）",
         title:"岡山 → 姬路 → 神戶入住",
         route:"姬路城 → 姬路市立動物園（可選） → 神戶",
-        locationForWeather:"Himeji, Japan",
+        locationForWeather:"Himeji",
         cover:"https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1400&q=80",
         story:"第七天才進姬路城，玩完直接衝神戶住，這是妳原本指定的節奏。",
         tags:[{label:"名城日",class:""},{label:"轉場",class:"drive"}],
         items:[
-          {type:"景點",title:"姬路城",desc:"白色名城是今天主秀。",place:"姬路城",map:"https://www.google.com/maps/search/?api=1&query=%E5%A7%AC%E8%B7%AF%E5%9F%8E",chips:[{label:"必看",class:""}]},
-          {type:"景點",title:"姬路市立動物園",desc:"如果當天時間與體力有餘，可彈性加入。",place:"姬路市立動物園",map:"https://www.google.com/maps/search/?api=1&query=%E5%A7%AC%E8%B7%AF%E5%B8%82%E7%AB%8B%E5%8B%95%E7%89%A9%E5%9C%92",chips:[{label:"可選",class:"menu"}]},
-          {type:"餐廳",title:"姬路穴子飯",desc:"有空就把姬路代表性餐點補起來。",place:"姬路 穴子飯",map:"https://www.google.com/maps/search/?api=1&query=%E5%A7%AC%E8%B7%AF+%E7%A9%B4%E5%AD%90%E9%A3%AF",chips:[{label:"必吃",class:"food"}]},
-          {type:"交通",title:"開車前往神戶入住",desc:"姬路結束後直接衝神戶，隔天方便收尾。",place:"Kobe Harborland",map:"https://www.google.com/maps/search/?api=1&query=Kobe+Harborland",chips:[{label:"入住神戶",class:"drive"}]}
+          {type:"景點",title:"姬路城",desc:"白色名城是今天主秀。",place:"姬路城",hours:"09:00–17:00",note:"季節與活動可能影響入場時間",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E5%A7%AC%E8%B7%AF%E5%9F%8E",chips:[{label:"必看",class:""}]},
+          {type:"景點",title:"姬路市立動物園",desc:"如果當天時間與體力有餘，可彈性加入。",place:"姬路市立動物園",hours:"09:00–17:00",note:"可選景點，非必要",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E5%A7%AC%E8%B7%AF%E5%B8%82%E7%AB%8B%E5%8B%95%E7%89%A9%E5%9C%92",chips:[{label:"可選",class:"menu"}]},
+          {type:"餐廳",title:"姬路穴子飯",desc:"有空就把姬路代表性餐點補起來。",place:"姬路 穴子飯",hours:"依店家為準",note:"熱門餐廳可能需候位",image:"",map:"https://www.google.com/maps/search/?api=1&query=%E5%A7%AC%E8%B7%AF+%E7%A9%B4%E5%AD%90%E9%A3%AF",chips:[{label:"必吃",class:"food"}]},
+          {type:"交通",title:"開車前往神戶入住",desc:"姬路結束後直接衝神戶，隔天方便收尾。",place:"Kobe Harborland",hours:"全天",note:"主要是移動段",image:"",map:"https://www.google.com/maps/search/?api=1&query=Kobe+Harborland",chips:[{label:"入住神戶",class:"drive"}]}
         ]
       },
       {
@@ -522,15 +543,15 @@
         date:"11/5（四）",
         title:"神戶港親子收尾 → 關西機場",
         route:"麵包超人博物館 → Harborland / Mosaic → 關西機場",
-        locationForWeather:"Kobe, Japan",
+        locationForWeather:"Kobe",
         cover:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80",
         story:"上午先去麵包超人博物館，再逛神戶港，最後開車去關西機場，這天就是溫柔收尾。",
         tags:[{label:"親子收尾",class:""},{label:"返程日",class:"drive"}],
         items:[
-          {type:"景點",title:"神戶麵包超人博物館",desc:"第八天主角，早上優先。",place:"神戶麵包超人博物館",map:"https://www.google.com/maps/search/?api=1&query=Kobe+Anpanman+Children%27s+Museum",chips:[{label:"主秀",class:"book"},{label:"親子",class:""}]},
-          {type:"景點",title:"Harborland",desc:"港邊散步，讓行程保留彈性。",place:"Kobe Harborland",map:"https://www.google.com/maps/search/?api=1&query=Kobe+Harborland",chips:[{label:"港景",class:"menu"}]},
-          {type:"景點",title:"Mosaic",desc:"如果時間夠，可以一起逛。",place:"Mosaic",map:"https://www.google.com/maps/search/?api=1&query=Kobe+Mosaic",chips:[{label:"商場",class:"buy"}]},
-          {type:"交通",title:"開車前往關西機場還車",desc:"抓好還車與報到時間，平穩收尾。",place:"Kansai International Airport",map:"https://www.google.com/maps/search/?api=1&query=Kansai+International+Airport",chips:[{label:"BR129",class:"book"}]}
+          {type:"景點",title:"神戶麵包超人博物館",desc:"第八天主角，早上優先。",place:"神戶麵包超人博物館",hours:"10:00–18:00",note:"請優先確認當日票務與入場時間",image:"",map:"https://www.google.com/maps/search/?api=1&query=Kobe+Anpanman+Children%27s+Museum",chips:[{label:"主秀",class:"book"},{label:"親子",class:""}]},
+          {type:"景點",title:"Harborland",desc:"港邊散步，讓行程保留彈性。",place:"Kobe Harborland",hours:"街區全天可逛",note:"各店鋪與商場時間不同",image:"",map:"https://www.google.com/maps/search/?api=1&query=Kobe+Harborland",chips:[{label:"港景",class:"menu"}]},
+          {type:"景點",title:"Mosaic",desc:"如果時間夠，可以一起逛。",place:"Mosaic",hours:"10:00–20:00",note:"實際依店舖時間為準",image:"",map:"https://www.google.com/maps/search/?api=1&query=Kobe+Mosaic",chips:[{label:"商場",class:"buy"}]},
+          {type:"交通",title:"開車前往關西機場還車",desc:"抓好還車與報到時間，平穩收尾。",place:"Kansai International Airport",hours:"依航班與租車公司為準",note:"請預留還車與報到緩衝",image:"",map:"https://www.google.com/maps/search/?api=1&query=Kansai+International+Airport",chips:[{label:"BR129",class:"book"}]}
         ]
       }
     ];
@@ -613,7 +634,7 @@
     }
 
     function getSpotImage(item){
-      return SPOT_IMAGE_MAP[item.place] || SPOT_IMAGE_MAP[item.title] || DEFAULT_FALLBACK_IMAGE;
+      return item.image || SPOT_IMAGE_MAP[item.place] || SPOT_IMAGE_MAP[item.title] || DEFAULT_FALLBACK_IMAGE;
     }
 
     function haversineKm(lat1, lon1, lat2, lon2){
@@ -650,6 +671,26 @@
       return `預估車程 ${minutes} 分｜約 ${roadKm.toFixed(1)} km`;
     }
 
+    function renderDayJumpBar(){
+      const bar = document.getElementById("dayJumpBar");
+      if(!bar) return;
+      bar.innerHTML = state.days.map((day, index) => {
+        return `<button class="day-jump-btn ${index===0 ? "active" : ""}" data-target="day-${index + 1}">${day.day || "DAY " + (index + 1)}</button>`;
+      }).join("");
+
+      bar.querySelectorAll(".day-jump-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const targetId = btn.dataset.target;
+          const el = document.getElementById(targetId);
+          if(el){
+            el.scrollIntoView({ behavior:"smooth", block:"start" });
+          }
+          bar.querySelectorAll(".day-jump-btn").forEach(x => x.classList.remove("active"));
+          btn.classList.add("active");
+        });
+      });
+    }
+
     function renderDays(){
       const wrap = document.getElementById("dayCards");
       let html = "";
@@ -669,6 +710,8 @@
               <div class="item-type">${item.type || "景點"}</div>
               <div class="item-title">${item.title || ""}</div>
               <div class="item-desc">${item.desc || ""}</div>
+              ${item.hours ? `<div class="item-hours">營業時間：${item.hours}</div>` : ``}
+              ${item.note ? `<div class="item-note">備註：${item.note}</div>` : ``}
               <div class="meta-row" style="margin-top:8px">${itemTags}</div>
               <div class="action-row">
                 <a class="btn primary" href="${item.map || '#'}" target="_blank" rel="noreferrer">導航</a>
@@ -694,7 +737,7 @@
         });
 
         html += `
-          <article class="day-card">
+          <article class="day-card" id="day-${dayIndex + 1}">
             <div class="day-cover" style="background-image:url('${d.cover || DEFAULT_FALLBACK_IMAGE}')">
               <div class="day-cover-inner">
                 <div class="day-no">${d.day} · ${d.date}</div>
@@ -728,6 +771,7 @@
       wrap.innerHTML = html;
       bindEvents();
       state.days.forEach(fetchWeatherForDay);
+      renderDayJumpBar();
     }
 
     function bindEvents(){
@@ -756,10 +800,16 @@
       const date = prompt("日期（含星期）", d.date || ""); if(date === null) return;
       const title = prompt("標題", d.title || ""); if(title === null) return;
       const route = prompt("路線摘要", d.route || ""); if(route === null) return;
-      const location = prompt("天氣查詢地點（英文城市名）", d.locationForWeather || ""); if(location === null) return;
+      const location = prompt("天氣查詢地點（英文短版）", d.locationForWeather || ""); if(location === null) return;
       const story = prompt("今日故事 / 說明", d.story || ""); if(story === null) return;
-      d.day = day; d.date = date; d.title = title; d.route = route; d.locationForWeather = location; d.story = story;
-      saveLocalState(); renderDays();
+      d.day = day;
+      d.date = date;
+      d.title = title;
+      d.route = route;
+      d.locationForWeather = location;
+      d.story = story;
+      saveLocalState();
+      renderDays();
     }
 
     function editDayPhoto(dayIndex){
@@ -767,7 +817,8 @@
       const url = prompt("請貼上新的封面圖片網址", current);
       if(url === null) return;
       state.days[dayIndex].cover = url.trim() || current;
-      saveLocalState(); renderDays();
+      saveLocalState();
+      renderDays();
     }
 
     function addDay(){
@@ -776,7 +827,7 @@
         date:"請編輯日期",
         title:"新的行程日",
         route:"請編輯路線",
-        locationForWeather:"Kobe, Japan",
+        locationForWeather:"Kobe",
         cover:DEFAULT_FALLBACK_IMAGE,
         story:"請補上今天的故事與節奏。",
         tags:[{label:"新行程",class:"book"}],
@@ -794,24 +845,39 @@
     }
 
     function addItem(dayIndex){
-      const type = prompt("卡片類型（景點 / 餐廳 / 交通 / 購物）", "景點"); if(type === null) return;
-      const title = prompt("卡片標題", ""); if(title === null) return;
+      const type = prompt("卡片類型（景點 / 餐廳 / 交通 / 休息站 / 購物）", "景點"); if(type === null) return;
+      const title = prompt("顯示名稱（中文 / 漢字）", ""); if(title === null) return;
       const desc = prompt("卡片說明", ""); if(desc === null) return;
-      const place = prompt("地點名稱", ""); if(place === null) return;
+      const hours = prompt("營業時間", ""); if(hours === null) return;
+      const note = prompt("備註", ""); if(note === null) return;
+      const image = prompt("圖片網址 image（可留空）", ""); if(image === null) return;
+      const place = prompt("導航地點名稱", ""); if(place === null) return;
       const map = prompt("Google Maps 導航連結", "https://www.google.com/maps/search/?api=1&query="); if(map === null) return;
-      state.days[dayIndex].items.push({ type, title, desc, place, map, chips:[] });
+      state.days[dayIndex].items.push({ type, title, desc, hours, note, image, place, map, chips:[] });
       saveLocalState();
       renderDays();
     }
 
     function editItem(dayIndex, itemIndex){
       const item = state.days[dayIndex].items[itemIndex];
-      const type = prompt("卡片類型（景點 / 餐廳 / 交通 / 購物）", item.type || ""); if(type === null) return;
-      const title = prompt("卡片標題", item.title || ""); if(title === null) return;
+      const type = prompt("卡片類型（景點 / 餐廳 / 交通 / 休息站 / 購物）", item.type || ""); if(type === null) return;
+      const title = prompt("顯示名稱（中文 / 漢字）", item.title || ""); if(title === null) return;
       const desc = prompt("卡片說明", item.desc || ""); if(desc === null) return;
-      const place = prompt("地點名稱", item.place || ""); if(place === null) return;
+      const hours = prompt("營業時間", item.hours || ""); if(hours === null) return;
+      const note = prompt("備註", item.note || ""); if(note === null) return;
+      const image = prompt("圖片網址 image（可留空）", item.image || ""); if(image === null) return;
+      const place = prompt("導航地點名稱", item.place || ""); if(place === null) return;
       const map = prompt("Google Maps 導航連結", item.map || ""); if(map === null) return;
-      item.type = type; item.title = title; item.desc = desc; item.place = place; item.map = map;
+
+      item.type = type;
+      item.title = title;
+      item.desc = desc;
+      item.hours = hours;
+      item.note = note;
+      item.image = image;
+      item.place = place;
+      item.map = map;
+
       saveLocalState();
       renderDays();
     }
