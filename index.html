@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>玥玥的第一次四國冒險之旅｜2.3</title>
+  <title>玥玥的第一次四國冒險之旅｜完整版</title>
   <meta name="theme-color" content="#eef8f7" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -173,9 +173,9 @@
 <body>
   <div class="app">
     <header class="hero">
-      <div class="eyebrow">TRAVEL MINI APP · FIXED PHOTO LIBRARY · FIXED COORDS</div>
+      <div class="eyebrow">TRAVEL MINI APP · FULL 8 DAYS · FIXED PHOTOS · FIXED COORDS</div>
       <h1>玥玥的第一次四國冒險之旅</h1>
-      <div class="sub">固定景點圖庫 + 固定座標版車程估算，圖片更穩、車程更準。</div>
+      <div class="sub">完整 8 天行程版。保留同步、排序、固定景點圖庫與固定座標車程估算。</div>
       <div class="hero-actions">
         <a class="pill" href="#tab-plan">行程總覽</a>
         <a class="pill" href="#tab-pocket">航班/住宿</a>
@@ -190,7 +190,7 @@
     </header>
 
     <div class="banner">
-      這版改成 <b>固定景點圖庫</b> 與 <b>固定座標車程</b>。常用景點不再出怪圖，車程估算成功率會高很多。
+      這版已補回 <b>完整 8 天預設行程</b>。<b>還原預設行程</b> 會回到這份完整版本，不會只剩前半段。
     </div>
 
     <main id="tab-plan" data-tab-panel="plan" class="active">
@@ -332,10 +332,10 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const DOC_PATH = ["tripApps", "yueyue-shikoku-trip-v4"];
-    const LOCAL_KEY = "trip_editor_state_v4";
-    const NOTES_KEY = "trip_notes_v6";
-    const BUDGET_KEY = "trip_budget_v6";
+    const DOC_PATH = ["tripApps", "yueyue-shikoku-trip-v8"];
+    const LOCAL_KEY = "trip_editor_state_v8";
+    const NOTES_KEY = "trip_notes_v8";
+    const BUDGET_KEY = "trip_budget_v8";
 
     const DEFAULT_FALLBACK_IMAGE = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80";
 
@@ -355,17 +355,20 @@
       "四國水族館":"https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80",
       "栗林公園":"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
       "高松讚岐烏龍麵":"https://images.unsplash.com/photo-1617093727343-374698b1b08d?auto=format&fit=crop&w=1200&q=80",
-      "琴平溫泉":"https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=80",
+      "琴平溫泉":"https://images.unsplash.com/photo-1519046904884-53103b34c4b4?auto=format&fit=crop&w=1200&q=80",
       "鷲羽山展望台":"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80",
+      "三井 OUTLET 倉敷":"https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80",
       "倉敷美觀地區":"https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80",
       "岡山城":"https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1200&q=80",
       "岡山後樂園":"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
       "吉備津神社":"https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1200&q=80",
+      "AEON MALL 岡山":"https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?auto=format&fit=crop&w=1200&q=80",
       "姬路城":"https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1200&q=80",
       "姬路市立動物園":"https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=1200&q=80",
       "姬路 穴子飯":"https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
       "神戶麵包超人博物館":"https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80",
       "Kobe Harborland":"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+      "Mosaic":"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
       "Kansai International Airport":"https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80"
     };
 
@@ -386,18 +389,21 @@
       "栗林公園": { lat: 34.3248, lon: 134.0435 },
       "高松讚岐烏龍麵": { lat: 34.3428, lon: 134.0466 },
       "琴平溫泉": { lat: 34.1911, lon: 133.8215 },
+      "琴平溫泉（一泊二食）": { lat: 34.1911, lon: 133.8215 },
       "鷲羽山展望台": { lat: 34.4305, lon: 133.8079 },
+      "三井 OUTLET 倉敷": { lat: 34.6027, lon: 133.7664 },
       "倉敷美觀地區": { lat: 34.5978, lon: 133.7720 },
       "岡山城": { lat: 34.6655, lon: 133.9350 },
       "岡山後樂園": { lat: 34.6662, lon: 133.9345 },
       "吉備津神社": { lat: 34.6916, lon: 133.8544 },
+      "AEON MALL 岡山": { lat: 34.6669, lon: 133.9187 },
       "姬路城": { lat: 34.8394, lon: 134.6939 },
       "姬路市立動物園": { lat: 34.8383, lon: 134.6927 },
       "姬路 穴子飯": { lat: 34.8290, lon: 134.6907 },
       "神戶麵包超人博物館": { lat: 34.6790, lon: 135.1877 },
       "Kobe Harborland": { lat: 34.6797, lon: 135.1834 },
-      "Kansai International Airport": { lat: 34.4347, lon: 135.2440 },
-      "琴平溫泉（一泊二食）": { lat: 34.1911, lon: 133.8215 }
+      "Mosaic": { lat: 34.6794, lon: 135.1832 },
+      "Kansai International Airport": { lat: 34.4347, lon: 135.2440 }
     };
 
     const defaultTripDays = [
@@ -452,7 +458,7 @@
         day:"DAY 4",
         date:"11/1（日）",
         title:"德島 → 香川成熟版",
-        route:"四國水族館 → 栗林公園 → 琴平溫泉",
+        route:"四國水族館 → 栗林公園 → 讚岐烏龍麵 → 琴平溫泉",
         locationForWeather:"Utazu, Kagawa, Japan",
         cover:"https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=80",
         story:"水族館讓小孩買單，栗林公園讓大人舒服，晚上用溫泉把全家收好。",
@@ -462,6 +468,69 @@
           {type:"景點",title:"栗林公園",desc:"香川代表性園林。",place:"栗林公園",map:"https://www.google.com/maps/search/?api=1&query=%E6%A0%97%E6%9E%97%E5%85%AC%E5%9C%92",chips:[{label:"風景點",class:"menu"}]},
           {type:"餐廳",title:"讚岐烏龍麵",desc:"香川必吃正事。",place:"高松讚岐烏龍麵",map:"https://www.google.com/maps/search/?api=1&query=%E9%AB%98%E6%9D%BE+%E8%AE%9A%E5%B2%90%E7%83%8F%E9%BE%8D%E9%BA%B5",chips:[{label:"必吃",class:"food"},{label:"冷烏龍",class:"menu"}]},
           {type:"交通",title:"入住琴平溫泉（一泊二食）",desc:"晚上重點是舒服。",place:"琴平溫泉（一泊二食）",map:"https://www.google.com/maps/search/?api=1&query=%E7%90%B4%E5%B9%B3%E6%BA%AB%E6%B3%89",chips:[{label:"旅館",class:"book"}]}
+        ]
+      },
+      {
+        day:"DAY 5",
+        date:"11/2（一）",
+        title:"香川 → 鷲羽山 → 倉敷",
+        route:"鷲羽山展望台 → 三井 OUTLET 倉敷 → 倉敷美觀地區",
+        locationForWeather:"Kurashiki, Okayama, Japan",
+        cover:"https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1400&q=80",
+        story:"這天是瀨戶內海景觀轉進老街散步日，節奏輕鬆、很適合親子慢慢走。",
+        tags:[{label:"瀨戶內海",class:"menu"},{label:"老街日",class:""}],
+        items:[
+          {type:"景點",title:"鷲羽山展望台",desc:"看瀨戶大橋與海景，很適合抓天氣好的時段。",place:"鷲羽山展望台",map:"https://www.google.com/maps/search/?api=1&query=%E9%B7%B2%E7%BE%BD%E5%B1%B1%E5%B1%95%E6%9C%9B%E5%8F%B0",chips:[{label:"看景",class:"menu"}]},
+          {type:"購物",title:"三井 OUTLET 倉敷",desc:"安排補貨與休息，雨天也好用。",place:"三井 OUTLET 倉敷",map:"https://www.google.com/maps/search/?api=1&query=Mitsui+Outlet+Park+Kurashiki",chips:[{label:"購物",class:"buy"}]},
+          {type:"景點",title:"倉敷美觀地區",desc:"白壁老街與河道散步，傍晚最有味道。",place:"倉敷美觀地區",map:"https://www.google.com/maps/search/?api=1&query=%E5%80%89%E6%95%B7%E7%BE%8E%E8%A7%80%E5%9C%B0%E5%8D%80",chips:[{label:"必看",class:""},{label:"散步",class:"menu"}]}
+        ]
+      },
+      {
+        day:"DAY 6",
+        date:"11/3（二）",
+        title:"岡山城下町慢遊",
+        route:"岡山城 → 岡山後樂園 → 吉備津神社 → AEON MALL 岡山",
+        locationForWeather:"Okayama, Japan",
+        cover:"https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1400&q=80",
+        story:"這天把城、庭園、神社與市區採買一次完成，宗教感與城市感兼具。",
+        tags:[{label:"城與庭園",class:"menu"},{label:"神社日",class:"book"}],
+        items:[
+          {type:"景點",title:"岡山城",desc:"黑色城郭很有辨識度。",place:"岡山城",map:"https://www.google.com/maps/search/?api=1&query=%E5%B2%A1%E5%B1%B1%E5%9F%8E",chips:[{label:"必看",class:""}]},
+          {type:"景點",title:"岡山後樂園",desc:"日本名園之一，適合放慢節奏。",place:"岡山後樂園",map:"https://www.google.com/maps/search/?api=1&query=%E5%B2%A1%E5%B1%B1%E5%BE%8C%E6%A8%82%E5%9C%92",chips:[{label:"庭園",class:"menu"}]},
+          {type:"景點",title:"吉備津神社",desc:"這趟行程保留神社元素的代表點。",place:"吉備津神社",map:"https://www.google.com/maps/search/?api=1&query=%E5%90%89%E5%82%99%E6%B4%A5%E7%A5%9E%E7%A4%BE",chips:[{label:"神社",class:"book"}]},
+          {type:"購物",title:"AEON MALL 岡山",desc:"收尾採買、補給與吃飯都方便。",place:"AEON MALL 岡山",map:"https://www.google.com/maps/search/?api=1&query=AEON+MALL+Okayama",chips:[{label:"補貨",class:"buy"}]}
+        ]
+      },
+      {
+        day:"DAY 7",
+        date:"11/4（三）",
+        title:"岡山 → 姬路 → 神戶入住",
+        route:"姬路城 → 姬路市立動物園（可選） → 神戶",
+        locationForWeather:"Himeji, Japan",
+        cover:"https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1400&q=80",
+        story:"第七天才進姬路城，玩完直接衝神戶住，這是妳原本指定的節奏。",
+        tags:[{label:"名城日",class:""},{label:"轉場",class:"drive"}],
+        items:[
+          {type:"景點",title:"姬路城",desc:"白色名城是今天主秀。",place:"姬路城",map:"https://www.google.com/maps/search/?api=1&query=%E5%A7%AC%E8%B7%AF%E5%9F%8E",chips:[{label:"必看",class:""}]},
+          {type:"景點",title:"姬路市立動物園",desc:"如果當天時間與體力有餘，可彈性加入。",place:"姬路市立動物園",map:"https://www.google.com/maps/search/?api=1&query=%E5%A7%AC%E8%B7%AF%E5%B8%82%E7%AB%8B%E5%8B%95%E7%89%A9%E5%9C%92",chips:[{label:"可選",class:"menu"}]},
+          {type:"餐廳",title:"姬路穴子飯",desc:"有空就把姬路代表性餐點補起來。",place:"姬路 穴子飯",map:"https://www.google.com/maps/search/?api=1&query=%E5%A7%AC%E8%B7%AF+%E7%A9%B4%E5%AD%90%E9%A3%AF",chips:[{label:"必吃",class:"food"}]},
+          {type:"交通",title:"開車前往神戶入住",desc:"姬路結束後直接衝神戶，隔天方便收尾。",place:"Kobe Harborland",map:"https://www.google.com/maps/search/?api=1&query=Kobe+Harborland",chips:[{label:"入住神戶",class:"drive"}]}
+        ]
+      },
+      {
+        day:"DAY 8",
+        date:"11/5（四）",
+        title:"神戶港親子收尾 → 關西機場",
+        route:"麵包超人博物館 → Harborland / Mosaic → 關西機場",
+        locationForWeather:"Kobe, Japan",
+        cover:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80",
+        story:"上午先去麵包超人博物館，再逛神戶港，最後開車去關西機場，這天就是溫柔收尾。",
+        tags:[{label:"親子收尾",class:""},{label:"返程日",class:"drive"}],
+        items:[
+          {type:"景點",title:"神戶麵包超人博物館",desc:"第八天主角，早上優先。",place:"神戶麵包超人博物館",map:"https://www.google.com/maps/search/?api=1&query=Kobe+Anpanman+Children%27s+Museum",chips:[{label:"主秀",class:"book"},{label:"親子",class:""}]},
+          {type:"景點",title:"Harborland",desc:"港邊散步，讓行程保留彈性。",place:"Kobe Harborland",map:"https://www.google.com/maps/search/?api=1&query=Kobe+Harborland",chips:[{label:"港景",class:"menu"}]},
+          {type:"景點",title:"Mosaic",desc:"如果時間夠，可以一起逛。",place:"Mosaic",map:"https://www.google.com/maps/search/?api=1&query=Kobe+Mosaic",chips:[{label:"商場",class:"buy"}]},
+          {type:"交通",title:"開車前往關西機場還車",desc:"抓好還車與報到時間，平穩收尾。",place:"Kansai International Airport",map:"https://www.google.com/maps/search/?api=1&query=Kansai+International+Airport",chips:[{label:"BR129",class:"book"}]}
         ]
       }
     ];
@@ -547,6 +616,40 @@
       return SPOT_IMAGE_MAP[item.place] || SPOT_IMAGE_MAP[item.title] || DEFAULT_FALLBACK_IMAGE;
     }
 
+    function haversineKm(lat1, lon1, lat2, lon2){
+      const R = 6371;
+      const toRad = deg => deg * Math.PI / 180;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a =
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    }
+
+    function getCoords(item){
+      return SPOT_COORDS[item.place] || SPOT_COORDS[item.title] || null;
+    }
+
+    function getDriveEstimateText(itemA, itemB){
+      const a = getCoords(itemA);
+      const b = getCoords(itemB);
+
+      if(!a || !b) return "暫時無法估算，請補充固定座標";
+
+      const straightKm = haversineKm(a.lat, a.lon, b.lat, b.lon);
+      const roadKm = straightKm * 1.35;
+
+      let avgSpeed = 38;
+      if(roadKm > 40) avgSpeed = 55;
+      if(roadKm > 80) avgSpeed = 65;
+
+      const minutes = Math.max(5, Math.round((roadKm / avgSpeed) * 60));
+      return `預估車程 ${minutes} 分｜約 ${roadKm.toFixed(1)} km`;
+    }
+
     function renderDays(){
       const wrap = document.getElementById("dayCards");
       let html = "";
@@ -581,9 +684,8 @@
           `;
 
           if(itemIndex < d.items.length - 1){
-            const transportId = `transport-${dayIndex}-${itemIndex}`;
             itemsHtml += `
-              <div class="transport-card" id="${transportId}">
+              <div class="transport-card">
                 <div class="transport-line">🚗 點與點之間預估車程</div>
                 <div class="transport-main">${getDriveEstimateText(d.items[itemIndex], d.items[itemIndex+1])}</div>
               </div>
@@ -626,40 +728,6 @@
       wrap.innerHTML = html;
       bindEvents();
       state.days.forEach(fetchWeatherForDay);
-    }
-
-    function haversineKm(lat1, lon1, lat2, lon2){
-      const R = 6371;
-      const toRad = deg => deg * Math.PI / 180;
-      const dLat = toRad(lat2 - lat1);
-      const dLon = toRad(lon2 - lon1);
-      const a =
-        Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-        Math.sin(dLon/2) * Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return R * c;
-    }
-
-    function getCoords(item){
-      return SPOT_COORDS[item.place] || SPOT_COORDS[item.title] || null;
-    }
-
-    function getDriveEstimateText(itemA, itemB){
-      const a = getCoords(itemA);
-      const b = getCoords(itemB);
-
-      if(!a || !b) return "暫時無法估算，請補充固定座標";
-
-      const straightKm = haversineKm(a.lat, a.lon, b.lat, b.lon);
-      const roadKm = straightKm * 1.35;
-
-      let avgSpeed = 38;
-      if(roadKm > 40) avgSpeed = 55;
-      if(roadKm > 80) avgSpeed = 65;
-
-      const minutes = Math.max(5, Math.round((roadKm / avgSpeed) * 60));
-      return `預估車程 ${minutes} 分｜約 ${roadKm.toFixed(1)} km`;
     }
 
     function bindEvents(){
@@ -708,7 +776,7 @@
         date:"請編輯日期",
         title:"新的行程日",
         route:"請編輯路線",
-        locationForWeather:"Kobe, Hyogo, Japan",
+        locationForWeather:"Kobe, Japan",
         cover:DEFAULT_FALLBACK_IMAGE,
         story:"請補上今天的故事與節奏。",
         tags:[{label:"新行程",class:"book"}],
@@ -726,7 +794,7 @@
     }
 
     function addItem(dayIndex){
-      const type = prompt("卡片類型（景點 / 餐廳 / 交通）", "景點"); if(type === null) return;
+      const type = prompt("卡片類型（景點 / 餐廳 / 交通 / 購物）", "景點"); if(type === null) return;
       const title = prompt("卡片標題", ""); if(title === null) return;
       const desc = prompt("卡片說明", ""); if(desc === null) return;
       const place = prompt("地點名稱", ""); if(place === null) return;
@@ -738,7 +806,7 @@
 
     function editItem(dayIndex, itemIndex){
       const item = state.days[dayIndex].items[itemIndex];
-      const type = prompt("卡片類型（景點 / 餐廳 / 交通）", item.type || ""); if(type === null) return;
+      const type = prompt("卡片類型（景點 / 餐廳 / 交通 / 購物）", item.type || ""); if(type === null) return;
       const title = prompt("卡片標題", item.title || ""); if(title === null) return;
       const desc = prompt("卡片說明", item.desc || ""); if(desc === null) return;
       const place = prompt("地點名稱", item.place || ""); if(place === null) return;
@@ -811,7 +879,7 @@
     }
 
     function resetDefault(){
-      if(!confirm("要還原成預設行程嗎？")) return;
+      if(!confirm("要還原成完整 8 天預設行程嗎？")) return;
       state.days = JSON.parse(JSON.stringify(defaultTripDays));
       saveLocalState();
       renderDays();
@@ -906,7 +974,7 @@
     document.getElementById("clearBudgetBtn").addEventListener("click", clearBudget);
 
     loadLocalState();
-    state.days = normalizeLoadedDays(state.days);
+    state.days = normalizeLoadedDays(state.days && state.days.length ? state.days : defaultTripDays);
     loadNotes();
     renderDays();
     renderBudget();
