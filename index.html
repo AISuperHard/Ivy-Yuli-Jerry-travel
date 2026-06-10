@@ -318,72 +318,47 @@ const LOCAL_KEY = "trip_editor_state_v10";
 const NOTES_KEY = "trip_notes_v10";
 const BUDGET_KEY = "trip_budget_v10";
 
-// ★ 升級：景點圖片 — 優先用 Wikimedia Commons，找不到才用 Unsplash 備用
-const WIKIMEDIA_TITLES = {
-  "姬路城": "Himeji_Castle_the_keep_towers",
-  "岡山城": "Okayama_Castle_Utou_Yagura_20101107.jpg",
-  "岡山後樂園": "Korakuen_garden_Okayama01s3s4500.jpg",
-  "倉敷美觀地區": "Kurashiki_Bikan_historical_quarter_02.jpg",
-  "栗林公園": "Ritsurin_koen_08.jpg",
-  "大塚國際美術館": "Otsuka_Museum_of_Art.jpg",
-  "四國水族館": "Shikoku_Aquarium_Entrance.jpg",
-  "鳴門觀潮船": "Naruto_whirlpools_1.jpg",
-  "吉備津神社": "Kibitsu-jinja_1.jpg",
-  "阿波舞會館": "Awaodori_Kaikan_01.jpg",
-  "明石海峽公園": "Akashi_Kaikyo_Bridge_from_Maiko.jpg",
-};
-
-// Unsplash fallback（原始對應，更精準版）
-const UNSPLASH_FALLBACK = {
-  "大塚國際美術館": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80",
-  "姬路城": "https://images.unsplash.com/photo-1582559933553-0cf3e248a6cd?auto=format&fit=crop&w=1200&q=80",
-  "岡山城": "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1200&q=80",
-  "岡山後樂園": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
-  "倉敷美觀地區": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80",
-  "栗林公園": "https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?auto=format&fit=crop&w=1200&q=80",
-  "四國水族館": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80",
-  "鳴門觀潮船": "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=80",
-  "二次元之森（蠟筆小新、哥吉拉）": "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80",
-  "神戶麵包超人博物館": "https://images.unsplash.com/photo-1614680376408-81e91ffe3db7?auto=format&fit=crop&w=1200&q=80",
-  "阿波舞會館": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1200&q=80",
-  "淡路花さじき": "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=1200&q=80",
-  "三井 OUTLET 倉敷": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80",
-  "琴平溫泉（一泊二食）": "https://images.unsplash.com/photo-1519046904884-53103b34b260?auto=format&fit=crop&w=1200&q=80",
-  "鷲羽山展望台": "https://images.unsplash.com/photo-1527668752968-14dc70a27c95?auto=format&fit=crop&w=1200&q=80",
-  "吉備津神社": "https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?auto=format&fit=crop&w=1200&q=80",
-  "AEON MALL 岡山": "https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?auto=format&fit=crop&w=1200&q=80",
-  "Kobe Harborland": "https://images.unsplash.com/photo-1568030555843-5740b0ccd8c8?auto=format&fit=crop&w=1200&q=80",
-  "關西機場": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+// ★ 景點圖片對照表（直接使用，快速載入）
+const SPOT_IMAGE_MAP = {
+  "Kansai International Airport Rent a Car": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+  "關西機場":        "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+  "明石海峽公園":    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80",
+  "二次元之森":      "https://images.unsplash.com/photo-1580477667995-2b94f01c9516?auto=format&fit=crop&w=1200&q=80",
+  "二次元之森（蠟筆小新、哥吉拉）": "https://images.unsplash.com/photo-1580477667995-2b94f01c9516?auto=format&fit=crop&w=1200&q=80",
+  "淡路花さじき":    "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=1200&q=80",
+  "うずの丘 大鳴門橋記念館": "https://images.unsplash.com/photo-1578632292335-df3abbb0d586?auto=format&fit=crop&w=1200&q=80",
+  "道之驛うずしお in うずまちテラス": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=80",
+  "大塚國際美術館":  "https://images.unsplash.com/photo-1536924430914-91f9e2041b83?auto=format&fit=crop&w=1200&q=80",
+  "道之驛くるくるなると": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=80",
+  "鳴門觀潮船":      "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=1200&q=80",
+  "阿波舞會館":      "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1200&q=80",
+  "四國水族館":      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80",
+  "栗林公園":        "https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?auto=format&fit=crop&w=1200&q=80",
+  "高松讚岐烏龍麵":  "https://images.unsplash.com/photo-1617093727343-374698b1b08d?auto=format&fit=crop&w=1200&q=80",
+  "琴平溫泉":        "https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?auto=format&fit=crop&w=1200&q=80",
+  "琴平溫泉（一泊二食）": "https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?auto=format&fit=crop&w=1200&q=80",
+  "鷲羽山展望台":    "https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?auto=format&fit=crop&w=1200&q=80",
+  "三井 OUTLET 倉敷":"https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80",
+  "倉敷美觀地區":    "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80",
+  "岡山城":          "https://images.unsplash.com/photo-1598135753163-6167c1a1ad65?auto=format&fit=crop&w=1200&q=80",
+  "岡山後樂園":      "https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?auto=format&fit=crop&w=1200&q=80",
+  "吉備津神社":      "https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?auto=format&fit=crop&w=1200&q=80",
+  "AEON MALL 岡山":  "https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?auto=format&fit=crop&w=1200&q=80",
+  "姬路城":          "https://images.unsplash.com/photo-1582559933553-0cf3e248a6cd?auto=format&fit=crop&w=1200&q=80",
+  "姬路市立動物園":  "https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=1200&q=80",
+  "姬路 穴子飯":     "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=80",
+  "神戶麵包超人博物館":"https://images.unsplash.com/photo-1560840067-ddcaeb7831d2?auto=format&fit=crop&w=1200&q=80",
+  "Kobe Harborland": "https://images.unsplash.com/photo-1551361415-69c87624334f?auto=format&fit=crop&w=1200&q=80",
+  "Mosaic":          "https://images.unsplash.com/photo-1551361415-69c87624334f?auto=format&fit=crop&w=1200&q=80",
+  "Kansai International Airport": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
 };
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1200&q=80";
 
-// Wikimedia Commons thumbnail API
-const wikimediaCache = {};
-async function getWikimediaUrl(title){
-  if(wikimediaCache[title]) return wikimediaCache[title];
-  try{
-    const url = `https://en.wikipedia.org/w/api.php?action=query&titles=File:${encodeURIComponent(title)}&prop=imageinfo&iiprop=url&iiurlwidth=800&format=json&origin=*`;
-    const res = await fetch(url);
-    const data = await res.json();
-    const pages = data.query.pages;
-    const page = Object.values(pages)[0];
-    const imgUrl = page?.imageinfo?.[0]?.thumburl;
-    if(imgUrl){ wikimediaCache[title] = imgUrl; return imgUrl; }
-  }catch(e){}
-  return null;
-}
-
-async function resolveSpotImage(item){
+// 同步取得圖片（馬上就有，不需等待）
+function resolveSpotImage(item){
   if(item.image) return item.image;
   const key = item.place || item.title || "";
-  // Try Wikimedia first
-  const wikiTitle = WIKIMEDIA_TITLES[key];
-  if(wikiTitle){
-    const wikiUrl = await getWikimediaUrl(wikiTitle);
-    if(wikiUrl) return wikiUrl;
-  }
-  // Fallback to Unsplash map
-  return UNSPLASH_FALLBACK[key] || DEFAULT_IMAGE;
+  return SPOT_IMAGE_MAP[key] || DEFAULT_IMAGE;
 }
 
 // ★ 升級：座標資料（用於地圖 iframe）
@@ -600,11 +575,6 @@ function setupMapToggle(){
         panel.classList.add('open');
         btn.classList.add('open');
         btn.textContent = '✕ 關閉地圖';
-        // 延遲載入 iframe src（避免一開始全部載入）
-        const iframe = panel.querySelector('iframe');
-        if(iframe && !iframe.src){
-          iframe.src = iframe.dataset.src;
-        }
       }
     });
   });
@@ -652,11 +622,17 @@ function renderDays(){
             `:''}
           </div>
 
-          <!-- ★ 地圖面板 -->
+          <!-- ★ 地圖面板（靜態地圖，手機完全相容） -->
           <div class="map-panel" id="map-panel-${dayIndex}-${itemIndex}">
-            ${embedUrl
-              ? `<iframe data-src="${embedUrl}" src="" loading="lazy" title="${escapeAttr(item.title||'')}地圖"></iframe>`
-              : `<div style="padding:20px;text-align:center;color:#888;font-size:13px;">此景點尚無精確座標，請直接用 Google Maps 搜尋</div>`}
+            ${coords
+              ? `<a href="${gmapsUrl}" target="_blank" rel="noreferrer" style="display:block;position:relative;">
+                  <img src="https://staticmap.openstreetmap.de/staticmap.php?center=${coords.lat},${coords.lon}&zoom=15&size=600x260&markers=${coords.lat},${coords.lon},red"
+                    style="width:100%;height:220px;object-fit:cover;display:block;" 
+                    alt="${escapeAttr(item.title||'')}地圖"
+                    onerror="this.parentElement.innerHTML='<div style=\'padding:20px;text-align:center;font-size:13px;color:#888;\'>點下方按鈕開啟地圖</div>'" />
+                  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:28px;pointer-events:none;">📍</div>
+                </a>`
+              : `<div style="padding:20px;text-align:center;color:#888;font-size:13px;">此景點無精確座標，請直接點 Google Maps</div>`}
             <div class="map-panel-actions">
               <a href="${gmapsUrl}" target="_blank" rel="noreferrer">📍 Google Maps 導航</a>
               <a href="${appleUrl}" target="_blank" rel="noreferrer" class="secondary">🍎 Apple Maps</a>
@@ -715,8 +691,8 @@ function renderDays(){
   renderDayJumpBar();
 }
 
-// ★ 非同步載入所有景點圖片
-async function loadAllItemPhotos(){
+// 同步載入所有景點圖片（直接賦值，快速顯示）
+function loadAllItemPhotos(){
   for(let dayIndex=0; dayIndex<state.days.length; dayIndex++){
     const d = state.days[dayIndex];
     for(let itemIndex=0; itemIndex<(d.items||[]).length; itemIndex++){
@@ -724,17 +700,10 @@ async function loadAllItemPhotos(){
       const img = document.getElementById(`photo-${dayIndex}-${itemIndex}`);
       const loading = document.getElementById(`loading-${dayIndex}-${itemIndex}`);
       if(!img) continue;
-      const url = await resolveSpotImage(item);
+      const url = resolveSpotImage(item);
       img.src = url;
-      img.onload = () => {
-        img.classList.add('loaded');
-        if(loading) loading.classList.add('hidden');
-      };
-      img.onerror = () => {
-        img.src = DEFAULT_IMAGE;
-        img.classList.add('loaded');
-        if(loading) loading.classList.add('hidden');
-      };
+      img.onload = () => { img.classList.add('loaded'); if(loading) loading.classList.add('hidden'); };
+      img.onerror = () => { img.src = DEFAULT_IMAGE; img.classList.add('loaded'); if(loading) loading.classList.add('hidden'); };
     }
   }
 }
