@@ -221,12 +221,12 @@ input::placeholder,textarea::placeholder{color:#8090A8}
   <div class="day-jump-bar" id="dayJumpBar"></div>
 </header>
 
-<div class="banner">✨ 升級版：每個景點點「📍 地圖」直接展開地圖，圖片自動對應景點。</div>
+
 
 <main id="tab-plan" data-tab-panel="plan" class="active">
   <section class="section">
     <h2>每日行程</h2>
-    <div class="hint">點景點卡的「📍 地圖」可展開地圖預覽，再點「導航」直接開 Google Maps。</div>
+
     <div class="sync-box"><div class="sync-status" id="syncStatus">同步狀態：尚未初始化</div></div>
     <div class="stack" id="dayCards"></div>
     <div class="action-row" style="margin-top:12px">
@@ -900,7 +900,19 @@ function updateSyncStatus(text){ document.getElementById("syncStatus").textConte
 function saveLocalState(){ localStorage.setItem(LOCAL_KEY, JSON.stringify(state.days)); }
 function loadLocalState(){
   const raw = localStorage.getItem(LOCAL_KEY);
-  if(raw){ try{ state.days = JSON.parse(raw); }catch(e){} }
+  if(raw){
+    try{
+      const parsed = JSON.parse(raw);
+      // 確保是陣列且有資料
+      if(Array.isArray(parsed) && parsed.length > 0){
+        state.days = parsed;
+      } else {
+        localStorage.removeItem(LOCAL_KEY);
+      }
+    }catch(e){
+      localStorage.removeItem(LOCAL_KEY);
+    }
+  }
 }
 
 function weatherText(code){
