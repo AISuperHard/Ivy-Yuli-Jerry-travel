@@ -10,15 +10,15 @@
 <meta name="apple-mobile-web-app-title" content="四國冒險" />
 <style>
 :root{
-  --bg:#eef8f7;--paper:#ffffff;--ink:#16324f;--muted:#607080;--line:#d9ece9;
-  --brand:#2a9d8f;--brand-dark:#1d3557;--accent:#e9c46a;--good:#2f855a;
-  --warn:#b7791f;--danger:#c53030;--food:#fff1e6;--menu:#e8f7ff;--buy:#f2ecff;
-  --book:#ffe8ea;--drive:#e8f7ed;--shadow:0 10px 30px rgba(28,69,99,.08);
+  --bg:#0A1628;--paper:#122040;--ink:#f0f4f8;--muted:#8090A8;--line:#1e3358;
+  --brand:#F4660A;--brand-dark:#F4660A;--accent:#E8A020;--good:#48bb78;
+  --warn:#E8A020;--danger:#fc8181;--food:#2a1a0e;--menu:#0d1e35;--buy:#1a1035;
+  --book:#1a0e15;--drive:#0d1e1a;--shadow:0 10px 30px rgba(0,0,0,.4);
   --safe-top:calc(env(safe-area-inset-top) + 10px);
   --safe-bottom:calc(env(safe-area-inset-bottom) + 14px);
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+html,body{margin:0;padding:0;background:#0A1628;color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang TC","Noto Sans TC","Segoe UI",sans-serif}
 html{scroll-behavior:smooth}
 body{padding-bottom:96px}
@@ -29,24 +29,24 @@ button,input,select,textarea{font:inherit}
 /* HERO */
 .hero{position:sticky;top:0;z-index:100;
   padding:calc(env(safe-area-inset-top) + 6px) 10px 8px;
-  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.90)),
-    url('https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=80') center/cover;
-  border-bottom:1px solid rgba(255,255,255,.45);backdrop-filter:blur(14px);}
-h1{margin:2px 0 6px;font-size:18px;line-height:1.2;letter-spacing:-.02em;}
+  background:rgba(10,22,40,.96);
+  border-bottom:1px solid rgba(244,102,10,.25);backdrop-filter:blur(14px);}
+h1{margin:2px 0 6px;font-size:18px;line-height:1.2;letter-spacing:-.02em;color:#fff;}
+h1 span{color:var(--brand);}
 .hero-actions,.toolbar,.day-jump-bar{display:flex;gap:6px;overflow:auto;padding-bottom:2px;}
 .hero-actions{margin-top:4px}.toolbar{margin-top:6px}.day-jump-bar{margin-top:8px}
-.pill,.day-jump-btn{white-space:nowrap;border:1px solid var(--line);background:rgba(255,255,255,.9);
-  border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800;}
-.pill.brand{background:var(--brand-dark);color:#fff;border-color:var(--brand-dark)}
-.pill.good{background:#edf9f0;color:var(--good);border-color:#c6efcf}
-.pill.warn{background:#fff8e6;color:var(--warn);border-color:#f4df9b}
-.day-jump-btn{cursor:pointer;color:var(--brand-dark)}
-.day-jump-btn.active{background:var(--brand-dark);color:#fff;border-color:var(--brand-dark)}
+.pill,.day-jump-btn{white-space:nowrap;border:1px solid rgba(244,102,10,.35);background:rgba(255,255,255,.08);
+  border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800;color:var(--ink);}
+.pill.brand{background:var(--brand);color:#fff;border-color:var(--brand)}
+.pill.good{background:rgba(72,187,120,.15);color:#68d391;border-color:rgba(72,187,120,.4)}
+.pill.warn{background:rgba(232,160,32,.15);color:#E8A020;border-color:rgba(232,160,32,.4)}
+.day-jump-btn{cursor:pointer;color:#8090A8}
+.day-jump-btn.active{background:var(--brand);color:#fff;border-color:var(--brand)}
 .more-tools{display:none;gap:6px;overflow:auto;padding-top:6px;padding-bottom:2px;}
 .more-tools.show{display:flex}
 
-.banner{margin:10px 14px 0;padding:10px 12px;background:#f8fffe;border:1px solid #d7efea;
-  border-radius:14px;font-size:12px;line-height:1.55}
+.banner{margin:10px 14px 0;padding:10px 12px;background:rgba(244,102,10,.1);border:1px solid rgba(244,102,10,.3);
+  border-radius:14px;font-size:12px;line-height:1.55;color:#f0c090}
 
 .section{padding:14px}
 .section h2{margin:0 0 8px;font-size:18px}
@@ -54,8 +54,8 @@ h1{margin:2px 0 6px;font-size:18px;line-height:1.2;letter-spacing:-.02em;}
 .stack{display:grid;gap:14px}
 
 /* DAY CARD */
-.day-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;
-  overflow:hidden;box-shadow:var(--shadow);scroll-margin-top:140px;}
+.day-card{background:var(--paper);border:1px solid rgba(244,102,10,.2);border-radius:22px;
+  overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.5);scroll-margin-top:140px;}
 .day-cover{position:relative;padding:14px;min-height:150px;color:#fff;
   background-size:cover;background-position:center}
 .day-cover::after{content:"";position:absolute;inset:0;
@@ -74,12 +74,12 @@ h1{margin:2px 0 6px;font-size:18px;line-height:1.2;letter-spacing:-.02em;}
   font-size:12px;font-weight:800;border:1px solid var(--line);background:#f7fbfb}
 .food{background:var(--food)}.menu{background:var(--menu)}.buy{background:var(--buy)}
 .book{background:var(--book)}.drive{background:var(--drive)}
-.story{border-left:4px solid var(--accent);padding:10px 12px;background:#fbfdfd;
+.story{border-left:4px solid var(--accent);padding:10px 12px;background:rgba(232,160,32,.08);
   border-radius:12px;font-size:13px;line-height:1.7;color:#4b5563}
 .grid{display:grid;gap:12px;margin-top:12px}
 
 /* ITEM CARD */
-.item-card,.transport-card{border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff}
+.item-card,.transport-card{border:1px solid rgba(244,102,10,.18);border-radius:18px;padding:14px;background:rgba(255,255,255,.05)}
 
 /* ★ 升級：景點圖片 wrapper */
 .item-photo-wrap{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;
@@ -91,53 +91,47 @@ h1{margin:2px 0 6px;font-size:18px;line-height:1.2;letter-spacing:-.02em;}
   font-size:22px;background:#eef4f5;transition:opacity .3s;}
 .item-photo-loading.hidden{opacity:0;pointer-events:none;}
 
-.item-type{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--brand-dark);text-transform:uppercase}
+.item-type{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--brand);text-transform:uppercase}
 .item-title{font-size:16px;font-weight:800;line-height:1.35;margin-top:2px}
 .item-desc{font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px}
-.item-hours{margin-top:8px;font-size:12px;font-weight:800;color:var(--brand-dark);
-  background:#f4fbfb;border:1px solid var(--line);border-radius:10px;padding:8px 10px;}
+.item-hours{margin-top:8px;font-size:12px;font-weight:800;color:var(--accent);
+  background:rgba(232,160,32,.1);border:1px solid rgba(232,160,32,.25);border-radius:10px;padding:8px 10px;}
 .item-note{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.5;}
 .action-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 
 .btn{appearance:none;border:none;border-radius:12px;padding:10px 12px;
   font-size:13px;font-weight:800;cursor:pointer}
-.btn.primary{background:var(--brand-dark);color:#fff}
-.btn.secondary{background:#f3f8f8;color:var(--ink);border:1px solid var(--line)}
-.btn.danger{background:#fff1f1;color:var(--danger);border:1px solid #f3c3c3}
+.btn.primary{background:var(--brand);color:#fff}
+.btn.secondary{background:rgba(255,255,255,.08);color:var(--ink);border:1px solid rgba(244,102,10,.25)}
+.btn.danger{background:rgba(252,129,129,.1);color:var(--danger);border:1px solid rgba(252,129,129,.3)}
 .btn.small{padding:7px 10px;font-size:12px}
 
 /* ★ 升級：MAP 按鈕 */
-.btn.map-toggle{background:#e8f4ff;color:#1d3557;border:1px solid #b8d8f5;display:flex;align-items:center;gap:5px;}
-.btn.map-toggle.open{background:#1d3557;color:#fff;border-color:#1d3557;}
+.btn.map-toggle{background:rgba(244,102,10,.15);color:#F4660A;border:1px solid rgba(244,102,10,.4);display:flex;align-items:center;gap:5px;}
+.btn.map-toggle.open{background:var(--brand);color:#fff;border-color:var(--brand);}
 
 /* ★ 升級：內嵌地圖面板 */
-.map-panel{display:none;margin-top:10px;border-radius:16px;overflow:hidden;
-  border:1px solid var(--line);background:#f0f6ff;}
-.map-panel.open{display:block;}
-.map-panel iframe{width:100%;height:240px;border:none;display:block;}
-.map-panel-actions{display:flex;gap:8px;padding:10px;background:#fff;}
-.map-panel-actions a{flex:1;text-align:center;padding:10px 8px;border-radius:10px;
-  font-size:13px;font-weight:800;background:var(--brand-dark);color:#fff;}
-.map-panel-actions a.secondary{background:#f3f8f8;color:var(--ink);border:1px solid var(--line);}
+/* 地圖面板已移除，改為直接導航按鈕 */
 
-.transport-card{background:#f8fcfc}
+.transport-card{background:rgba(244,102,10,.05);border-color:rgba(244,102,10,.2)}
 .transport-line{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
 .transport-main{font-size:14px;font-weight:800;color:var(--ink);margin-top:4px}
 
-.sync-box{margin-top:10px;padding:12px 14px;border-radius:16px;border:1px solid var(--line);background:#fff}
+.sync-box{margin-top:10px;padding:12px 14px;border-radius:16px;border:1px solid rgba(244,102,10,.25);background:rgba(255,255,255,.04)}
 .sync-status{font-size:13px;color:var(--muted);line-height:1.6}
 
 .split{display:grid;gap:12px}
-.info-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;
-  padding:16px;box-shadow:var(--shadow)}
+.info-card{background:var(--paper);border:1px solid rgba(244,102,10,.2);border-radius:22px;
+  padding:16px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
 .small-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
 .small-list li{display:flex;justify-content:space-between;gap:10px;padding:10px 0;
-  border-top:1px dashed var(--line);font-size:14px}
+  border-top:1px dashed rgba(244,102,10,.2);font-size:14px}
 .small-list li:first-child{border-top:none;padding-top:0}
 .field{display:grid;gap:6px}
 .label{font-size:12px;color:var(--muted);font-weight:800}
-input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;
-  border-radius:14px;padding:12px 14px;font-size:15px}
+input,select,textarea{width:100%;border:1px solid rgba(244,102,10,.3);background:rgba(255,255,255,.07);
+  border-radius:14px;padding:12px 14px;font-size:15px;color:var(--ink)}
+input::placeholder,textarea::placeholder{color:#8090A8}
 .budget-row{display:grid;grid-template-columns:1.2fr .8fr .8fr auto;gap:8px;align-items:center}
 .budget-actions{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .budget-total{font-size:16px;font-weight:800}
@@ -147,13 +141,13 @@ input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;
 /* TABBAR */
 .tabbar{position:fixed;left:50%;transform:translateX(-50%);bottom:0;max-width:620px;width:100%;
   padding:10px 12px var(--safe-bottom);z-index:60;
-  background:linear-gradient(180deg,rgba(238,248,247,0),rgba(238,248,247,.92) 25%,rgba(238,248,247,1))}
+  background:linear-gradient(180deg,rgba(10,22,40,0),rgba(10,22,40,.95) 30%,rgba(10,22,40,1))}
 .tabbar-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
-  background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:22px;
-  padding:8px;box-shadow:var(--shadow)}
+  background:rgba(18,32,64,.97);border:1px solid rgba(244,102,10,.3);border-radius:22px;
+  padding:8px;box-shadow:0 -4px 30px rgba(0,0,0,.5)}
 .tab-btn{border:none;background:transparent;border-radius:16px;padding:10px 8px;
   font-size:12px;font-weight:800;color:var(--muted)}
-.tab-btn.active{background:#edf7f6;color:var(--brand-dark)}
+.tab-btn.active{background:rgba(244,102,10,.2);color:var(--brand)}
 [data-tab-panel]{display:none}
 [data-tab-panel].active{display:block}
 
@@ -167,7 +161,7 @@ input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;
 <body>
 <div class="app">
 <header class="hero">
-  <h1>玥玥的第一次四國冒險之旅</h1>
+  <h1>玥玥的第一次<span>四國</span>冒險之旅</h1>
   <div class="hero-actions">
     <a class="pill" href="#tab-plan">行程總覽</a>
     <a class="pill" href="#tab-pocket">航班/住宿</a>
@@ -354,11 +348,21 @@ const SPOT_IMAGE_MAP = {
 };
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1200&q=80";
 
-// 同步取得圖片（馬上就有，不需等待）
+// 圖片來源：優先抓 GitHub /photos/景點名.jpg，找不到才用對照表
+const GITHUB_PHOTOS_BASE = "https://raw.githubusercontent.com/AISuperHard/Ivy-Yuli-Jerry-travel/main/photos/";
+
 function resolveSpotImage(item){
   if(item.image) return item.image;
   const key = item.place || item.title || "";
-  return SPOT_IMAGE_MAP[key] || DEFAULT_IMAGE;
+  // 先用 GitHub photos（若上傳了就會顯示）
+  return GITHUB_PHOTOS_BASE + encodeURIComponent(key) + ".jpg";
+}
+
+function onPhotoError(img, item){
+  // fallback 到對照表
+  const key = item.place || item.title || "";
+  const fallback = SPOT_IMAGE_MAP[key] || DEFAULT_IMAGE;
+  if(img.src !== fallback){ img.src = fallback; }
 }
 
 // ★ 升級：座標資料（用於地圖 iframe）
@@ -561,24 +565,7 @@ function weatherText(code){
 function chipHtml(chip){ return '<span class="tag '+(chip.class||'')+'">'+(chip.label||'')+'</span>'; }
 function escapeAttr(t){ return String(t||'').replace(/"/g,'&quot;'); }
 
-// ===== MAP TOGGLE LOGIC =====
-function setupMapToggle(){
-  document.querySelectorAll('.map-toggle-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const card = btn.closest('.item-card');
-      const panel = card.querySelector('.map-panel');
-      const isOpen = panel.classList.contains('open');
-      // 先關所有
-      document.querySelectorAll('.map-panel.open').forEach(p => p.classList.remove('open'));
-      document.querySelectorAll('.map-toggle-btn.open').forEach(b => { b.classList.remove('open'); b.textContent = '📍 地圖'; });
-      if(!isOpen){
-        panel.classList.add('open');
-        btn.classList.add('open');
-        btn.textContent = '✕ 關閉地圖';
-      }
-    });
-  });
-}
+// 地圖按鈕已改為直接導航連結，不需要 toggle 邏輯
 
 // ===== RENDER =====
 function renderDays(){
@@ -611,8 +598,8 @@ function renderDays(){
           ${item.note?`<div class="item-note">📝 ${item.note}</div>`:''}
           <div class="meta-row" style="margin-top:8px">${itemTags}</div>
           <div class="action-row">
-            <button class="btn map-toggle map-toggle-btn" data-day="${dayIndex}" data-item="${itemIndex}">📍 地圖</button>
-            <a class="btn primary" href="${gmapsUrl}" target="_blank" rel="noreferrer">Google Maps</a>
+            <a class="btn map-toggle" href="${gmapsUrl}" target="_blank" rel="noreferrer">📍 Google Maps</a>
+            <a class="btn secondary" href="${appleUrl}" target="_blank" rel="noreferrer">🍎 Apple Maps</a>
             <button class="btn secondary copy-btn" data-place="${escapeAttr(item.place||'')}">複製地點</button>
             ${state.isEditing?`
               <button class="btn secondary small move-item-up" data-day-index="${dayIndex}" data-item-index="${itemIndex}">上移</button>
@@ -622,22 +609,7 @@ function renderDays(){
             `:''}
           </div>
 
-          <!-- ★ 地圖面板（靜態地圖，手機完全相容） -->
-          <div class="map-panel" id="map-panel-${dayIndex}-${itemIndex}">
-            ${coords
-              ? `<a href="${gmapsUrl}" target="_blank" rel="noreferrer" style="display:block;position:relative;">
-                  <img src="https://staticmap.openstreetmap.de/staticmap.php?center=${coords.lat},${coords.lon}&zoom=15&size=600x260&markers=${coords.lat},${coords.lon},red"
-                    style="width:100%;height:220px;object-fit:cover;display:block;" 
-                    alt="${escapeAttr(item.title||'')}地圖"
-                    onerror="this.parentElement.innerHTML='<div style=\'padding:20px;text-align:center;font-size:13px;color:#888;\'>點下方按鈕開啟地圖</div>'" />
-                  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:28px;pointer-events:none;">📍</div>
-                </a>`
-              : `<div style="padding:20px;text-align:center;color:#888;font-size:13px;">此景點無精確座標，請直接點 Google Maps</div>`}
-            <div class="map-panel-actions">
-              <a href="${gmapsUrl}" target="_blank" rel="noreferrer">📍 Google Maps 導航</a>
-              <a href="${appleUrl}" target="_blank" rel="noreferrer" class="secondary">🍎 Apple Maps</a>
-            </div>
-          </div>
+
         </div>
       `;
 
@@ -685,7 +657,6 @@ function renderDays(){
 
   wrap.innerHTML = html;
   bindEvents();
-  setupMapToggle();
   loadAllItemPhotos();
   state.days.forEach(fetchWeatherForDay);
   renderDayJumpBar();
@@ -703,7 +674,7 @@ function loadAllItemPhotos(){
       const url = resolveSpotImage(item);
       img.src = url;
       img.onload = () => { img.classList.add('loaded'); if(loading) loading.classList.add('hidden'); };
-      img.onerror = () => { img.src = DEFAULT_IMAGE; img.classList.add('loaded'); if(loading) loading.classList.add('hidden'); };
+      img.onerror = () => { onPhotoError(img, item); img.classList.add('loaded'); if(loading) loading.classList.add('hidden'); };
     }
   }
 }
