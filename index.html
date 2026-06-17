@@ -156,6 +156,48 @@ input::placeholder,textarea::placeholder{color:#8090A8}
   .stack{grid-template-columns:1fr 1fr}
   .split{grid-template-columns:1fr 1fr}
 }
+
+/* ===== 景點詳細介紹抽屜 ===== */
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s;}
+.drawer-overlay.open{opacity:1;pointer-events:all;}
+.drawer{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);
+  width:100%;max-width:620px;max-height:90vh;z-index:201;
+  background:#0f1e38;border-radius:24px 24px 0 0;
+  border-top:2px solid rgba(244,102,10,.4);
+  transition:transform .35s cubic-bezier(.32,1,.23,1);
+  display:flex;flex-direction:column;overflow:hidden;}
+.drawer.open{transform:translateX(-50%) translateY(0);}
+.drawer-handle{width:40px;height:4px;background:rgba(244,102,10,.4);border-radius:2px;margin:12px auto 0;}
+.drawer-header{padding:14px 18px 10px;border-bottom:1px solid rgba(244,102,10,.15);flex-shrink:0;}
+.drawer-type{font-size:11px;font-weight:800;letter-spacing:.14em;color:#F4660A;text-transform:uppercase;margin-bottom:4px;}
+.drawer-title{font-size:22px;font-weight:800;color:#fff;line-height:1.2;}
+.drawer-close{position:absolute;top:14px;right:16px;background:rgba(255,255,255,.08);
+  border:1px solid rgba(244,102,10,.3);border-radius:50%;width:34px;height:34px;
+  display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;color:#fff;}
+.drawer-body{overflow-y:auto;padding:16px 18px 40px;-webkit-overflow-scrolling:touch;}
+.drawer-section{margin-bottom:20px;}
+.drawer-section-title{font-size:11px;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;color:#F4660A;margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;}
+.drawer-section-title::after{content:"";flex:1;height:1px;background:rgba(244,102,10,.2);}
+.drawer-text{font-size:14px;line-height:1.8;color:rgba(255,255,255,.82);}
+.drawer-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;}
+.drawer-chip{background:rgba(244,102,10,.1);border:1px solid rgba(244,102,10,.25);
+  border-radius:10px;padding:10px 12px;}
+.drawer-chip-label{font-size:10px;color:#F4660A;font-weight:800;letter-spacing:.08em;margin-bottom:2px;}
+.drawer-chip-value{font-size:13px;color:#fff;font-weight:600;}
+.drawer-tip{background:rgba(232,160,32,.1);border-left:3px solid #E8A020;
+  padding:10px 12px;border-radius:0 10px 10px 0;margin-top:8px;}
+.drawer-tip-label{font-size:10px;color:#E8A020;font-weight:800;letter-spacing:.08em;margin-bottom:4px;}
+.drawer-tip-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.65;}
+.drawer-nav-row{display:flex;gap:8px;margin-top:16px;}
+.drawer-nav-row a{flex:1;text-align:center;padding:13px 8px;border-radius:14px;
+  font-size:13px;font-weight:800;text-decoration:none;}
+.drawer-nav-google{background:#F4660A;color:#fff;}
+.drawer-nav-apple{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(244,102,10,.3);}
+.info-detail-btn{width:100%;margin-top:10px;padding:11px;background:rgba(244,102,10,.12);
+  border:1px solid rgba(244,102,10,.3);border-radius:12px;color:#F4660A;
+  font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
 </style>
 </head>
 <body>
@@ -282,6 +324,17 @@ input::placeholder,textarea::placeholder{color:#8090A8}
 <div class="footer-space"></div>
 </div>
 
+
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="spotDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header">
+    <div class="drawer-type" id="drawerType"></div>
+    <div class="drawer-title" id="drawerTitle"></div>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+</div>
 <nav class="tabbar">
   <div class="tabbar-inner">
     <button class="tab-btn active" data-tab="plan">行程</button>
@@ -547,6 +600,299 @@ const defaultTripDays = [
   }
 ];
 
+
+// ===== 景點詳細介紹資料庫 =====
+const SPOT_DETAIL = {
+  "明石海峽公園": {
+    intro: "橫跨神戶與淡路島的明石海峽大橋，是世界最長的吊橋。公園本體是一座大型自然花園，擁有廣大的草地、花田與兒童遊具區。\n\n10月下旬秋季花卉盛開，視野遼闊、空氣清爽，是從機場取車後最適合的第一站——不趕行程、先讓身體進入日本節奏。",
+    suitable: "★ 親子放電　★ 拍照打卡　★ 欣賞大橋",
+    duration: "1.5–2 小時",
+    bestTime: "下午光線柔和，大橋倒影最美",
+    tips: [
+      { label: "🧒 玥玥攻略", text: "草地遊具區不用另外買票，孩子可以自由玩。帶一張野餐墊，邊吃點心邊看橋，很有度假感。" },
+      { label: "📸 拍照點", text: "從公園內的視角拍明石海峽大橋，橋身與花卉同框是這裡最標誌性的畫面。" },
+      { label: "⚠️ 注意", text: "停車場收費，建議使用租車導航直接設定「淡路サービスエリア」或「明石海峽公園」。" }
+    ],
+    nearby: "淡路 SA 休息站有淡路牛肉漢堡和洋蔥霜淇淋，是第一個「淡路島名物」體驗點。"
+  },
+  "二次元之森（蠟筆小新、哥吉拉）": {
+    intro: "二次元之森（ニジゲンノモリ）是淡路島最受矚目的主題公園，以沉浸式夜間體驗著名。園區占地廣大、以森林為背景，每個IP館都有完整的世界觀設計。\n\n蠟筆小新館可以體驗「大人帝國的逆襲」，有互動劇情與周邊商品；哥吉拉館則以超大尺寸的哥吉拉模型為賣點，夜晚有雷射燈光秀，震撼感十足。",
+    suitable: "★ 親子主場　★ IP 粉絲　★ 夜間體驗",
+    duration: "3–4 小時（只玩兩館）",
+    bestTime: "下午3點入場，玩到夜間燈光秀，效果最完整",
+    tips: [
+      { label: "🧒 玥玥攻略", text: "蠟筆小新館的互動關卡很適合學齡前兒童，動線簡單。哥吉拉館的大模型對小孩視覺衝擊大，可以先心理準備一下。" },
+      { label: "🎟️ 購票建議", text: "強烈建議提前在官網購票，假日現場票常售完。各館票分開賣，只買兩館就好，不需全票。" },
+      { label: "🌙 夜間重點", text: "哥吉拉夜間燈光秀約20分鐘，是園區最值得等待的節目，時間約19:00–20:00，請確認當日場次。" }
+    ],
+    nearby: "園區內有餐廳，但選擇有限、價格偏高。建議下午入場前先在外面解決晚餐或帶輕食入場。"
+  },
+  "淡路花さじき": {
+    intro: "位於淡路島北部丘陵地帶，標高298公尺，是一片俯瞰大阪灣的廣大花田。10月下旬是秋季波斯菊盛開期，橘紅色花海配上遠方的明石海峽，景色壯觀。\n\n這裡沒有門票、沒有擁擠的人潮，就是一片開放的花田和無敵海景。是行程中少數讓大人真正放鬆的地方。",
+    suitable: "★ 大人放鬆　★ 拍照打卡　★ 賞花海景",
+    duration: "45分鐘–1小時",
+    bestTime: "上午光線最好，10月下旬波斯菊盛開",
+    tips: [
+      { label: "📸 最佳畫面", text: "花田＋大阪灣的全景最出片，手機廣角模式可以收進整片花海。建議帶小孩一起入鏡，顏色對比很漂亮。" },
+      { label: "🌬️ 天氣提醒", text: "高地風很大，薄外套必備。雨天或強風時體感很差，建議提前查天氣再決定是否前往。" },
+      { label: "🚗 停車", text: "免費停車場，入口明顯。若遇假日早上人潮，建議提早到。" }
+    ],
+    nearby: "附近無商店，建議在鎮上買好飲料和點心再上山。下山後往南15分鐘可到うずの丘。"
+  },
+  "うずの丘 大鳴門橋記念館": {
+    intro: "南淡路的著名地標，以巨大的「大たまねぎ」洋蔥球雕塑聞名——這顆洋蔥就是淡路島觀光最具代表性的打卡點。館內展示鳴門海峽的潮流知識，戶外平台可遠眺大鳴門橋與鳴門海峽。\n\n旁邊的伴手禮賣場是購買淡路洋蔥相關商品最齊全的地方之一，洋蔥霜淇淋、洋蔥醬、洋蔥仙貝這裡都有。",
+    suitable: "★ 打卡拍照　★ 伴手禮採購　★ 賞海峽",
+    duration: "45分鐘–1小時",
+    bestTime: "傍晚光線打在大鳴門橋上很美，建議趕在日落前到",
+    tips: [
+      { label: "📸 打卡重點", text: "巨大洋蔥球是必拍，玥玥站在洋蔥旁邊比例超萌。背景搭配大鳴門橋更完整。" },
+      { label: "🛒 必買清單", text: "淡路島霜淇淋（たまねぎ口味）、玉ねぎドレッシング（洋蔥醬）是CP值最高的伴手禮，輕便好帶。" },
+      { label: "💡 小提醒", text: "記念館本體可快速走過，重點在戶外平台景觀和賣場。不需要買記念館入場票也可以欣賞大部分景色。" }
+    ],
+    nearby: "徒步5分鐘可到「道の駅うずしお」，洋蔥漢堡在這裡，不要搞混了。"
+  },
+  "道之驛うずしお in うずまちテラス": {
+    intro: "南淡路最知名的道之驛，也是「淡路島洋蔥漢堡」的發源地之一。這裡的洋蔥漢堡選用淡路島產甘甜洋蔥，薄薄一層卻甜得驚人，是日本道之驛漢堡票選常客。\n\n建築本體是面對鳴門海峽的開放式露台，可以邊吃漢堡邊看海，天氣好時視野遼闊、心情很好。",
+    suitable: "★ 必吃美食　★ 伴手禮　★ 海景用餐",
+    duration: "30–45分鐘",
+    bestTime: "午餐時段（但人多），下午3點後人潮稍退",
+    tips: [
+      { label: "🍔 點餐建議", text: "「淡路島オニオンバーガー」是主角，一定要點。旁邊還有洋蔥霜淇淋，兩樣加起來是這站標配。" },
+      { label: "⏰ 注意時間", text: "漢堡賣完就沒了，假日下午4點前較有保障。餐廳與賣場關閉時間不同，先確認。" },
+      { label: "🧒 玥玥攻略", text: "洋蔥漢堡口感偏軟、不會太辣，小孩接受度高。露台座位風景好但風大，建議選室內座位。" }
+    ],
+    nearby: "和うずの丘距離約5分鐘車程，建議合併在同一個下午完成。"
+  },
+  "大塚國際美術館": {
+    intro: "這是日本最特別的美術館之一——館內收藏的1,000多件作品全部是「陶板複製畫」，從西斯汀教堂天頂畫到梵谷星夜、莫內睡蓮，全都以原尺寸燒製在陶板上，可以近距離觀看、甚至觸摸，不用擔心破壞名畫。\n\n地下3層至地上2層，動線長達4公里，完整走完需要3–4小時。對小孩來說，巨大的西斯汀教堂天頂畫複製空間是最震撼的體驗——他們會抬頭盯著那片天花板很久。",
+    suitable: "★ 藝術體驗　★ 親子同樂　★ 拍照無限制",
+    duration: "3–4 小時（可濃縮成2小時精華路線）",
+    bestTime: "開館後早到，人潮較少。下午容易擁擠。",
+    tips: [
+      { label: "🎨 精華路線", text: "時間有限的話：西斯汀禮拜堂→莫內睡蓮→梵谷→畢卡索→環境展示室，這條2小時可走完主要亮點。" },
+      { label: "📸 拍照重點", text: "館內全面開放拍照，西斯汀天頂畫躺在地板仰拍是最熱門打卡角度。莫內睡蓮廳氣氛絕美。" },
+      { label: "🎟️ 購票提醒", text: "成人票3,300日圓，需提前預約。館內有餐廳，建議中午在館內用餐，不用跑出去。" },
+      { label: "🧒 玥玥攻略", text: "對孩子說「這裡有超大超大的畫，大到整個牆壁都是」，他們進去會很興奮。蠟筆小新館玩完的隔天來，兩天連續放大招。" }
+    ],
+    nearby: "距離鳴門市區15分鐘，可結合漩渦觀光船一起規劃。"
+  },
+  "鳴門觀潮船": {
+    intro: "鳴門海峽是世界三大潮流之一，每逢漲退潮時，海峽中會形成巨大漩渦，最大可達直徑20公尺。搭乘觀潮船可以在海面上近距離觀看漩渦形成的壯觀過程。\n\n最大漩渦出現在春秋大潮期，10月下旬正值秋季大潮，是觀潮的好時機。船程約30分鐘，途中會繞行漩渦區域多次。",
+    suitable: "★ 自然奇景　★ 親子體驗　★ 海上冒險感",
+    duration: "船程約30分鐘，加候船共約1小時",
+    bestTime: "漩渦最大時段：春秋大潮，潮汐時間每天不同，請出發前查詢當日最佳時段",
+    tips: [
+      { label: "🌊 觀潮時間", text: "漩渦並非全天都有，需配合潮汐時間。建議至官網或「うずしお観潮船」APP查詢10/31當日最佳出航時段，提前預訂。" },
+      { label: "🧒 玥玥攻略", text: "船隻搖晃感中等，容易暈船的小孩建議搭乘前不要吃太飽。看到漩渦時很多孩子會驚呼，這個記憶點很強烈。" },
+      { label: "⚠️ 天氣影響", text: "若海況不佳，船班會取消。備用方案：大鳴門橋渦之道（步道），從橋上玻璃地板往下看漩渦，同樣震撼。" }
+    ],
+    nearby: "乘船處附近有道之驛くるくるなると，可在等船期間逛伴手禮或吃鳴門金時甜點。"
+  },
+  "阿波舞會館": {
+    intro: "德島最具代表性的文化展演設施，以阿波舞（阿波踊り）為主題。阿波舞是日本四大盂蘭盆舞之一，每年8月的德島阿波舞祭吸引百萬人潮，而阿波舞會館全年都有固定表演場次。\n\n館內除了定期舞台表演，還有展示阿波舞歷史與服裝的常設展，以及讓遊客試穿傳統服裝體驗舞蹈的互動區。建築頂樓有纜車可上眉山，俯瞰德島市區。",
+    suitable: "★ 文化體驗　★ 互動表演　★ 德島代表",
+    duration: "1–1.5 小時",
+    bestTime: "配合表演場次時間，下午場通常14:00或15:00開演",
+    tips: [
+      { label: "🎭 表演建議", text: "現場舞台表演約30–40分鐘，是重點。互動體驗區可以讓玥玥試穿傳統服裝，很適合拍照留念。" },
+      { label: "🚡 眉山纜車", text: "頂樓纜車可上眉山（標高280m）俯瞰德島市與吉野川，夜景也很美。若時間充裕可加入，纜車費用另計。" },
+      { label: "🎟️ 購票", text: "舞台表演票與館內展示分開，建議直接購買含表演的套票。場次有限，到場先確認當日時間。" }
+    ],
+    nearby: "步行可達德島市中心，附近有居酒屋與拉麵店，適合作為德島最後一晚的晚餐選擇。"
+  },
+  "四國水族館": {
+    intro: "2020年開幕的四國水族館位於香川縣宇多津町，是四國最大規模的水族館，以「88景」為概念，呈現四國各地的海洋生態。\n\n館內最受歡迎的是大型水槽的魟魚群與沙丁魚海，以及戶外的海豚與海獅表演。開幕以來持續是四國親子旅遊的頭號景點，展示空間新穎、動線流暢，適合帶小孩花半天時間慢慢逛。",
+    suitable: "★ 親子首選　★ 海洋生態　★ 表演節目",
+    duration: "2–2.5 小時",
+    bestTime: "開館後早到，表演場次下午較多",
+    tips: [
+      { label: "🐬 表演時間", text: "海豚與海獅表演是重頭戲，場次約10:30、13:30、15:30，請確認當日場次提前佔好位置。" },
+      { label: "🧒 玥玥攻略", text: "大型沙丁魚群水槽對小孩視覺衝擊最大，站在隧道水槽仰望魚群是必拍畫面。魟魚觸摸池也很受歡迎。" },
+      { label: "🎟️ 購票建議", text: "建議提前網路購票，現場排隊時間長。假日旺季人潮多，開館前15分鐘到場排隊較佳。" }
+    ],
+    nearby: "水族館旁有「ゴールドタワー」，以及步行可達的購物商場。午餐可在商場內解決，選擇豐富。"
+  },
+  "栗林公園": {
+    intro: "栗林公園是江戶時代歷代高松藩主打造的大名庭園，占地廣大，以6座池塘與13座假山構成精緻的迴遊式庭園。被米其林旅遊指南評為三星景點，也名列日本特別名勝。\n\n10月下旬楓葉開始轉紅，水面倒影與紅葉相映，是一年中最美的時期之一。庭園內有傳統茶屋可體驗抹茶，節奏悠閒，是整趟行程中難得可以完全放慢腳步的地方。",
+    suitable: "★ 大人必訪　★ 楓葉賞景　★ 日式庭園",
+    duration: "1.5–2 小時",
+    bestTime: "清晨開園後最安靜，傍晚光線最美",
+    tips: [
+      { label: "🍵 茶屋體驗", text: "「掬月亭」是園內傳統茶屋，可以點抹茶套餐坐在茶室邊看庭園，費用約600–800日圓，這個體驗很值得。" },
+      { label: "🍂 楓葉時機", text: "10月下旬楓葉剛開始轉色，紅綠相間最漂亮，不像11月下旬的全紅，但層次更豐富。" },
+      { label: "🧒 玥玥攻略", text: "園內有大鯉魚的池塘，孩子很喜歡看。可以在茶屋旁買魚飼料餵魚，是小朋友最開心的環節之一。" }
+    ],
+    nearby: "公園前有「栗林公園北口站」，附近有讚岐烏龍麵老店，建議逛完公園直接去解決午餐。"
+  },
+  "高松讚岐烏龍麵": {
+    intro: "讚岐烏龍麵是香川縣的靈魂食物，麵條QQ彈牙、湯頭以昆布和柴魚熬製，清澈而鮮甜。香川縣內有超過700家烏龍麵店，密度是全日本最高的縣份。\n\n傳統吃法分「溫」（熱湯）和「冷」（冷湯或沾麵），最推薦「ぶっかけうどん冷」——冷麵淋上醬汁、加上蔥花與天婦羅，是最能感受讚岐烏龍麵精髓的吃法。",
+    suitable: "★ 必吃體驗　★ 平價美食　★ 文化體驗",
+    duration: "30–45分鐘用餐",
+    bestTime: "午餐11:00–13:00（避開12:00尖峰）",
+    tips: [
+      { label: "🍜 推薦店家", text: "「山越うどん」（釜玉首創）、「うどんバカ一代」（大碗份量）、「綿谷」（高松市區方便）都是經典選擇，依當天路線選最近的。" },
+      { label: "💡 點餐秘訣", text: "先拿托盤排隊→選麵型（溫/冷/釜玉）→自己加天婦羅→結帳。流程像自助餐，第一次可能有點手忙腳亂，跟著前面的人學就對了。" },
+      { label: "🧒 玥玥攻略", text: "小孩最推薦「釜玉うどん」——剛煮好的烏龍麵加顆生蛋拌開，口感滑順濃郁，幾乎沒有小孩不愛。" }
+    ],
+    nearby: "高松市區逛完可順道到玉藻公園（高松城跡），或直接往琴平方向前進入住溫泉旅館。"
+  },
+  "琴平溫泉（一泊二食）": {
+    intro: "琴平（金刀比羅）是香川最著名的溫泉與神社小鎮，以「金刀比羅宮」聞名——參道石階多達785階（奧社則是1,368階），是日本最著名的參道之一。\n\n一泊二食的旅館意思是「附晚餐與早餐的住宿」，是日式旅館（旅館）最傳統的住法。晚餐通常是精緻的懷石料理，使用當地食材，上菜程序繁複但每道都精緻。這一晚是整趟行程中最有「日本旅館感」的體驗。",
+    suitable: "★ 溫泉放鬆　★ 日式旅館體驗　★ 懷石料理",
+    duration: "一晚（隔天可早起爬金刀比羅宮參道）",
+    bestTime: "下午3點後入住，先泡溫泉再吃晚餐",
+    tips: [
+      { label: "♨️ 溫泉建議", text: "入住後先去大浴場泡溫泉，再回房間換上浴衣等晚餐——這個流程是日本旅館體驗的精髓。晚餐後和隔天早餐前都可再泡一次。" },
+      { label: "🏯 金刀比羅宮", text: "若隔天早起有體力，785階參道清晨人少、氣氛靜謐。帶玥玥一起爬，每100階設有休息點，不用一口氣爬完。" },
+      { label: "🧒 玥玥攻略", text: "浴衣穿著可以請旅館人員協助。許多旅館提供兒童浴衣，讓玥玥穿著在走廊上走路，是很珍貴的照片記憶。" }
+    ],
+    nearby: "琴平街道有醬油霜淇淋和金比羅糖（硬糖），是當地特有的伴手禮。"
+  },
+  "鷲羽山展望台": {
+    intro: "鷲羽山是岡山縣倉敷市南端的山丘，標高133公尺，山頂展望台是眺望瀨戶大橋最經典的角度。從這裡可以將連結本州與四國的瀨戶大橋全景收入眼底，配上瀨戶內海的島嶼群，在晴天下幾乎是日本最漂亮的海峽風景之一。\n\n這裡是四國行程的「回程門檻」——從香川往倉敷途中路過，非常順路，停留時間不長，但景色報酬率極高。",
+    suitable: "★ 海峽景觀　★ 大橋打卡　★ 快速順遊",
+    duration: "30–45分鐘",
+    bestTime: "晴天午後，藍天配大橋最出片",
+    tips: [
+      { label: "📸 拍照建議", text: "展望台有多個觀景角度，最完整的瀨戶大橋全景在主展望台右側。廣角鏡頭或手機全景模式可以把橋身完整收進去。" },
+      { label: "🌅 傍晚時分", text: "若時間允許，傍晚的夕陽從瀨戶大橋後方落下，染紅海面，是更震撼的畫面。" },
+      { label: "🧒 玥玥攻略", text: "從展望台向下看可以清楚看到橋上行駛的車子和橋下通過的船隻，孩子很喜歡這個比例感。" }
+    ],
+    nearby: "山腳下有「下電ホテル」溫泉日帰り設施，以及鷲羽山ビレッジ可購買紀念品。"
+  },
+  "倉敷美觀地區": {
+    intro: "倉敷美觀地區是岡山縣保存最完整的江戶時代白壁商家街，以流過街道中央的倉敷川與兩岸的白壁倉庫群為主景。整個地區被列為國家重要傳統建造物群保存地區，漫步其中像走進日本版的水鄉小鎮。\n\n傍晚是最美的時段——當路燈亮起、倒映在運河中，白壁建築染上暖色，整個地區呈現一種非常電影感的氛圍。這裡也是採購倉敷特產「帆布雜貨」與「丹寧牛仔商品」的最佳地點。",
+    suitable: "★ 大人必訪　★ 購物散步　★ 攝影打卡",
+    duration: "1.5–2 小時",
+    bestTime: "傍晚17:00後路燈亮起，氣氛最好",
+    tips: [
+      { label: "🛍️ 必買清單", text: "倉敷帆布包（輕巧耐用）、兒島牛仔丹寧商品（當地特產）、桃太郎相關甜點（岡山名物）。「倉敷民藝館」旁的帆布專賣店是正宗來源。" },
+      { label: "🚣 川舟體驗", text: "倉敷川上有人力川舟（和船），搭乘約20分鐘，從水面視角欣賞白壁建築，費用約500日圓，需現場排隊。" },
+      { label: "🧒 玥玥攻略", text: "大原美術館的現代藝術對小孩可能有點沉悶，但外觀建築很好拍。可以讓玥玥在河邊找鯉魚，大運河裡有大量錦鯉。" }
+    ],
+    nearby: "美觀地區東側有「三井 OUTLET 倉敷」，若下午先逛 OUTLET 、傍晚來美觀地區是最順的路線。"
+  },
+  "三井 OUTLET 倉敷": {
+    intro: "三井 OUTLET PARK 倉敷是岡山縣最大的 OUTLET，品牌涵蓋服飾、運動用品、生活雜貨等，也有兒童品牌專區。室內型 OUTLET 不受天氣影響，雨天也能從容逛街，是行程彈性調度的好選擇。\n\n購物之外，餐廳區選擇也豐富，包含拉麵、壽司、咖啡廳，是行程中午餐或下午茶的備用方案。",
+    suitable: "★ 購物補貨　★ 雨天備案　★ 親子友善",
+    duration: "1.5–2 小時",
+    bestTime: "平日人少，假日下午人潮較多",
+    tips: [
+      { label: "🛍️ 採購建議", text: "UNIQLO、Nike、Adidas 折扣通常比台灣划算。童裝品牌 GAP Kids、Oshkosh 價格也有優勢，可以為玥玥補幾套秋冬衣。" },
+      { label: "💡 時間安排", text: "建議下午入場，逛1.5小時後再前往倉敷美觀地區，傍晚正好是美觀地區最美的時段，兩個地點完美接軌。" }
+    ],
+    nearby: "距離倉敷美觀地區約10分鐘車程，停車場免費且寬敞。"
+  },
+  "岡山城": {
+    intro: "岡山城建於16世紀，因外牆漆黑而被稱為「烏城」，與姬路城的「白鷺城」形成鮮明對比。雖然現有天守閣是1966年重建的鋼筋混凝土建築，但近年完成了大規模翻修，內部展示更加現代化與互動化。\n\n城內可以穿上戰國時代的鎧甲拍照，最頂層有360度俯瞰旭川與後樂園的絕佳視野。從後樂園隔著旭川遙望黑色天守閣，是岡山最具代表性的構圖。",
+    suitable: "★ 歷史體驗　★ 城郭建築　★ 鎧甲拍照",
+    duration: "1–1.5 小時",
+    bestTime: "上午人少，午前光線打在黑色城牆上很有質感",
+    tips: [
+      { label: "⚔️ 鎧甲體驗", text: "天守閣內有鎧甲試穿拍照區，費用包含在入場票，讓玥玥穿上小號鎧甲是這次必拍畫面之一。" },
+      { label: "📸 最佳角度", text: "從後樂園內的「唯心山」小丘眺望岡山城，是明信片般的經典構圖——綠色庭園前景、黑色天守閣背景。" },
+      { label: "🎟️ 聯票優惠", text: "岡山城與後樂園有聯票，比分開買便宜約100日圓，建議一起購買。兩個景點步行約5分鐘。" }
+    ],
+    nearby: "後樂園就在旁邊，兩個地點建議上下午各安排一個。西川綠道公園附近有多家餐廳，午餐選擇豐富。"
+  },
+  "岡山後樂園": {
+    intro: "後樂園是日本三大名園之一（另外兩個是金澤兼六園、水戶偕樂園），建於1700年代，是江戶時代岡山藩主的迴遊式庭園。面積廣大，以大型草坪、流水、茶屋與借景岡山城天守閣聞名。\n\n10月下旬，庭園內的楓樹開始轉色，加上秋季清澈的光線，是後樂園一年中最美的季節之一。整個庭園走完約需1小時，節奏悠閒，很適合放慢步調感受日本傳統庭園美學。",
+    suitable: "★ 日式庭園　★ 楓葉賞景　★ 歷史散步",
+    duration: "1–1.5 小時",
+    bestTime: "清晨開園後人少，光線也最好",
+    tips: [
+      { label: "🍂 楓葉時機", text: "10月下旬是楓葉初紅期，不如11月深紅但更有層次感。庭園內的楓樹主要集中在「延養亭」附近。" },
+      { label: "☕ 茶屋", text: "「鶴鳴館」是園內傳統茶屋，可以坐下來喝抹茶眺望大草坪，費用約500日圓，是庭園體驗的加分項。" },
+      { label: "🧒 玥玥攻略", text: "草坪廣闊，孩子可以在上面奔跑。園內有鶴、孔雀等鳥類，玥玥看到孔雀開屏應該會很開心。" }
+    ],
+    nearby: "與岡山城步行可達，建議上午後樂園、下午岡山城，或反過來。旭川沿岸有咖啡廳，適合中途休息。"
+  },
+  "吉備津神社": {
+    intro: "吉備津神社是備中國一宮，供奉桃太郎傳說的原型神明「大吉備津彦命」，是岡山縣最重要的神社之一。建築風格為罕見的「比翼入母屋造」，被列為國寶，本殿建於1425年，超過600年歷史。\n\n神社最著名的除了國寶本殿，還有長達360公尺的迴廊——這條連接本殿與末社的有頂木走廊蜿蜒穿越森林，走在其中有強烈的歷史穿越感，是攝影愛好者的熱門拍攝點。",
+    suitable: "★ 歷史神社　★ 國寶建築　★ 迴廊攝影",
+    duration: "1–1.5 小時",
+    bestTime: "清晨或傍晚人少，迴廊光線最美",
+    tips: [
+      { label: "📸 迴廊拍照", text: "360公尺的有頂迴廊是神社精髓。找一個沒有人的時機站在廊道中央拍，透視感極強。清晨光線從迴廊縫隙透入，氣氛絕佳。" },
+      { label: "🍑 桃太郎連結", text: "吉備津神社就是桃太郎故事的發源地，境內有相關符文與繪馬。帶玥玥說「這裡是桃太郎的家」，她應該很有感覺。" },
+      { label: "💡 參拜禮儀", text: "日本神社參拜：二拜二拍手一拜。可以讓玥玥一起做，是小孩體驗日本文化的好機會。" }
+    ],
+    nearby: "距離岡山市區約20分鐘車程。可與後樂園、岡山城安排在同一天，吉備津神社放在下午最合適。"
+  },
+  "AEON MALL 岡山": {
+    intro: "AEON MALL 岡山是岡山市中心最大的購物中心，位於岡山車站步行5分鐘距離，地下1層至地上6層，涵蓋超市、藥妝、服飾、餐廳、電影院等完整設施。\n\n對旅遊者來說，最實用的是B1的超市（可以補給日本零食和便當）、各樓層的藥妝連鎖（免稅購物）、以及頂樓餐廳的多樣選擇。這裡是行程最後補貨的理想基地。",
+    suitable: "★ 採購補貨　★ 藥妝免稅　★ 多樣餐飲",
+    duration: "1–1.5 小時",
+    bestTime: "平日下午人少，免稅手續較快",
+    tips: [
+      { label: "💊 藥妝採購", text: "松本清（マツモトキヨシ）在B1，可免稅。建議準備採購清單：零食、藥品、美妝、兒童商品，一次搞定。" },
+      { label: "🍱 B1 超市", text: "晚餐在外面解決後，可以在超市補充行程後半段的零食、飲料、早餐備品。有機會遇到晚間折扣熟食。" },
+      { label: "🧒 玥玥攻略", text: "3F有玩具賣場（トイザらス或類似），玥玥可以在這裡挑一個日本限定紀念品，讓她自己選，很有參與感。" }
+    ],
+    nearby: "岡山車站東口正對面，周邊還有電器量販店和唐吉訶德，採購彈性很大。"
+  },
+  "姬路城": {
+    intro: "姬路城是日本最完整保存的木造城郭，1993年列為日本第一批世界文化遺產，同時是日本國寶。白色優雅的外觀讓它有「白鷺城」的美稱，天守閣高31.5公尺，是現存日本最高的木造城郭。\n\n城內保存了戰國時代的防禦設計：錯綜複雜的城道、設計用來迷惑敵人的迷路路線、以及從牆縫射箭的「狹間」。爬上天守閣頂層俯瞰姬路市區，可以深刻感受到這座城在歷史上的制高點意義。",
+    suitable: "★ 世界遺產　★ 歷史建築　★ 必訪景點",
+    duration: "2–2.5 小時（含城內參觀）",
+    bestTime: "開館後越早越好，人潮下午快速增加",
+    tips: [
+      { label: "📸 最佳角度", text: "正門「菱之門」前的大道是最經典的姬路城構圖，白色天守閣在藍天下最顯眼。城內三の丸廣場的角度也很好。" },
+      { label: "⛩️ 好姬路神社", text: "城內有「好姬路神社」，供奉武士靈魂，境內小巧精緻。可以買姬路城造型的御守當紀念品。" },
+      { label: "🧒 玥玥攻略", text: "天守閣內樓梯非常陡，類似爬梯子，小孩需要大人協助。但爬上去的成就感很高，可以跟玥玥說「我們要爬上大城堡最高處！」" },
+      { label: "⚠️ 注意", text: "天守閣內不能穿鞋，需要脫鞋放入提供的袋子拿著走。冬季地板很冷，建議穿厚襪子。" }
+    ],
+    nearby: "城下有「姬路市立美術館」與「好古園」（日式庭園），好古園與姬路城套票划算，體力允許可加入。穴子飯名店在車站周邊。"
+  },
+  "姬路市立動物園": {
+    intro: "姬路市立動物園位於姬路城三の丸廣場旁，是日本少數位在歷史名城旁邊的動物園，入場費用非常親民（成人210日圓）。動物種類不算特別多，但對帶小孩的家庭是個輕鬆的中場休息點。\n\n最大賣點是「可以在姬路城旁邊看動物」這件事本身——從動物園內仰望姬路城天守閣，是個有趣的構圖組合。",
+    suitable: "★ 親子加分　★ 輕鬆可選　★ 姬路城旁",
+    duration: "30–45分鐘",
+    bestTime: "傍晚動物較活躍",
+    tips: [
+      { label: "💡 是否前往", text: "這是可選景點，如果玥玥在姬路城已經玩得很盡興、體力充足才加入。若時間吃緊，直接前往穴子飯或神戶。" },
+      { label: "🎟️ 票價", text: "成人210日圓，兒童免費（小學生以下），是日本最便宜的動物園之一，性價比很高。" }
+    ],
+    nearby: "從姬路城步行3分鐘，緊鄰在旁。"
+  },
+  "姬路 穴子飯": {
+    intro: "穴子（星鰻）是姬路的代表性食材，與關西其他地區的鰻魚飯（うなぎ）不同，穴子口感更清淡、皮薄無腥味，搭配醬汁蒸煮後鋪在飯上，是姬路特有的鄉土料理。\n\n穴子飯的做法分「煮穴子」（熟鰻蓋飯）與「蒸穴子」兩種，前者更常見。姬路車站周邊有多家知名穴子飯餐廳，以「まねき食品」（姬路車站內）和「魚焼亭あかし」最具代表性。",
+    suitable: "★ 在地美食　★ 必吃體驗",
+    duration: "45分鐘–1小時用餐",
+    bestTime: "午餐或下午提早晚餐，避開尖峰時段",
+    tips: [
+      { label: "🐟 點餐建議", text: "點「穴子飯定食」最完整，通常附味噌湯和漬物。份量對大人剛好，小孩可以分食或點兒童餐。" },
+      { label: "⏰ 等候時間", text: "熱門店假日可能需要等候30–60分鐘。若時間有壓力，可選擇姬路車站內的「えきそば」或月台上的立食穴子飯，速度快很多。" }
+    ],
+    nearby: "姬路車站周邊餐廳密集，吃完後直接開車往神戶，車程約50分鐘。"
+  },
+  "神戶麵包超人博物館": {
+    intro: "神戶麵包超人博物館（アンパンマンミュージアム）是全日本最受歡迎的親子主題設施之一，以麵包超人動畫角色為主題，提供互動展示、表演舞台、主題餐廳與周邊商品賣場。\n\n館內每天都有麵包超人角色的定時巡遊與舞台表演，讓小朋友可以近距離看到動畫裡的角色出現在眼前。這通常是最讓小孩情緒達到頂點的時刻。整個行程最後用這個收尾，讓玥玥帶著滿滿的快樂回台灣。",
+    suitable: "★ 親子首選　★ 最後高潮　★ 玥玥必去",
+    duration: "2–3 小時",
+    bestTime: "開館後最早入場，表演場次10:30、13:00、15:00",
+    tips: [
+      { label: "🎭 表演場次", text: "角色巡遊與舞台表演是重頭戲，場次約10:30、13:00、15:00。建議配合第一場表演安排入館時間，提前15分鐘佔好位置。" },
+      { label: "🧒 玥玥攻略", text: "入場後先確認當日表演時間表，圍繞表演場次安排其他活動順序。面包超人的「出來」那一刻，記得把相機準備好。" },
+      { label: "🛍️ 周邊採購", text: "館內與館外商店都有，但館內限定商品更豐富。建議最後出館前採購，不用整個行程拿著袋子。" },
+      { label: "🎟️ 購票", text: "強烈建議提前網路購票，現場假日常售完。記得確認入館日期不要買錯。" }
+    ],
+    nearby: "神戶 Harborland 就在5分鐘步行距離，博物館結束後可以到港邊散步、吃午餐，然後前往關西機場。"
+  },
+  "Kobe Harborland": {
+    intro: "神戶 Harborland 是神戶港邊的大型複合商業設施，以港口景觀、購物商場與餐廳聞名。整個區域包含 Umie 購物商場、Mosaic 廣場、以及面向港口的開放散步區。\n\n對最後一天的行程來說，這裡是最好的「緩衝地帶」——在這裡喝杯咖啡、讓玥玥看看大船、買最後幾樣紀念品，然後心平氣和地開車去機場。不用趕、不用特別行程，就是最後一次感受日本的節奏。",
+    suitable: "★ 港口散步　★ 最後購物　★ 放鬆收尾",
+    duration: "1–1.5 小時",
+    bestTime: "上午（配合麵包超人博物館後接上）",
+    tips: [
+      { label: "☕ 咖啡廳", text: "Mosaic 廣場面海的咖啡廳座位是最後行程的最佳終點，點杯拿鐵坐在窗邊看神戶港，好好道別這趟旅行。" },
+      { label: "🛍️ 最後採購", text: "Umie 裡有各種食品伴手禮，若還有需要補充的，在這裡一次解決。神戶牛肉仙貝、神戶布丁、風月堂餅乾都是機場也有但這裡更齊全的選項。" },
+      { label: "⏰ 機場時間", text: "Harborland 到關西機場開車約50–60分鐘，加上還車與報到需提前2小時。BR129 18:10起飛，建議最晚14:30離開 Harborland。" }
+    ],
+    nearby: "關西機場（KIX）距離約50–60分鐘車程，走阪神高速灣岸線最快。"
+  }
+};
+
 let state = { days: JSON.parse(JSON.stringify(defaultTripDays)), isEditing: false };
 let dayObserver = null;
 
@@ -600,6 +946,7 @@ function renderDays(){
           <div class="action-row">
             <a class="btn map-toggle" href="${gmapsUrl}" target="_blank" rel="noreferrer">📍 Google Maps</a>
             <a class="btn secondary" href="${appleUrl}" target="_blank" rel="noreferrer">🍎 Apple Maps</a>
+            <button class="info-detail-btn" onclick="openDrawer(${dayIndex},${itemIndex})">📖 詳細介紹</button>
             <button class="btn secondary copy-btn" data-place="${escapeAttr(item.place||'')}">複製地點</button>
             ${state.isEditing?`
               <button class="btn secondary small move-item-up" data-day-index="${dayIndex}" data-item-index="${itemIndex}">上移</button>
@@ -902,6 +1249,114 @@ document.getElementById("saveNotesBtn").addEventListener("click",()=>{
   }));
   alert("備註已儲存");
 });
+
+
+// ===== 景點抽屜 =====
+function openDrawer(dayIndex, itemIndex){
+  const item = state.days[dayIndex]?.items[itemIndex];
+  if(!item) return;
+  const key = item.place || item.title || "";
+  const detail = SPOT_DETAIL[key];
+  const gmapsUrl = getGoogleMapsUrl(item);
+  const coords = getCoords(item);
+  const appleUrl = coords
+    ? `https://maps.apple.com/?ll=${coords.lat},${coords.lon}&q=${encodeURIComponent(item.title||item.place||'')}`
+    : `https://maps.apple.com/?q=${encodeURIComponent((item.place||item.title||'')+" Japan")}`;
+
+  document.getElementById('drawerType').textContent = item.type || '景點';
+  document.getElementById('drawerTitle').textContent = item.title || '';
+
+  let body = '';
+
+  if(detail){
+    // 主要介紹
+    body += `<div class="drawer-section">
+      <div class="drawer-section-title">景點介紹</div>
+      <div class="drawer-text">${(detail.intro||'').replace(/\n/g,'<br>')}</div>
+    </div>`;
+
+    // 快速資訊格子
+    body += `<div class="drawer-section">
+      <div class="drawer-section-title">快速資訊</div>
+      <div class="drawer-grid">
+        ${detail.suitable ? `<div class="drawer-chip" style="grid-column:1/-1"><div class="drawer-chip-label">適合對象</div><div class="drawer-chip-value" style="font-size:12px">${detail.suitable}</div></div>` : ''}
+        ${detail.duration ? `<div class="drawer-chip"><div class="drawer-chip-label">建議停留</div><div class="drawer-chip-value">${detail.duration}</div></div>` : ''}
+        ${detail.bestTime ? `<div class="drawer-chip"><div class="drawer-chip-label">最佳時段</div><div class="drawer-chip-value" style="font-size:12px">${detail.bestTime}</div></div>` : ''}
+      </div>
+    </div>`;
+
+    // 營業時間
+    if(item.hours){
+      body += `<div class="drawer-section">
+        <div class="drawer-section-title">營業時間</div>
+        <div class="drawer-chip"><div class="drawer-chip-label">⏰ 開放時間</div><div class="drawer-chip-value">${item.hours}</div></div>
+        ${item.note ? `<div style="margin-top:6px;font-size:12px;color:#8090A8">⚠️ ${item.note}</div>` : ''}
+      </div>`;
+    }
+
+    // 小技巧
+    if(detail.tips && detail.tips.length){
+      body += `<div class="drawer-section"><div class="drawer-section-title">旅遊小技巧</div>`;
+      detail.tips.forEach(tip => {
+        body += `<div class="drawer-tip" style="margin-bottom:8px">
+          <div class="drawer-tip-label">${tip.label}</div>
+          <div class="drawer-tip-text">${tip.text}</div>
+        </div>`;
+      });
+      body += `</div>`;
+    }
+
+    // 附近推薦
+    if(detail.nearby){
+      body += `<div class="drawer-section">
+        <div class="drawer-section-title">附近推薦</div>
+        <div class="drawer-tip">
+          <div class="drawer-tip-label">📍 周邊資訊</div>
+          <div class="drawer-tip-text">${detail.nearby}</div>
+        </div>
+      </div>`;
+    }
+  } else {
+    // 無詳細資料時的基本版
+    body += `<div class="drawer-section">
+      <div class="drawer-text">${item.desc || '暫無詳細介紹'}</div>
+    </div>`;
+    if(item.hours){
+      body += `<div class="drawer-chip" style="margin-bottom:12px"><div class="drawer-chip-label">⏰ 營業時間</div><div class="drawer-chip-value">${item.hours}</div></div>`;
+    }
+    if(item.note){
+      body += `<div style="font-size:12px;color:#8090A8;margin-bottom:12px">⚠️ ${item.note}</div>`;
+    }
+  }
+
+  // 導航按鈕
+  body += `<div class="drawer-nav-row">
+    <a href="${gmapsUrl}" target="_blank" rel="noreferrer" class="drawer-nav-google">📍 Google Maps 導航</a>
+    <a href="${appleUrl}" target="_blank" rel="noreferrer" class="drawer-nav-apple">🍎 Apple Maps</a>
+  </div>`;
+
+  document.getElementById('drawerBody').innerHTML = body;
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.getElementById('spotDrawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDrawer(){
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.getElementById('spotDrawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// 支援手勢向下滑關閉抽屜
+(function(){
+  let startY = 0;
+  const drawer = document.getElementById('spotDrawer');
+  drawer.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, {passive:true});
+  drawer.addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].clientY - startY;
+    if(diff > 80) closeDrawer();
+  }, {passive:true});
+})();
 
 // ===== INIT =====
 loadLocalState();
