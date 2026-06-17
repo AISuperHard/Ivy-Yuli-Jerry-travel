@@ -50,7 +50,7 @@ h1 span{color:var(--brand);}
 
 .section{padding:14px}
 .section h2{margin:0 0 8px;font-size:18px}
-.hint{font-size:13px;color:var(--muted);margin-bottom:10px}
+.hint{font-size:15px;color:#8090A8;margin-bottom:10px}
 .stack{display:grid;gap:14px}
 
 /* DAY CARD */
@@ -62,19 +62,19 @@ h1 span{color:var(--brand);}
   background:linear-gradient(180deg,rgba(12,41,59,.12),rgba(12,41,59,.64))}
 .day-cover-inner{position:relative;z-index:1;display:flex;flex-direction:column;gap:9px}
 .day-no{font-size:11px;font-weight:800;letter-spacing:.12em}
-.day-title{font-size:22px;font-weight:800;line-height:1.15}
-.day-route{font-size:13px;line-height:1.45;opacity:.96}
+.day-title{font-size:24px;font-weight:800;line-height:1.15;color:#fff}
+.day-route{font-size:15px;line-height:1.5;color:rgba(255,255,255,.92)}
 .weather{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.16);
   border-radius:14px;padding:10px 12px;backdrop-filter:blur(10px);width:max-content;max-width:100%}
 .weather .temp{font-size:20px;font-weight:800}
 .weather .meta{font-size:12px;line-height:1.35}
 .day-body{padding:14px}
 .meta-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.tag{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;
-  font-size:12px;font-weight:800;border:1px solid var(--line);background:#f7fbfb}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;
+  font-size:13px;font-weight:800;border:1px solid rgba(244,102,10,.25);background:rgba(255,255,255,.07);color:#d0e0f0}
 .food{background:var(--food)}.menu{background:var(--menu)}.buy{background:var(--buy)}
 .book{background:var(--book)}.drive{background:var(--drive)}
-.story{border-left:4px solid var(--accent);padding:10px 12px;background:rgba(232,160,32,.08);
+.story{border-left:4px solid var(--accent);padding:12px 14px;background:rgba(232,160,32,.08);font-size:15px;color:#d8e8f8;line-height:1.75;
   border-radius:12px;font-size:13px;line-height:1.7;color:#4b5563}
 .grid{display:grid;gap:12px;margin-top:12px}
 
@@ -92,15 +92,15 @@ h1 span{color:var(--brand);}
 .item-photo-loading.hidden{opacity:0;pointer-events:none;}
 
 .item-type{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--brand);text-transform:uppercase}
-.item-title{font-size:16px;font-weight:800;line-height:1.35;margin-top:2px}
-.item-desc{font-size:13px;color:var(--muted);line-height:1.65;margin-top:8px}
+.item-title{font-size:18px;font-weight:800;line-height:1.3;margin-top:4px;color:#fff}
+.item-desc{font-size:15px;color:#c8d8e8;line-height:1.7;margin-top:8px}
 .item-hours{margin-top:8px;font-size:12px;font-weight:800;color:var(--accent);
   background:rgba(232,160,32,.1);border:1px solid rgba(232,160,32,.25);border-radius:10px;padding:8px 10px;}
-.item-note{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.5;}
+.item-note{margin-top:8px;font-size:14px;color:#a0b4c8;line-height:1.55;}
 .action-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 
-.btn{appearance:none;border:none;border-radius:12px;padding:10px 12px;
-  font-size:13px;font-weight:800;cursor:pointer}
+.btn{appearance:none;border:none;border-radius:12px;padding:12px 14px;
+  font-size:15px;font-weight:800;cursor:pointer}
 .btn.primary{background:var(--brand);color:#fff}
 .btn.secondary{background:rgba(255,255,255,.08);color:var(--ink);border:1px solid rgba(244,102,10,.25)}
 .btn.danger{background:rgba(252,129,129,.1);color:var(--danger);border:1px solid rgba(252,129,129,.3)}
@@ -114,8 +114,8 @@ h1 span{color:var(--brand);}
 /* 地圖面板已移除，改為直接導航按鈕 */
 
 .transport-card{background:rgba(244,102,10,.05);border-color:rgba(244,102,10,.2)}
-.transport-line{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
-.transport-main{font-size:14px;font-weight:800;color:var(--ink);margin-top:4px}
+.transport-line{display:flex;align-items:center;gap:8px;font-size:14px;color:#8090A8}
+.transport-main{font-size:16px;font-weight:800;color:#e0eaf4;margin-top:4px}
 
 .sync-box{margin-top:10px;padding:12px 14px;border-radius:16px;border:1px solid rgba(244,102,10,.25);background:rgba(255,255,255,.04)}
 .sync-status{font-size:13px;color:var(--muted);line-height:1.6}
@@ -146,7 +146,7 @@ input::placeholder,textarea::placeholder{color:#8090A8}
   background:rgba(18,32,64,.97);border:1px solid rgba(244,102,10,.3);border-radius:22px;
   padding:8px;box-shadow:0 -4px 30px rgba(0,0,0,.5)}
 .tab-btn{border:none;background:transparent;border-radius:16px;padding:10px 8px;
-  font-size:12px;font-weight:800;color:var(--muted)}
+  font-size:14px;font-weight:800;color:var(--muted)}
 .tab-btn.active{background:rgba(244,102,10,.2);color:var(--brand)}
 [data-tab-panel]{display:none}
 [data-tab-panel].active{display:block}
@@ -170,7 +170,7 @@ input::placeholder,textarea::placeholder{color:#8090A8}
 .drawer-handle{width:40px;height:4px;background:rgba(244,102,10,.4);border-radius:2px;margin:12px auto 0;}
 .drawer-header{padding:14px 18px 10px;border-bottom:1px solid rgba(244,102,10,.15);flex-shrink:0;}
 .drawer-type{font-size:11px;font-weight:800;letter-spacing:.14em;color:#F4660A;text-transform:uppercase;margin-bottom:4px;}
-.drawer-title{font-size:22px;font-weight:800;color:#fff;line-height:1.2;}
+.drawer-title{font-size:24px;font-weight:800;color:#fff;line-height:1.2;}
 .drawer-close{position:absolute;top:14px;right:16px;background:rgba(255,255,255,.08);
   border:1px solid rgba(244,102,10,.3);border-radius:50%;width:34px;height:34px;
   display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;color:#fff;}
@@ -180,24 +180,24 @@ input::placeholder,textarea::placeholder{color:#8090A8}
   text-transform:uppercase;color:#F4660A;margin-bottom:8px;
   display:flex;align-items:center;gap:8px;}
 .drawer-section-title::after{content:"";flex:1;height:1px;background:rgba(244,102,10,.2);}
-.drawer-text{font-size:14px;line-height:1.8;color:rgba(255,255,255,.82);}
+.drawer-text{font-size:16px;line-height:1.85;color:rgba(255,255,255,.9);}
 .drawer-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;}
 .drawer-chip{background:rgba(244,102,10,.1);border:1px solid rgba(244,102,10,.25);
   border-radius:10px;padding:10px 12px;}
 .drawer-chip-label{font-size:10px;color:#F4660A;font-weight:800;letter-spacing:.08em;margin-bottom:2px;}
-.drawer-chip-value{font-size:13px;color:#fff;font-weight:600;}
+.drawer-chip-value{font-size:15px;color:#fff;font-weight:600;}
 .drawer-tip{background:rgba(232,160,32,.1);border-left:3px solid #E8A020;
   padding:10px 12px;border-radius:0 10px 10px 0;margin-top:8px;}
 .drawer-tip-label{font-size:10px;color:#E8A020;font-weight:800;letter-spacing:.08em;margin-bottom:4px;}
-.drawer-tip-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.65;}
+.drawer-tip-text{font-size:15px;color:rgba(255,255,255,.88);line-height:1.7;}
 .drawer-nav-row{display:flex;gap:8px;margin-top:16px;}
-.drawer-nav-row a{flex:1;text-align:center;padding:13px 8px;border-radius:14px;
-  font-size:13px;font-weight:800;text-decoration:none;}
+.drawer-nav-row a{flex:1;text-align:center;padding:15px 8px;border-radius:14px;
+  font-size:15px;font-weight:800;text-decoration:none;}
 .drawer-nav-google{background:#F4660A;color:#fff;}
 .drawer-nav-apple{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(244,102,10,.3);}
-.info-detail-btn{width:100%;margin-top:10px;padding:11px;background:rgba(244,102,10,.12);
-  border:1px solid rgba(244,102,10,.3);border-radius:12px;color:#F4660A;
-  font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
+.info-detail-btn{width:100%;margin-top:10px;padding:14px;background:rgba(244,102,10,.15);
+  border:1px solid rgba(244,102,10,.4);border-radius:14px;color:#FF8040;
+  font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
 </style>
 </head>
 <body>
@@ -1252,7 +1252,7 @@ document.getElementById("saveNotesBtn").addEventListener("click",()=>{
 
 
 // ===== 景點抽屜 =====
-function openDrawer(dayIndex, itemIndex){
+window.openDrawer = function(dayIndex, itemIndex){
   const item = state.days[dayIndex]?.items[itemIndex];
   if(!item) return;
   const key = item.place || item.title || "";
@@ -1341,7 +1341,7 @@ function openDrawer(dayIndex, itemIndex){
   document.body.style.overflow = 'hidden';
 }
 
-function closeDrawer(){
+window.closeDrawer = function(){
   document.getElementById('drawerOverlay').classList.remove('open');
   document.getElementById('spotDrawer').classList.remove('open');
   document.body.style.overflow = '';
