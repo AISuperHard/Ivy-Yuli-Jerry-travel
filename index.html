@@ -1420,9 +1420,7 @@ if(drawerCloseButton){
     event.stopPropagation();
     window.closeDrawer();
   };
-  drawerCloseButton.addEventListener('pointerdown', closeFromButton, true);
   drawerCloseButton.addEventListener('click', closeFromButton, true);
-  drawerCloseButton.addEventListener('touchend', closeFromButton, {capture:true, passive:false});
 }
 
 (function(){
