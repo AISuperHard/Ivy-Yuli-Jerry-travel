@@ -333,7 +333,7 @@ input::placeholder,textarea::placeholder{color:#94a3b8}
 
 <div class="drawer-overlay" id="drawerOverlay" onclick="window.closeDrawer()"></div>
 <div class="drawer" id="spotDrawer">
-  <button type="button" class="drawer-close" onclick="window.closeDrawer()" aria-label="關閉詳細說明">✕ 關閉</button>
+  <button type="button" class="drawer-close" onclick="document.getElementById('drawerOverlay').click()" aria-label="關閉詳細說明">✕ 關閉</button>
   
   <div class="drawer-header">
     <div class="drawer-type" id="drawerType"></div>
