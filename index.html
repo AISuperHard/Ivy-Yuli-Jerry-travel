@@ -334,7 +334,7 @@ input::placeholder,textarea::placeholder{color:#94a3b8}
 <div class="drawer-overlay" id="drawerOverlay" onclick="window.closeDrawer()"></div>
 <div class="drawer" id="spotDrawer">
   <button type="button" class="drawer-close" onclick="window.closeDrawer()" aria-label="關閉詳細說明">✕ 關閉</button>
-  <div class="drawer-handle" onclick="window.closeDrawer()" role="button" tabindex="0" aria-label="關閉詳細說明"></div>
+  
   <div class="drawer-header">
     <div class="drawer-type" id="drawerType"></div>
     <div class="drawer-title" id="drawerTitle"></div>
@@ -1412,7 +1412,7 @@ window.closeDrawer = function(){
   document.body.style.overflow = '';
 }
 
-<div class="drawer-handle" onclick="window.closeDrawer()" role="button" tabindex="0" aria-label="關閉詳細說明"></div>
+
 (function(){
   let startY = 0;
   const handle = document.querySelector('.drawer-handle');
