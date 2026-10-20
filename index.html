@@ -1297,6 +1297,7 @@ document.getElementById("saveNotesBtn").addEventListener("click",()=>{
 
 // ===== 景點抽屜 =====
 window.openDrawer = function(dayIndex, itemIndex){
+  if(drawerClosing) return;
   const item = state.days[dayIndex]?.items[itemIndex];
   if(!item) return;
   const key = item.place || item.title || "";
@@ -1413,14 +1414,17 @@ window.closeDrawer = function(){
 }
 ;
 
+let drawerClosing = false;
 const drawerCloseButton = document.getElementById('drawerCloseBtn');
 if(drawerCloseButton){
   const closeFromButton = event => {
     event.preventDefault();
     event.stopPropagation();
+    drawerClosing = true;
     window.closeDrawer();
+    window.setTimeout(() => { drawerClosing = false; }, 500);
   };
-  drawerCloseButton.addEventListener('focus', closeFromButton, true);
+  drawerCloseButton.addEventListener('pointerdown', closeFromButton, true);
   drawerCloseButton.addEventListener('click', closeFromButton, true);
 }
 
