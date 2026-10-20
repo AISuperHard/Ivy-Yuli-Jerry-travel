@@ -367,7 +367,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const DOC_PATH = ["tripApps","yueyue-shikoku-trip-v10"];
-const LOCAL_KEY = "trip_editor_state_v10";
+const LOCAL_KEY = "trip_editor_state_v11";
 const NOTES_KEY = "trip_notes_v10";
 const BUDGET_KEY = "trip_budget_v10";
 
@@ -503,109 +503,649 @@ function getDriveEstimateText(itemA, itemB){
 // ===== DEFAULT TRIP DATA =====
 const defaultTripDays = [
   {
-    day:"DAY 1",date:"10/29（四）",title:"關西機場 → 淡路島北部",
-    route:"KIX → 明石海峽公園 → 淡路島北部住宿",locationForWeather:"Awaji",
-    cover:"https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1400&q=80",
-    story:"第一天不要貪心。明石海峽公園最適合接在入境與取車後，避免把抵達日玩成壓力測試。",
-    tags:[{label:"抵達日",class:"drive"},{label:"公園型景點",class:""}],
-    items:[
-      {type:"交通",title:"KIX 取車直奔淡路島",desc:"抵達日不加第二個正式景點。",place:"Kansai International Airport Rent a Car",hours:"依租車公司營業時間",note:"請確認取車櫃台營業時間",image:"",chips:[{label:"自駕",class:"drive"},{label:"租車訂單",class:"book"}]},
-      {type:"餐廳",title:"機場或沿路簡餐",desc:"第一天以效率優先，不用為了吃太多而壓縮節奏。",place:"關西機場",hours:"依店鋪為準",note:"機場餐廳各自營業時間不同",image:"",chips:[{label:"先求穩",class:"food"}]},
-      {type:"景點",title:"明石海峽公園",desc:"大型花園與草地遊具型景點，適合先放電。",place:"明石海峽公園",hours:"09:30–17:00",note:"實際開園時間依季節可能調整",image:"",chips:[{label:"必看",class:""},{label:"草地放電",class:"menu"}]}
+    "day": "DAY 1",
+    "date": "10/29（四）",
+    "title": "台灣 → 關西機場 → 淡路島",
+    "route": "TPE → KIX → 淡路 SA 麵包午餐 → 明石海峽公園 → 龜之井酒店 淡路島",
+    "locationForWeather": "Awaji",
+    "cover": "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1400&q=80",
+    "story": "抵達日只安排放電與溫泉。入境、取車如有延誤，公園時間可彈性縮短。",
+    "tags": [
+      "抵達日",
+      "親子遊具",
+      "溫泉"
+    ],
+    "items": [
+      {
+        "time": "08:20–11:55",
+        "type": "交通",
+        "title": "台北桃園 → 關西機場",
+        "subtitle": "BR132｜抵達後辦理入境與租車",
+        "place": "Kansai International Airport Rent a Car",
+        "duration": "飛行約 2 小時 35 分",
+        "note": "預計完成入境與取車後約 13:15 出發。",
+        "image": "",
+        "chips": [
+          "航班"
+        ]
+      },
+      {
+        "time": "約 14:45",
+        "type": "午餐",
+        "title": "MARIAGE de FARINE AWAJISHIMA",
+        "subtitle": "淡路 SA 麵包店｜先吃或外帶至公園",
+        "place": "MARIAGE de FARINE AWAJISHIMA",
+        "duration": "約 30–45 分",
+        "note": "玥玥不方便在車上吃，先在這裡解決午餐最舒服。",
+        "image": "",
+        "chips": [
+          "麵包",
+          "淡路 SA"
+        ]
+      },
+      {
+        "time": "15:30–17:00",
+        "type": "景點",
+        "title": "國營明石海峽公園",
+        "subtitle": "夢っこランド大型遊具與超大溜滑梯",
+        "place": "明石海峽公園",
+        "duration": "約 1.5 小時",
+        "note": "第一天唯一正式景點；重點是讓玥玥放電。",
+        "image": "",
+        "chips": [
+          "親子",
+          "遊具"
+        ]
+      },
+      {
+        "time": "17:30 起",
+        "type": "住宿",
+        "title": "龜之井酒店 淡路島",
+        "subtitle": "Check-in → 飯店晚餐 → 泡湯休息",
+        "place": "龜之井酒店 淡路島",
+        "duration": "住宿 2 晚",
+        "note": "第一天不再追景點，舒服收尾。",
+        "image": "",
+        "chips": [
+          "晚餐",
+          "溫泉"
+        ]
+      }
     ]
   },
   {
-    day:"DAY 2",date:"10/30（五）",title:"北淡路主題日 → 南淡路收尾",
-    route:"二次元之森 → 淡路花さじき → うずの丘 → うずまちテラス",locationForWeather:"Awaji",
-    cover:"https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=1400&q=80",
-    story:"只玩蠟筆小新與哥吉拉，所以傍晚再接南淡路代表點是成立的。",
-    tags:[{label:"淡路島 1.5 天核心",class:"drive"},{label:"親子日",class:""}],
-    items:[
-      {type:"景點",title:"二次元之森（蠟筆小新、哥吉拉）",desc:"只玩兩區，時間比較可控。",place:"二次元之森（蠟筆小新、哥吉拉）",hours:"10:00–22:00",note:"各區域最晚入場時間不同",image:"",chips:[{label:"門票",class:"book"}]},
-      {type:"景點",title:"淡路花さじき",desc:"高地花海與開闊景觀，拍照很值得。",place:"淡路花さじき",hours:"09:00–17:00",note:"雨天與強風時體感差很多",image:"",chips:[{label:"風景點",class:"menu"}]},
-      {type:"景點",title:"うずの丘",desc:"南淡路代表觀景與洋蔥打卡地標。",place:"うずの丘 大鳴門橋記念館",hours:"09:00–17:00",note:"伴手禮區與餐廳時間可能不同",image:"",chips:[{label:"洋蔥打卡",class:"menu"},{label:"伴手禮",class:"buy"}]},
-      {type:"休息站",title:"道之驛うずしお in うずまちテラス",desc:"買淡路洋蔥土產、吃洋蔥漢堡。",place:"道之驛うずしお in うずまちテラス",hours:"09:00–17:00",note:"餐飲與賣場時間可能不同",image:"",chips:[{label:"洋蔥漢堡",class:"food"},{label:"必買",class:"buy"}]}
+    "day": "DAY 2",
+    "date": "10/30（五）",
+    "title": "哥吉拉＋北淡路風景",
+    "route": "龜之井酒店 → 二次元之森 → 淡路花さじき → 伊弉諾神宮 → 龜之井酒店",
+    "locationForWeather": "Awaji",
+    "cover": "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=1400&q=80",
+    "story": "爸爸的哥吉拉日，下午留給花海、山丘海景與神宮；全程留在中北淡路。",
+    "tags": [
+      "哥吉拉",
+      "花海",
+      "神宮"
+    ],
+    "items": [
+      {
+        "time": "早餐後",
+        "type": "景點",
+        "title": "二次元之森",
+        "subtitle": "爸爸：哥吉拉迎擊作戰／Zipline 優先",
+        "place": "二次元之森（蠟筆小新、哥吉拉）",
+        "duration": "約 1.5–2 小時",
+        "note": "玥玥與媽媽可在免費區散步、遊具與等候；不特別買勇者鬥惡龍或蠟筆小新票。",
+        "image": "",
+        "chips": [
+          "哥吉拉",
+          "親子"
+        ]
+      },
+      {
+        "time": "中午",
+        "type": "午餐",
+        "title": "依當天時間彈性用餐",
+        "subtitle": "不鎖定餐廳",
+        "place": "Awaji",
+        "duration": "約 1 小時",
+        "note": "以哥吉拉活動結束時間為準。",
+        "image": "",
+        "chips": [
+          "彈性"
+        ]
+      },
+      {
+        "time": "下午",
+        "type": "景點",
+        "title": "淡路花さじき",
+        "subtitle": "秋季花海、山丘與海景",
+        "place": "淡路花さじき",
+        "duration": "約 45–60 分",
+        "note": "出發前再確認當週實際花況。",
+        "image": "",
+        "chips": [
+          "風景",
+          "拍照"
+        ]
+      },
+      {
+        "time": "傍晚前",
+        "type": "景點",
+        "title": "伊弉諾神宮",
+        "subtitle": "淡路島代表性神宮",
+        "place": "伊弉諾神宮",
+        "duration": "約 30–45 分",
+        "note": "停車後步行不遠。",
+        "image": "",
+        "chips": [
+          "神社"
+        ]
+      },
+      {
+        "time": "傍晚",
+        "type": "住宿",
+        "title": "回龜之井酒店 淡路島",
+        "subtitle": "晚餐與泡湯",
+        "place": "龜之井酒店 淡路島",
+        "duration": "住宿第 2 晚",
+        "note": "不再南北折返，保留舒服節奏。",
+        "image": "",
+        "chips": [
+          "晚餐",
+          "溫泉"
+        ]
+      }
     ]
   },
   {
-    day:"DAY 3",date:"10/31（六）",title:"南淡路 → 鳴門 → 德島市區",
-    route:"大塚國際美術館 → kurukurunaruto → 漩渦觀光船 → 阿波舞會館",locationForWeather:"Naruto",
-    cover:"https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1400&q=80",
-    story:"先鳴門、後市區最順。鳴門段一口氣處理完，再去德島市區。",
-    tags:[{label:"德島豐富版",class:"drive"},{label:"美術館日",class:""}],
-    items:[
-      {type:"景點",title:"大塚國際美術館",desc:"鳴門主景點，值得給完整時段。",place:"大塚國際美術館",hours:"09:30–17:00",note:"週一休館的可能性請先確認",image:"",chips:[{label:"門票",class:"book"},{label:"必看",class:""}]},
-      {type:"休息站",title:"道之驛くるくるなると",desc:"鳴門午餐與伴手禮補給站。",place:"道之驛くるくるなると",hours:"09:00–17:00",note:"部分熟食櫃位提早結束",image:"",chips:[{label:"鳴門金時",class:"buy"},{label:"海鮮",class:"food"}]},
-      {type:"景點",title:"漩渦觀光船",desc:"把鳴門海峽的記憶點補滿。",place:"鳴門觀潮船",hours:"依船班為準",note:"會受天候與海況影響",image:"",chips:[{label:"班次",class:"book"}]},
-      {type:"景點",title:"阿波舞會館",desc:"德島市區文化收尾。",place:"阿波舞會館",hours:"09:00–17:00",note:"表演時間請另查當日場次",image:"",chips:[{label:"德島代表",class:"menu"}]}
+    "day": "DAY 3",
+    "date": "10/31（六）",
+    "title": "淡路島南下 → 鳴門 → 鹽江",
+    "route": "龜之井酒店 → 英格蘭之丘 → くるくるなると → 大塚國際美術館 → 鹽江",
+    "locationForWeather": "Naruto",
+    "cover": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1400&q=80",
+    "story": "退房後一路南下。取消觀潮船，改成不趕時間的午餐、美術館與晚餐補給。",
+    "tags": [
+      "動物",
+      "美術館",
+      "自煮晚餐"
+    ],
+    "items": [
+      {
+        "time": "09:30",
+        "type": "交通",
+        "title": "龜之井酒店 淡路島出發",
+        "subtitle": "退房後一路往南，不再回頭",
+        "place": "龜之井酒店 淡路島",
+        "duration": "車程約 45 分",
+        "note": "早餐後退房出發。",
+        "image": "",
+        "chips": [
+          "退房"
+        ]
+      },
+      {
+        "time": "10:15–12:15",
+        "type": "景點",
+        "title": "淡路島英格蘭之丘",
+        "subtitle": "玥玥主場：動物與戶外活動",
+        "place": "淡路島イングランドの丘",
+        "duration": "2 小時",
+        "note": "不用再加其他牧場，保留足夠活動時間。",
+        "image": "",
+        "chips": [
+          "親子",
+          "動物"
+        ]
+      },
+      {
+        "time": "12:55–14:00",
+        "type": "午餐",
+        "title": "道之驛 くるくるなると",
+        "subtitle": "午餐、鳴門金時與伴手禮",
+        "place": "道之驛くるくるなると",
+        "duration": "約 1 小時",
+        "note": "先在這裡吃午餐，晚餐補給與飯店時間就不會被 17:00 綁住。",
+        "image": "",
+        "chips": [
+          "午餐",
+          "伴手禮"
+        ]
+      },
+      {
+        "time": "14:45–16:45",
+        "type": "景點",
+        "title": "大塚國際美術館",
+        "subtitle": "安排 2 小時，17:00 前離開",
+        "place": "大塚國際美術館",
+        "duration": "2 小時",
+        "note": "以 3 歲 9 個月孩子的節奏，兩小時剛好。",
+        "image": "",
+        "chips": [
+          "親子",
+          "室內"
+        ]
+      },
+      {
+        "time": "傍晚",
+        "type": "補給",
+        "title": "超市採買 → LiVEMAX 飯店",
+        "subtitle": "買食材回房間簡單煮晚餐",
+        "place": "Hotel Livemax Resort Sanuki Shionoe Onsen",
+        "duration": "車程約 1 小時",
+        "note": "房內有微波爐與露天風呂，晚上舒服休息。",
+        "image": "",
+        "chips": [
+          "超市",
+          "自煮"
+        ]
+      }
     ]
   },
   {
-    day:"DAY 4",date:"11/1（日）",title:"德島 → 香川成熟版",
-    route:"四國水族館 → 栗林公園 → 讚岐烏龍麵 → 琴平溫泉",locationForWeather:"Kotohira",
-    cover:"https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=80",
-    story:"水族館讓小孩買單，栗林公園讓大人舒服，晚上用溫泉把全家收好。",
-    tags:[{label:"親子主場",class:""},{label:"溫泉收尾",class:"menu"}],
-    items:[
-      {type:"景點",title:"四國水族館",desc:"香川親子主力。",place:"四國水族館",hours:"09:00–18:00",note:"最晚入館時間請依官網為準",image:"",chips:[{label:"親子",class:""}]},
-      {type:"景點",title:"栗林公園",desc:"香川代表性園林。",place:"栗林公園",hours:"依季節調整",note:"不同季節閉園時間不同",image:"",chips:[{label:"風景點",class:"menu"}]},
-      {type:"餐廳",title:"讚岐烏龍麵",desc:"香川必吃正事。",place:"高松讚岐烏龍麵",hours:"依店家為準",note:"熱門店可能提早售完",image:"",chips:[{label:"必吃",class:"food"},{label:"冷烏龍",class:"menu"}]},
-      {type:"交通",title:"入住琴平溫泉（一泊二食）",desc:"晚上重點是舒服。",place:"琴平溫泉（一泊二食）",hours:"依旅館 check-in 時間",note:"晚餐時間請先確認",image:"",chips:[{label:"旅館",class:"book"}]}
+    "day": "DAY 4",
+    "date": "11/1（日）",
+    "title": "鹽江 → 四國水族館 → 小豆島",
+    "route": "鹽江 → 四國水族館 → 高松港烏龍麵 → 高松港 → 小豆島池田港 → edit x seven",
+    "locationForWeather": "Takamatsu",
+    "cover": "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=80",
+    "story": "水族館固定保留三小時；高松港附近吃烏龍麵後，搭已訂好的渡輪進小豆島。",
+    "tags": [
+      "水族館",
+      "烏龍麵",
+      "渡輪"
+    ],
+    "items": [
+      {
+        "time": "09:30–12:30",
+        "type": "景點",
+        "title": "四國水族館",
+        "subtitle": "固定完整 3 小時",
+        "place": "四國水族館",
+        "duration": "3 小時",
+        "note": "不壓縮，讓玥玥慢慢看。",
+        "image": "",
+        "chips": [
+          "親子",
+          "室內"
+        ]
+      },
+      {
+        "time": "12:50–14:15",
+        "type": "午餐",
+        "title": "高松港附近烏龍麵",
+        "subtitle": "高松吃一碗玥玥喜歡的烏龍麵",
+        "place": "高松港",
+        "duration": "約 1–1.5 小時",
+        "note": "不必特地繞去丸龜，高松本身就有好吃烏龍麵。",
+        "image": "",
+        "chips": [
+          "烏龍麵"
+        ]
+      },
+      {
+        "time": "14:48–15:48",
+        "type": "交通",
+        "title": "高松港 → 小豆島池田港",
+        "subtitle": "已訂渡輪｜Raize 選 4m 未滿",
+        "place": "高松港",
+        "duration": "1 小時",
+        "note": "提早到港口完成上船準備。",
+        "image": "",
+        "chips": [
+          "渡輪",
+          "已訂"
+        ]
+      },
+      {
+        "time": "約 16:10 起",
+        "type": "住宿",
+        "title": "edit x seven Setouchi Shodoshima",
+        "subtitle": "Check-in、看海與休息",
+        "place": "edit x seven Setouchi Shodoshima",
+        "duration": "住宿 2 晚",
+        "note": "晚餐未含：可在超市買食材，利用飯店廚房簡單煮。",
+        "image": "",
+        "chips": [
+          "廚房",
+          "看海"
+        ]
+      }
     ]
   },
   {
-    day:"DAY 5",date:"11/2（一）",title:"香川 → 鷲羽山 → 倉敷",
-    route:"鷲羽山展望台 → 三井 OUTLET 倉敷 → 倉敷美觀地區",locationForWeather:"Kurashiki",
-    cover:"https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1400&q=80",
-    story:"這天是瀨戶內海景觀轉進老街散步日，節奏輕鬆、很適合親子慢慢走。",
-    tags:[{label:"瀨戶內海",class:"menu"},{label:"老街日",class:""}],
-    items:[
-      {type:"景點",title:"鷲羽山展望台",desc:"看瀨戶大橋與海景，很適合抓天氣好的時段。",place:"鷲羽山展望台",hours:"24 小時開放",note:"觀景台本體無明確關閉時間",image:"",chips:[{label:"看景",class:"menu"}]},
-      {type:"購物",title:"三井 OUTLET 倉敷",desc:"安排補貨與休息，雨天也好用。",place:"三井 OUTLET 倉敷",hours:"10:00–20:00",note:"部分餐廳與賣場時間不同",image:"",chips:[{label:"購物",class:"buy"}]},
-      {type:"景點",title:"倉敷美觀地區",desc:"白壁老街與河道散步，傍晚最有味道。",place:"倉敷美觀地區",hours:"街區全天可逛",note:"各店鋪營業時間不同",image:"",chips:[{label:"必看",class:""},{label:"散步",class:"menu"}]}
+    "day": "DAY 5",
+    "date": "11/2（一）",
+    "title": "小豆島慢旅行",
+    "route": "edit x seven → 寒霞溪 → 橄欖公園 → 下午茶 → edit x seven",
+    "locationForWeather": "Shodoshima",
+    "cover": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80",
+    "story": "不用早起，山景、橄欖與下午茶的一天；不排健行，也不硬塞電影村。",
+    "tags": [
+      "慢旅行",
+      "纜車",
+      "下午茶"
+    ],
+    "items": [
+      {
+        "time": "約 09:30 出發",
+        "type": "住宿",
+        "title": "edit x seven 悠閒早餐",
+        "subtitle": "早餐時段長，慢慢吃再出門",
+        "place": "edit x seven Setouchi Shodoshima",
+        "duration": "上午",
+        "note": "維持你喜歡的旅行節奏。",
+        "image": "",
+        "chips": [
+          "慢慢來"
+        ]
+      },
+      {
+        "time": "上午",
+        "type": "景點",
+        "title": "寒霞溪",
+        "subtitle": "搭纜車賞景，不安排健行",
+        "place": "寒霞溪",
+        "duration": "約 1.5–2 小時",
+        "note": "以纜車和觀景為主。",
+        "image": "",
+        "chips": [
+          "纜車",
+          "山景"
+        ]
+      },
+      {
+        "time": "中午–下午",
+        "type": "景點",
+        "title": "小豆島橄欖公園",
+        "subtitle": "散步、拍照與午餐",
+        "place": "小豆島オリーブ公園",
+        "duration": "約 2–2.5 小時",
+        "note": "把午餐留在這一帶，慢慢玩。",
+        "image": "",
+        "chips": [
+          "橄欖",
+          "拍照"
+        ]
+      },
+      {
+        "time": "下午",
+        "type": "咖啡",
+        "title": "小豆島下午茶",
+        "subtitle": "找一間順路咖啡店休息",
+        "place": "Shodoshima",
+        "duration": "約 45–60 分",
+        "note": "猴園只有時間很多、精神很好時才加。",
+        "image": "",
+        "chips": [
+          "下午茶",
+          "備用"
+        ]
+      },
+      {
+        "time": "傍晚",
+        "type": "住宿",
+        "title": "回 edit x seven",
+        "subtitle": "看海、休息、自煮或自由晚餐",
+        "place": "edit x seven Setouchi Shodoshima",
+        "duration": "住宿第 2 晚",
+        "note": "二十四之瞳映畫村不列必去。",
+        "image": "",
+        "chips": [
+          "放鬆"
+        ]
+      }
     ]
   },
   {
-    day:"DAY 6",date:"11/3（二）",title:"岡山城下町慢遊",
-    route:"岡山城 → 岡山後樂園 → 吉備津神社 → AEON MALL 岡山",locationForWeather:"Okayama",
-    cover:"https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1400&q=80",
-    story:"這天把城、庭園、神社與市區採買一次完成，宗教感與城市感兼具。",
-    tags:[{label:"城與庭園",class:"menu"},{label:"神社日",class:"book"}],
-    items:[
-      {type:"景點",title:"岡山城",desc:"黑色城郭很有辨識度。",place:"岡山城",hours:"09:00–17:30",note:"最晚入館時間請依官網為準",image:"",chips:[{label:"必看",class:""}]},
-      {type:"景點",title:"岡山後樂園",desc:"日本名園之一，適合放慢節奏。",place:"岡山後樂園",hours:"依季節調整",note:"開園與閉園時間會依季節變動",image:"",chips:[{label:"庭園",class:"menu"}]},
-      {type:"景點",title:"吉備津神社",desc:"這趟行程保留神社元素的代表點。",place:"吉備津神社",hours:"06:00–18:00",note:"授與所等設施時間另計",image:"",chips:[{label:"神社",class:"book"}]},
-      {type:"購物",title:"AEON MALL 岡山",desc:"收尾採買、補給與吃飯都方便。",place:"AEON MALL 岡山",hours:"10:00–21:00",note:"美食街與超市時間可能不同",image:"",chips:[{label:"補貨",class:"buy"}]}
+    "day": "DAY 6",
+    "date": "11/3（二）",
+    "title": "小豆島 → 岡山購物日",
+    "route": "edit x seven → 富丘八幡神社 → 土庄港 → 新岡山港 → 岡山城外觀 → AEON Mall 岡山",
+    "locationForWeather": "Okayama",
+    "cover": "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1400&q=80",
+    "story": "早上順路參拜神社後搭船去岡山；下午與晚上都留給購物，岡山城只看外觀。",
+    "tags": [
+      "神社",
+      "渡輪",
+      "購物"
+    ],
+    "items": [
+      {
+        "time": "早餐後",
+        "type": "景點",
+        "title": "富丘八幡神社",
+        "subtitle": "移到離開小豆島這天，動線較順",
+        "place": "富丘八幡神社",
+        "duration": "約 30–45 分",
+        "note": "不必在前一天特地折返。",
+        "image": "",
+        "chips": [
+          "神社"
+        ]
+      },
+      {
+        "time": "約 10:00",
+        "type": "交通",
+        "title": "前往土庄港",
+        "subtitle": "飯店退房後前往港口",
+        "place": "土庄港",
+        "duration": "依當日路況",
+        "note": "不用為了渡輪太早退房。",
+        "image": "",
+        "chips": [
+          "退房"
+        ]
+      },
+      {
+        "time": "11:40–12:50",
+        "type": "交通",
+        "title": "土庄港 → 新岡山港",
+        "subtitle": "預計渡輪｜Raize 選 4m 未滿",
+        "place": "新岡山港",
+        "duration": "約 1 小時 10 分",
+        "note": "此班預計訂票，仍以最終船班為準。",
+        "image": "",
+        "chips": [
+          "渡輪"
+        ]
+      },
+      {
+        "time": "下午",
+        "type": "購物",
+        "title": "AEON Mall 岡山（第一輪）",
+        "subtitle": "午餐後開始購物",
+        "place": "AEON MALL 岡山",
+        "duration": "約 3 小時",
+        "note": "全日總共留 4.5–5 小時，分兩段不累。",
+        "image": "",
+        "chips": [
+          "購物",
+          "親子"
+        ]
+      },
+      {
+        "time": "傍晚",
+        "type": "景點",
+        "title": "岡山城外觀",
+        "subtitle": "黑色烏城，不入館",
+        "place": "岡山城",
+        "duration": "約 30–40 分",
+        "note": "簡單看外觀即可。",
+        "image": "",
+        "chips": [
+          "外觀"
+        ]
+      },
+      {
+        "time": "晚上",
+        "type": "晚餐",
+        "title": "岡山中央町晚餐",
+        "subtitle": "岡山市北區中央町 6-8",
+        "place": "岡山県岡山市北区中央町6-8",
+        "duration": "約 1 小時",
+        "note": "晚餐後回 AEON 第二輪；玥玥睡著後可玩推幣機。",
+        "image": "",
+        "chips": [
+          "晚餐"
+        ]
+      },
+      {
+        "time": "夜晚",
+        "type": "住宿",
+        "title": "岡山 Radiant",
+        "subtitle": "Check-in 與休息",
+        "place": "岡山 Radiant Hotel",
+        "duration": "住宿 1 晚",
+        "note": "吉備津神社、後樂園與桃太郎機關博物館都不排。",
+        "image": "",
+        "chips": [
+          "住宿"
+        ]
+      }
     ]
   },
   {
-    day:"DAY 7",date:"11/4（三）",title:"岡山 → 姬路 → 神戶入住",
-    route:"姬路城 → 姬路市立動物園（可選） → 神戶",locationForWeather:"Himeji",
-    cover:"https://images.unsplash.com/photo-1582559933553-0cf3e248a6cd?auto=format&fit=crop&w=1400&q=80",
-    story:"第七天才進姬路城，玩完直接衝神戶住，這是妳原本指定的節奏。",
-    tags:[{label:"名城日",class:""},{label:"轉場",class:"drive"}],
-    items:[
-      {type:"景點",title:"姬路城",desc:"白色名城是今天主秀。",place:"姬路城",hours:"09:00–17:00",note:"季節與活動可能影響入場時間",image:"",chips:[{label:"必看",class:""}]},
-      {type:"景點",title:"姬路市立動物園",desc:"如果當天時間與體力有餘，可彈性加入。",place:"姬路市立動物園",hours:"09:00–17:00",note:"可選景點，非必要",image:"",chips:[{label:"可選",class:"menu"}]},
-      {type:"餐廳",title:"姬路穴子飯",desc:"有空就把姬路代表性餐點補起來。",place:"姬路 穴子飯",hours:"依店家為準",note:"熱門餐廳可能需候位",image:"",chips:[{label:"必吃",class:"food"}]},
-      {type:"交通",title:"開車前往神戶入住",desc:"姬路結束後直接衝神戶，隔天方便收尾。",place:"Kobe Harborland",hours:"全天",note:"主要是移動段",image:"",chips:[{label:"入住神戶",class:"drive"}]}
+    "day": "DAY 7",
+    "date": "11/4（三）",
+    "title": "岡山 → 倉敷 → 姬路",
+    "route": "岡山 → 倉敷美觀地區 → SETRE Highland Villa Himeji → 姬路城／晚餐（視狀況）",
+    "locationForWeather": "Himeji",
+    "cover": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1400&q=80",
+    "story": "倉敷至少完整四小時，晚上先入住山上飯店，再依體力決定是否進姬路市區。",
+    "tags": [
+      "倉敷",
+      "慢逛",
+      "彈性晚餐"
+    ],
+    "items": [
+      {
+        "time": "約 10:00",
+        "type": "交通",
+        "title": "岡山退房 → 倉敷",
+        "subtitle": "若飯店無早餐，先簡單吃麵包或咖啡",
+        "place": "倉敷美觀地區",
+        "duration": "車程約 40 分",
+        "note": "不安排 Outlet 作為必要行程。",
+        "image": "",
+        "chips": [
+          "退房"
+        ]
+      },
+      {
+        "time": "10:45–14:45",
+        "type": "景點",
+        "title": "倉敷美觀地區",
+        "subtitle": "河邊、小店與午餐慢慢逛",
+        "place": "倉敷美觀地區",
+        "duration": "至少 4 小時（含午餐）",
+        "note": "不是拍照 30 分鐘就離開；前一天 AEON 買夠就跳過 Outlet。",
+        "image": "",
+        "chips": [
+          "散步",
+          "午餐"
+        ]
+      },
+      {
+        "time": "傍晚",
+        "type": "住宿",
+        "title": "SETRE Highland Villa Himeji",
+        "subtitle": "先入住，含早餐",
+        "place": "SETRE ハイランドヴィラ姫路",
+        "duration": "住宿 1 晚",
+        "note": "位於姬路市郊山上，先安頓再看體力決定晚餐。",
+        "image": "",
+        "chips": [
+          "含早餐",
+          "山景"
+        ]
+      },
+      {
+        "time": "晚上（彈性）",
+        "type": "景點",
+        "title": "姬路城外觀＋市區晚餐／補給",
+        "subtitle": "若精神與時間許可再下山",
+        "place": "姬路城",
+        "duration": "約 1–2 小時",
+        "note": "可順便在市區補買缺的東西；若累就在飯店附近找吃的，不強迫下山。",
+        "image": "",
+        "chips": [
+          "彈性",
+          "晚餐"
+        ]
+      }
     ]
   },
   {
-    day:"DAY 8",date:"11/5（四）",title:"神戶港親子收尾 → 關西機場",
-    route:"麵包超人博物館 → Harborland / Mosaic → 關西機場",locationForWeather:"Kobe",
-    cover:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80",
-    story:"上午先去麵包超人博物館，再逛神戶港，最後開車去關西機場，這天就是溫柔收尾。",
-    tags:[{label:"親子收尾",class:""},{label:"返程日",class:"drive"}],
-    items:[
-      {type:"景點",title:"神戶麵包超人博物館",desc:"第八天主角，早上優先。",place:"神戶麵包超人博物館",hours:"10:00–18:00",note:"請優先確認當日票務與入場時間",image:"",chips:[{label:"主秀",class:"book"},{label:"親子",class:""}]},
-      {type:"景點",title:"Harborland",desc:"港邊散步，讓行程保留彈性。",place:"Kobe Harborland",hours:"街區全天可逛",note:"各店鋪與商場時間不同",image:"",chips:[{label:"港景",class:"menu"}]},
-      {type:"景點",title:"Mosaic",desc:"如果時間夠，可以一起逛。",place:"Mosaic",hours:"10:00–20:00",note:"實際依店舖時間為準",image:"",chips:[{label:"商場",class:"buy"}]},
-      {type:"交通",title:"開車前往關西機場還車",desc:"抓好還車與報到時間，平穩收尾。",place:"Kansai International Airport",hours:"依航班與租車公司為準",note:"請預留還車與報到緩衝",image:"",chips:[{label:"BR129",class:"book"}]}
+    "day": "DAY 8",
+    "date": "11/5（四）",
+    "title": "姬路中央公園 → 關西機場 → 台灣",
+    "route": "SETRE → 姬路中央公園 → 臨空城還車（15:00） → KIX → TPE",
+    "locationForWeather": "Himeji",
+    "cover": "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1400&q=80",
+    "story": "最後一天主力是自駕 Safari；15:00 還車已定，按這個時間反推離園。",
+    "tags": [
+      "Safari",
+      "還車",
+      "返台"
+    ],
+    "items": [
+      {
+        "time": "早餐後／約 09:00",
+        "type": "交通",
+        "title": "SETRE 出發",
+        "subtitle": "早餐後前往姬路中央公園",
+        "place": "SETRE ハイランドヴィラ姫路",
+        "duration": "車程依當日路況",
+        "note": "不另外安排姬路城。",
+        "image": "",
+        "chips": [
+          "早餐"
+        ]
+      },
+      {
+        "time": "上午–中午",
+        "type": "景點",
+        "title": "姬路中央公園",
+        "subtitle": "自駕 Safari＋動物＋少數遊具",
+        "place": "姬路中央公園",
+        "duration": "依 15:00 還車倒推",
+        "note": "以玥玥最有興趣的 Safari 和動物為主。",
+        "image": "",
+        "chips": [
+          "自駕 Safari",
+          "親子"
+        ]
+      },
+      {
+        "time": "15:00",
+        "type": "交通",
+        "title": "臨空城還車",
+        "subtitle": "NICONICO Raize 最終還車時間已定",
+        "place": "臨空城（Rinku Town）租車還車",
+        "duration": "準時還車",
+        "note": "之後前往關西機場辦理登機。",
+        "image": "",
+        "chips": [
+          "還車"
+        ]
+      },
+      {
+        "time": "18:10–20:25",
+        "type": "交通",
+        "title": "關西機場 → 台灣",
+        "subtitle": "BR129｜結束 8 天 7 夜旅行",
+        "place": "Kansai International Airport",
+        "duration": "飛行約 2 小時 15 分",
+        "note": "預留從還車點到航廈的時間。",
+        "image": "",
+        "chips": [
+          "返台"
+        ]
+      }
     ]
   }
 ];
-
 
 
 // ===== 景點電話（日本車機導航用，已查證官方資料）=====
