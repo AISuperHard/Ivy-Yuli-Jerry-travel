@@ -204,6 +204,9 @@ input::placeholder,textarea::placeholder{color:#94a3b8}
 .info-detail-btn{width:100%;margin-top:10px;padding:14px;background:#fff0e6;
   border:1px solid #f5c9a8;border-radius:14px;color:#E0560A;
   font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+
+/* OWNER EDITING */
+.quick-add{margin:12px 0 4px;padding:14px;border:1px solid #f5c9a8;background:#fff9f4;border-radius:18px}.quick-add h3{margin:0 0 10px;font-size:16px}.quick-add-grid{display:grid;grid-template-columns:80px 1fr;gap:8px}.quick-add .wide{grid-column:1/-1}.auth-note{font-size:12px;color:var(--muted);margin:4px 0 0}.owner-only{display:none}
 </style>
 </head>
 <body>
@@ -217,10 +220,12 @@ input::placeholder,textarea::placeholder{color:#94a3b8}
     <a class="pill" href="#tab-guide">導遊</a>
   </div>
   <div class="toolbar">
-    <button class="pill brand" id="toggleEditBtn">編輯</button>
-    <button class="pill" id="moreToolsBtn">更多</button>
+    <button class="pill brand owner-only" id="toggleEditBtn">編輯</button>
+    <button class="pill brand" id="loginBtn">Google 登入管理</button>
+    <button class="pill owner-only" id="logoutBtn">登出</button>
+    <button class="pill owner-only" id="moreToolsBtn">更多</button>
   </div>
-  <div class="more-tools" id="moreToolsPanel">
+  <div class="more-tools owner-only" id="moreToolsPanel">
     <button class="pill good" id="saveCloudBtn">同步到 Firebase</button>
     <button class="pill warn" id="reloadCloudBtn">載入雲端版本</button>
   </div>
@@ -233,11 +238,13 @@ input::placeholder,textarea::placeholder{color:#94a3b8}
   <section class="section">
     <h2>每日行程</h2>
 
-    <div class="sync-box"><div class="sync-status" id="syncStatus">同步狀態：尚未初始化</div></div>
+    
+    <div class="sync-box"><div class="sync-status" id="syncStatus">同步狀態：讀取共用版本中…</div><div class="auth-note" id="authNote">任何人可瀏覽；僅管理者可修改與同步。</div></div>
+    <section class="quick-add owner-only" id="quickAddPanel"><h3>＋ 直接新增行程</h3><div class="quick-add-grid"><input id="qa-day" type="number" min="1" placeholder="第幾天"><input id="qa-time" placeholder="時間，例如 14:00–15:00"><input class="wide" id="qa-title" placeholder="行程名稱"><input class="wide" id="qa-subtitle" placeholder="簡短說明（可留空）"><input class="wide" id="qa-place" placeholder="地點名稱（導航用）"><button class="btn primary wide" id="quickAddBtn">新增到行程</button></div></section>
     <div class="stack" id="dayCards"></div>
     <div class="action-row" style="margin-top:12px">
-      <button class="btn primary" id="addDayBtn">新增一天</button>
-      <button class="btn secondary" id="resetDefaultBtn">還原預設行程</button>
+      <button class="btn primary owner-only" id="addDayBtn">新增一天</button>
+      <button class="btn secondary owner-only" id="resetDefaultBtn">還原預設行程</button>
     </div>
   </section>
 </main>
@@ -353,6 +360,7 @@ input::placeholder,textarea::placeholder{color:#94a3b8}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD2s8AR6z1Nq602jUlPPsWaGT-1KTysvbA",
@@ -366,8 +374,8 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const DOC_PATH = ["tripApps","yueyue-shikoku-trip-v10"];
-const LOCAL_KEY = "trip_editor_state_v11";
+const DOC_PATH = ["tripApps","yueyue-shikoku-trip-v12"];
+const LOCAL_KEY = "trip_editor_state_v12";
 const NOTES_KEY = "trip_notes_v10";
 const BUDGET_KEY = "trip_budget_v10";
 
@@ -405,6 +413,21 @@ const SPOT_IMAGE_MAP = {
   "Mosaic":          "https://images.unsplash.com/photo-1551361415-69c87624334f?auto=format&fit=crop&w=1200&q=80",
   "Kansai International Airport": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
 };
+
+Object.assign(SPOT_IMAGE_MAP,{
+  "明石海峽公園":"https://web.pref.hyogo.lg.jp/ks24/images/kokuei.jpg",
+  "二次元之森（蠟筆小新、哥吉拉）":"https://media.timeout.com/images/106358102/image.jpg",
+  "淡路島イングランドの丘":"https://www.england-hill.com/assets/img/home/img_about_03.jpg?v=240527",
+  "道之驛くるくるなると":"https://www.jb-honshi.co.jp/museum/assets/img/facility/img_tokushima-otsuka.jpg",
+  "大塚國際美術館":"https://www.jb-honshi.co.jp/museum/assets/img/facility/img_tokushima-otsuka.jpg",
+  "四國水族館":"https://www.my-kagawa.jp/image/rendering/attraction_image/8648/trim/3/2?v=0009074c887e4360ca61aa99d6ab906954b44b19",
+  "寒霞溪":"https://www.nippon.com/en/ncommon/contents/guide-to-japan/977218/977218.jpg",
+  "小豆島オリーブ公園":"https://img.travel.rakuten.co.jp/mytrip/content/ranking/themepark/images/olive01.jpg",
+  "岡山城":"https://place.matcha-jp.com/resize/1280x2000/2022/11/24-14-35-08-fbe0d9ddf22174b5504250dcf54bd7fc.webp?w=656",
+  "倉敷美觀地區":"https://citysales.city.kurashiki.okayama.jp/city_content/koto/kk1/kk11_1.jpg",
+  "姬路中央公園":"https://www.hyogo-tourism.jp/lsc/upfile/spot/0000/1053/1053_5_l.jpg"
+});
+
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1200&q=80";
 
 // 圖片來源：優先抓 GitHub /photos/景點名.jpg，找不到才用對照表
@@ -508,7 +531,7 @@ const defaultTripDays = [
     "title": "台灣 → 關西機場 → 淡路島",
     "route": "TPE → KIX → 淡路 SA 麵包午餐 → 明石海峽公園 → 龜之井酒店 淡路島",
     "locationForWeather": "Awaji",
-    "cover": "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1400&q=80",
+    "cover": "https://web.pref.hyogo.lg.jp/ks24/images/kokuei.jpg",
     "story": "抵達日只安排放電與溫泉。入境、取車如有延誤，公園時間可彈性縮短。",
     "tags": [
       "抵達日",
@@ -579,7 +602,7 @@ const defaultTripDays = [
     "title": "哥吉拉＋北淡路風景",
     "route": "龜之井酒店 → 二次元之森 → 淡路花さじき → 伊弉諾神宮 → 龜之井酒店",
     "locationForWeather": "Awaji",
-    "cover": "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=1400&q=80",
+    "cover": "https://media.timeout.com/images/106358102/image.jpg",
     "story": "爸爸的哥吉拉日，下午留給花海、山丘海景與神宮；全程留在中北淡路。",
     "tags": [
       "哥吉拉",
@@ -663,7 +686,7 @@ const defaultTripDays = [
     "title": "淡路島南下 → 鳴門 → 鹽江",
     "route": "龜之井酒店 → 英格蘭之丘 → くるくるなると → 大塚國際美術館 → 鹽江",
     "locationForWeather": "Naruto",
-    "cover": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1400&q=80",
+    "cover": "https://www.jb-honshi.co.jp/museum/assets/img/facility/img_tokushima-otsuka.jpg",
     "story": "退房後一路南下。取消觀潮船，改成不趕時間的午餐、美術館與晚餐補給。",
     "tags": [
       "動物",
@@ -748,7 +771,7 @@ const defaultTripDays = [
     "title": "鹽江 → 四國水族館 → 小豆島",
     "route": "鹽江 → 四國水族館 → 高松港烏龍麵 → 高松港 → 小豆島池田港 → edit x seven",
     "locationForWeather": "Takamatsu",
-    "cover": "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=80",
+    "cover": "https://www.my-kagawa.jp/image/rendering/attraction_image/8648/trim/3/2?v=0009074c887e4360ca61aa99d6ab906954b44b19",
     "story": "水族館固定保留三小時；高松港附近吃烏龍麵後，搭已訂好的渡輪進小豆島。",
     "tags": [
       "水族館",
@@ -819,7 +842,7 @@ const defaultTripDays = [
     "title": "小豆島慢旅行",
     "route": "edit x seven → 寒霞溪 → 橄欖公園 → 下午茶 → edit x seven",
     "locationForWeather": "Shodoshima",
-    "cover": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80",
+    "cover": "https://www.nippon.com/en/ncommon/contents/guide-to-japan/977218/977218.jpg",
     "story": "不用早起，山景、橄欖與下午茶的一天；不排健行，也不硬塞電影村。",
     "tags": [
       "慢旅行",
@@ -903,7 +926,7 @@ const defaultTripDays = [
     "title": "小豆島 → 岡山購物日",
     "route": "edit x seven → 富丘八幡神社 → 土庄港 → 新岡山港 → 岡山城外觀 → AEON Mall 岡山",
     "locationForWeather": "Okayama",
-    "cover": "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1400&q=80",
+    "cover": "https://place.matcha-jp.com/resize/1280x2000/2022/11/24-14-35-08-fbe0d9ddf22174b5504250dcf54bd7fc.webp?w=656",
     "story": "早上順路參拜神社後搭船去岡山；下午與晚上都留給購物，岡山城只看外觀。",
     "tags": [
       "神社",
@@ -1011,7 +1034,7 @@ const defaultTripDays = [
     "title": "岡山 → 倉敷 → 姬路",
     "route": "岡山 → 倉敷美觀地區 → SETRE Highland Villa Himeji → 姬路城／晚餐（視狀況）",
     "locationForWeather": "Himeji",
-    "cover": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1400&q=80",
+    "cover": "https://citysales.city.kurashiki.okayama.jp/city_content/koto/kk1/kk11_1.jpg",
     "story": "倉敷至少完整四小時，晚上先入住山上飯店，再依體力決定是否進姬路市區。",
     "tags": [
       "倉敷",
@@ -1082,7 +1105,7 @@ const defaultTripDays = [
     "title": "姬路中央公園 → 關西機場 → 台灣",
     "route": "SETRE → 姬路中央公園 → 臨空城還車（15:00） → KIX → TPE",
     "locationForWeather": "Himeji",
-    "cover": "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1400&q=80",
+    "cover": "https://www.hyogo-tourism.jp/lsc/upfile/spot/0000/1053/1053_5_l.jpg",
     "story": "最後一天主力是自駕 Safari；15:00 還車已定，按這個時間反推離園。",
     "tags": [
       "Safari",
@@ -1464,7 +1487,7 @@ const SPOT_DETAIL = {
   }
 };
 
-let state = { days: JSON.parse(JSON.stringify(defaultTripDays)), isEditing: false };
+let state = { days: JSON.parse(JSON.stringify(defaultTripDays)), isEditing: false, isOwner: false };
 let dayObserver = null;
 
 function updateSyncStatus(text){ document.getElementById("syncStatus").textContent = "同步狀態：" + text; }
@@ -1522,8 +1545,8 @@ function renderDays(){
           </div>
           <div class="item-type">${item.type||"景點"}</div>
           <div class="item-title">${item.title||""}</div>
-          <div class="item-desc">${item.desc||""}</div>
-          ${item.hours?`<div class="item-hours">🕐 ${item.hours}</div>`:''}
+          <div class="item-desc">${item.subtitle||item.desc||""}</div>
+          ${(item.duration||item.hours)?`<div class="item-hours">🕐 ${item.duration||item.hours}</div>`:''}
           ${(SPOT_PHONE[item.place]||SPOT_PHONE[item.title])?`<div class="item-phone" onclick="event.stopPropagation();navigator.clipboard.writeText('${SPOT_PHONE[item.place]||SPOT_PHONE[item.title]}').then(()=>alert('已複製電話，可貼到車機導航'))">📞 車機導航：${SPOT_PHONE[item.place]||SPOT_PHONE[item.title]} <span style="opacity:.6">（點擊複製）</span></div>`:''}
           ${item.note?`<div class="item-note">📝 ${item.note}</div>`:''}
           <div class="meta-row" style="margin-top:8px">${itemTags}</div>
@@ -1682,17 +1705,17 @@ function addItem(dayIndex){
   const desc = prompt("說明","") || "";
   const place = prompt("地點名稱（用於複製/地圖）", title)||title;
   const hours = prompt("營業時間","") || "";
-  state.days[dayIndex].items.push({ type, title, desc, place, hours, note:"", image:"", chips:[] });
+  state.days[dayIndex].items.push({ type, title, subtitle:desc, place, duration:hours, note:"", image:"", chips:[] });
   saveLocalState(); renderDays();
 }
 function editItem(dayIndex, itemIndex){
   const item = state.days[dayIndex].items[itemIndex];
   const title = prompt("景點名稱", item.title||''); if(title===null)return;
-  const desc = prompt("說明", item.desc||''); if(desc===null)return;
-  const hours = prompt("營業時間", item.hours||''); if(hours===null)return;
+  const desc = prompt("說明", item.subtitle||item.desc||''); if(desc===null)return;
+  const hours = prompt("停留時間", item.duration||item.hours||''); if(hours===null)return;
   const note = prompt("備註", item.note||''); if(note===null)return;
   const image = prompt("自訂圖片網址（留空用自動）", item.image||'');
-  state.days[dayIndex].items[itemIndex] = {...item, title, desc, hours, note, image: image||''};
+  state.days[dayIndex].items[itemIndex] = {...item, title, subtitle:desc, duration:hours, note, image: image||''};
   saveLocalState(); renderDays();
 }
 
@@ -1736,6 +1759,7 @@ document.querySelectorAll(".tab-btn").forEach(btn=>{
 
 // ===== EDIT MODE =====
 document.getElementById("toggleEditBtn").addEventListener("click",()=>{
+  if(!state.isOwner) return;
   state.isEditing = !state.isEditing;
   document.getElementById("toggleEditBtn").textContent = state.isEditing ? "完成編輯" : "編輯";
   renderDays();
@@ -1746,35 +1770,30 @@ document.getElementById("moreToolsBtn").addEventListener("click",()=>{
   document.getElementById("moreToolsPanel").classList.toggle("show");
 });
 
-// ===== FIREBASE =====
-function normalizeDays(days){
-  return (days||[]).map(day=>({
-    ...day,
-    tags:(day.tags||[]).map(t=>({label:t.label||"",class:t.class||""})),
-    items:(day.items||[]).map(item=>({
-      ...item,
-      chips:(item.chips||[]).map(c=>Array.isArray(c)?{label:c[0]||"",class:c[1]||""}:{label:c.label||"",class:c.class||""})
-    }))
-  }));
+// ===== FIREBASE / OWNER ACCESS =====
+const OWNER_EMAIL = "ivyzeng0425@gmail.com";
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+function normalizeDays(days){ return (days||[]).map(day=>({...day,tags:(day.tags||[]).map(t=>typeof t==='string'?{label:t,class:''}:{label:t.label||'',class:t.class||''}),items:(day.items||[]).map(item=>({...item,chips:(item.chips||[]).map(c=>typeof c==='string'?{label:c,class:''}:Array.isArray(c)?{label:c[0]||'',class:c[1]||''}:{label:c.label||'',class:c.class||''})}))})); }
+function applyAccessUI(user){
+  state.isOwner=!!(user&&user.email===OWNER_EMAIL);
+  document.querySelectorAll('.owner-only').forEach(el=>el.style.display=state.isOwner?'':'none');
+  document.getElementById('loginBtn').style.display=user?'none':'';
+  document.getElementById('logoutBtn').style.display=user?'':'none';
+  document.getElementById('authNote').textContent=state.isOwner?'管理者模式：可直接新增、編輯並同步。':'公開閱讀模式：只有管理者可以修改。';
+  document.getElementById('toggleEditBtn').textContent=state.isEditing?'完成編輯':'編輯';
+  renderDays();
 }
-
-document.getElementById("saveCloudBtn").addEventListener("click", async ()=>{
-  updateSyncStatus("同步中...");
-  try{
-    await setDoc(doc(db,...DOC_PATH),{ days:normalizeDays(state.days), updatedAt:serverTimestamp() });
-    updateSyncStatus("✅ 已同步到雲端");
-  }catch(e){ updateSyncStatus("❌ 同步失敗："+e.message); }
-});
-
-document.getElementById("reloadCloudBtn").addEventListener("click", async ()=>{
-  if(!confirm("確定載入雲端版本？本機變更將被覆蓋。")) return;
-  updateSyncStatus("載入中...");
-  try{
-    const snap = await getDoc(doc(db,...DOC_PATH));
-    if(snap.exists()){ state.days = normalizeDays(snap.data().days||[]); saveLocalState(); renderDays(); updateSyncStatus("✅ 已載入雲端版本"); }
-    else{ updateSyncStatus("⚠️ 雲端無資料"); }
-  }catch(e){ updateSyncStatus("❌ 載入失敗："+e.message); }
-});
+async function loadSharedDays(){
+  updateSyncStatus('讀取共用版本中…');
+  try{const snap=await getDoc(doc(db,...DOC_PATH));if(snap.exists()&&Array.isArray(snap.data().days)){state.days=normalizeDays(snap.data().days);saveLocalState();renderDays();updateSyncStatus('✅ 已載入共用行程');}else updateSyncStatus('目前使用最新預設行程');}catch(e){updateSyncStatus('⚠️ 雲端讀取失敗，先使用本機行程');}
+}
+document.getElementById('loginBtn').addEventListener('click',async()=>{try{await signInWithPopup(auth,googleProvider);}catch(e){updateSyncStatus('❌ 登入失敗：'+e.message);}});
+document.getElementById('logoutBtn').addEventListener('click',()=>signOut(auth));
+onAuthStateChanged(auth,user=>applyAccessUI(user));
+document.getElementById('saveCloudBtn').addEventListener('click',async()=>{if(!state.isOwner){alert('只有管理者帳號可以同步。');return;}updateSyncStatus('同步中…');try{await setDoc(doc(db,...DOC_PATH),{days:normalizeDays(state.days),updatedAt:serverTimestamp()});updateSyncStatus('✅ 已同步，其他人重新整理即可看到最新版本');}catch(e){updateSyncStatus('❌ 同步失敗：'+e.message);}});
+document.getElementById('reloadCloudBtn').addEventListener('click',async()=>{if(!state.isOwner)return;if(!confirm('確定載入共用版本？本機變更將被覆蓋。'))return;await loadSharedDays();});
+document.getElementById('quickAddBtn').addEventListener('click',()=>{if(!state.isOwner)return;const n=+document.getElementById('qa-day').value;const title=document.getElementById('qa-title').value.trim();if(!n||!state.days[n-1]||!title)return alert('請填入正確天數與行程名稱');state.days[n-1].items.push({time:document.getElementById('qa-time').value.trim()||'時間待定',type:'景點',title,subtitle:document.getElementById('qa-subtitle').value.trim(),place:document.getElementById('qa-place').value.trim()||title,duration:'',note:'',image:'',chips:[]});saveLocalState();renderDays();['qa-time','qa-title','qa-subtitle','qa-place'].forEach(id=>document.getElementById(id).value='');document.getElementById('qa-day').value='';});
 
 // ===== ADD DAY =====
 document.getElementById("addDayBtn").addEventListener("click",()=>{
@@ -1983,6 +2002,7 @@ if(drawerCloseButton){
 loadLocalState();
 renderDays();
 renderBudget();
+loadSharedDays();
 </script>
 </body>
 </html>
