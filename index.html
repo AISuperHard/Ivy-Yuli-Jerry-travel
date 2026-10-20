@@ -1420,6 +1420,7 @@ if(drawerCloseButton){
     event.stopPropagation();
     window.closeDrawer();
   };
+  drawerCloseButton.addEventListener('focus', closeFromButton, true);
   drawerCloseButton.addEventListener('click', closeFromButton, true);
 }
 
