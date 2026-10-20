@@ -333,7 +333,7 @@ input::placeholder,textarea::placeholder{color:#94a3b8}
 
 <div class="drawer-overlay" id="drawerOverlay" onclick="window.closeDrawer()"></div>
 <div class="drawer" id="spotDrawer">
-  <button type="button" class="drawer-close" onclick="document.getElementById('drawerOverlay').click()" aria-label="關閉詳細說明">✕ 關閉</button>
+  <button type="button" id="drawerCloseBtn" class="drawer-close" aria-label="關閉詳細說明">✕ 關閉</button>
   
   <div class="drawer-header">
     <div class="drawer-type" id="drawerType"></div>
@@ -1412,6 +1412,18 @@ window.closeDrawer = function(){
   document.body.style.overflow = '';
 }
 ;
+
+const drawerCloseButton = document.getElementById('drawerCloseBtn');
+if(drawerCloseButton){
+  const closeFromButton = event => {
+    event.preventDefault();
+    event.stopPropagation();
+    window.closeDrawer();
+  };
+  drawerCloseButton.addEventListener('pointerdown', closeFromButton, true);
+  drawerCloseButton.addEventListener('click', closeFromButton, true);
+  drawerCloseButton.addEventListener('touchend', closeFromButton, {capture:true, passive:false});
+}
 
 (function(){
   let startY = 0;
