@@ -509,7 +509,8 @@ function getDriveEstimateText(itemA, itemB){
 }
 
 // ===== DEFAULT TRIP DATA =====
-const defaultTripDays = [
+// 保留舊版資料僅供程式歷程追溯；網站初始行程以下方定稿版為準。
+const legacyTripDays = [
   {
     day:"DAY 1",date:"10/29（四）",title:"關西機場 → 淡路島北部",
     route:"KIX → 明石海峽公園 → 淡路島北部住宿",locationForWeather:"Awaji",
@@ -612,6 +613,53 @@ const defaultTripDays = [
       {type:"交通",title:"開車前往關西機場還車",desc:"抓好還車與報到時間，平穩收尾。",place:"Kansai International Airport",hours:"依航班與租車公司為準",note:"請預留還車與報到緩衝",image:"",chips:[{label:"BR129",class:"book"}]}
     ]
   }
+];
+
+// ===== 2026/10/24 最後定版行程 =====
+const defaultTripDays = [
+  {day:"DAY 1",date:"10/29（四）",title:"關西機場 → 淡路島北部",route:"KIX 取車 → 國營明石海峽公園 → 龜之井飯店淡路島",locationForWeather:"Awaji",cover:"https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1400&q=80",story:"抵達日只安排大型遊具與入住，保留取車、過橋與晚餐緩衝。",tags:[{label:"抵達日",class:"drive"}],items:[
+    {type:"交通",title:"KIX 取車",desc:"取車後直接前往淡路島。",place:"Kansai International Airport Rent a Car",hours:"13:30–14:00（預估）",note:"依租車櫃台營業時間",image:"",chips:[{label:"自駕",class:"drive"}]},
+    {type:"景點",title:"國營明石海峽公園",desc:"大型遊具與大溜滑梯，作為抵達日唯一正式景點。",place:"國營明石海峽公園",hours:"15:50–17:00（預估）",note:"依季節開園時間調整",image:"",chips:[{label:"必看",class:""},{label:"草地放電",class:"menu"}]},
+    {type:"住宿",title:"龜之井飯店 淡路島",desc:"淡路島連住兩晚。",place:"亀の井ホテル 淡路島",hours:"依飯店 check-in 時間",note:"10/29、10/30 連住",image:"",chips:[{label:"已訂",class:"book"}]}
+  ]},
+  {day:"DAY 2",date:"10/30（五）",title:"淡路島親子景點日",route:"二次元之森哥吉拉 → 吹き戻しの里 → 淡路花さじき → 伊弉諾神宮",locationForWeather:"Awaji",cover:"https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=1400&q=80",story:"以哥吉拉、手作吹笛、花海與神宮構成淡路島完整親子日。",tags:[{label:"親子日",class:""}],items:[
+    {type:"景點",title:"二次元之森：哥吉拉",desc:"淡路島主題樂園的核心安排。",place:"ニジゲンノモリ ゴジラ迎撃作戦",hours:"依預約時段",note:"依票券與最晚入場時間為準",image:"",chips:[{label:"門票",class:"book"}]},
+    {type:"景點",title:"吹き戻しの里",desc:"體驗淡路島傳統吹笛製作。",place:"吹き戻しの里",hours:"依現場公告",note:"保留手作體驗時間",image:"",chips:[{label:"手作",class:"menu"}]},
+    {type:"景點",title:"淡路花さじき",desc:"高地花海與開闊景觀。",place:"淡路花さじき",hours:"09:00–17:00",note:"雨天與強風時體感差很多",image:"",chips:[{label:"風景點",class:"menu"}]},
+    {type:"景點",title:"伊弉諾神宮",desc:"淡路島代表神宮，安排在回飯店前收尾。",place:"伊弉諾神宮",hours:"依現場公告",note:"參拜與授與所時間不同",image:"",chips:[{label:"神宮",class:"book"}]},
+    {type:"住宿",title:"龜之井飯店 淡路島",desc:"淡路島第二晚。",place:"亀の井ホテル 淡路島",hours:"全天",note:"連住第 2 晚",image:"",chips:[{label:"已訂",class:"book"}]}
+  ]},
+  {day:"DAY 3",date:"10/31（六）",title:"淡路島 → 鳴門 → 鹽江",route:"England Hill → くるくるなると午餐 → 大塚國際美術館 → 鹽江",locationForWeather:"Naruto",cover:"https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1400&q=80",story:"以英格蘭之丘、鳴門午餐與大塚美術館完成轉場；觀潮船已取消。",tags:[{label:"美術館日",class:""}],items:[
+    {type:"景點",title:"淡路島牧場 England Hill",desc:"上午親子景點。",place:"淡路ファームパーク イングランドの丘",hours:"依現場公告",note:"以入園時間為準",image:"",chips:[{label:"親子",class:""}]},
+    {type:"休息站",title:"道之驛くるくるなると",desc:"鳴門午餐與伴手禮補給站。",place:"道之驛くるくるなると",hours:"午餐",note:"部分熟食櫃位提早結束",image:"",chips:[{label:"鳴門金時",class:"buy"},{label:"海鮮",class:"food"}]},
+    {type:"景點",title:"大塚國際美術館",desc:"鳴門主景點，安排完整下午時段。",place:"大塚國際美術館",hours:"14:20–16:50（預估）",note:"依館方最終公告為準",image:"",chips:[{label:"門票",class:"book"},{label:"必看",class:""}]},
+    {type:"住宿",title:"LiveMax Resort 讚岐鹽江",desc:"往香川方向入住鹽江。",place:"LiveMax Resort 讃岐塩江温泉",hours:"依飯店 check-in 時間",note:"已訂 1 晚",image:"",chips:[{label:"已訂",class:"book"}]}
+  ]},
+  {day:"DAY 4",date:"11/1（日）",title:"鹽江 → 四國水族館 → 小豆島",route:"四國水族館 → 高松港 14:48 → 池田港 15:48 → edit x seven",locationForWeather:"Kotohira",cover:"https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=80",story:"上午水族館，下午帶車搭高松港至池田港渡輪，進入小豆島連住兩晚。",tags:[{label:"親子主場",class:""},{label:"帶車渡輪",class:"drive"}],items:[
+    {type:"景點",title:"四國水族館",desc:"香川親子主力。",place:"四國水族館",hours:"09:00–18:00",note:"最晚入館時間依官網為準",image:"",chips:[{label:"親子",class:""}]},
+    {type:"交通",title:"高松港 → 池田港 渡輪",desc:"帶車前往小豆島。",place:"高松港",hours:"14:48–15:48",note:"依已訂船班辦理報到",image:"",chips:[{label:"已訂",class:"book"},{label:"帶車",class:"drive"}]},
+    {type:"住宿",title:"edit x seven 瀨戶內小豆島",desc:"小豆島連住兩晚。",place:"edit x seven 瀬戸内小豆島",hours:"依飯店 check-in 時間",note:"11/1、11/2 連住",image:"",chips:[{label:"已訂",class:"book"}]}
+  ]},
+  {day:"DAY 5",date:"11/2（一）",title:"小豆島景觀日",route:"寒霞溪 → 小豆島橄欖公園 → 富丘八幡神社",locationForWeather:"Awaji",cover:"https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1400&q=80",story:"小豆島以山景、橄欖與神社為主，保留慢遊節奏。",tags:[{label:"瀨戶內海",class:"menu"},{label:"小豆島",class:""}],items:[
+    {type:"景點",title:"寒霞溪",desc:"小豆島代表溪谷景觀。",place:"寒霞溪",hours:"依纜車與現場公告",note:"視天候調整",image:"",chips:[{label:"必看",class:""},{label:"山景",class:"menu"}]},
+    {type:"景點",title:"小豆島橄欖公園",desc:"橄欖樹海景與拍照點。",place:"小豆島オリーブ公園",hours:"依現場公告",note:"戶外景點留意風勢",image:"",chips:[{label:"拍照",class:"menu"}]},
+    {type:"景點",title:"富丘八幡神社",desc:"安排島上神社參拜。",place:"富丘八幡神社",hours:"依現場公告",note:"以參拜動線為準",image:"",chips:[{label:"神社",class:"book"}]},
+    {type:"住宿",title:"edit x seven 瀨戶內小豆島",desc:"小豆島第二晚。",place:"edit x seven 瀬戸内小豆島",hours:"全天",note:"連住第 2 晚",image:"",chips:[{label:"已訂",class:"book"}]}
+  ]},
+  {day:"DAY 6",date:"11/3（二）",title:"小豆島 → 岡山",route:"10:00 離店 → 土庄港 11:40 → 新岡山港 12:50 → AEON 岡山 → 岡山城",locationForWeather:"Okayama",cover:"https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1400&q=80",story:"文化之日不排倉敷；先帶車回岡山，採買後以岡山城黃昏收尾。",tags:[{label:"已訂渡輪",class:"book"},{label:"岡山市區",class:"menu"}],items:[
+    {type:"交通",title:"土庄港 → 新岡山港 渡輪",desc:"帶車離開小豆島。",place:"土庄港",hours:"11:40–12:50",note:"已訂汽車渡輪",image:"",chips:[{label:"已訂",class:"book"},{label:"帶車",class:"drive"}]},
+    {type:"購物",title:"AEON MALL 岡山",desc:"採買、補給與用餐。",place:"AEON MALL 岡山",hours:"10:00–21:00",note:"美食街與超市時間可能不同",image:"",chips:[{label:"補貨",class:"buy"}]},
+    {type:"景點",title:"岡山城",desc:"安排黃昏外觀與城下散步。",place:"岡山城",hours:"依現場公告",note:"不安排後樂園與吉備津神社",image:"",chips:[{label:"黃昏",class:"menu"}]},
+    {type:"住宿",title:"岡山住宿",desc:"岡山住一晚，隔天前往倉敷與姬路。",place:"岡山",hours:"依飯店 check-in 時間",note:"已訂 1 晚",image:"",chips:[{label:"已訂",class:"book"}]}
+  ]},
+  {day:"DAY 7",date:"11/4（三）",title:"岡山 → 倉敷 → 姬路",route:"倉敷美觀地區 10:40–14:40 → SETRE Highland Villa Himeji",locationForWeather:"Himeji",cover:"https://images.unsplash.com/photo-1582559933553-0cf3e248a6cd?auto=format&fit=crop&w=1400&q=80",story:"文化之日後再排倉敷，下午離開前往姬路入住。",tags:[{label:"老街日",class:"menu"},{label:"轉場",class:"drive"}],items:[
+    {type:"景點",title:"倉敷美觀地區",desc:"白壁老街與河道散步。",place:"倉敷美觀地區",hours:"10:40–14:40",note:"文化之日不排，改在此日造訪",image:"",chips:[{label:"必看",class:""},{label:"散步",class:"menu"}]},
+    {type:"住宿",title:"SETRE Highland Villa Himeji",desc:"姬路住一晚，含早餐。",place:"SETRE Highland Villa Himeji",hours:"依飯店 check-in 時間",note:"已訂，含早餐",image:"",chips:[{label:"已訂",class:"book"}]}
+  ]},
+  {day:"DAY 8",date:"11/5（四）",title:"姬路中央公園 → 關西機場",route:"姬路 Central Park → 臨空城 15:00 還車 → KIX BR129 18:10",locationForWeather:"Himeji",cover:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80",story:"返程日保留姬路中央公園；須以 15:00 臨空城還車為硬截止，不加其他景點。",tags:[{label:"親子收尾",class:""},{label:"返程日",class:"drive"}],items:[
+    {type:"景點",title:"姬路 Central Park",desc:"返程日前段的親子主場。",place:"姫路セントラルパーク",hours:"依園區公告",note:"需依 15:00 還車倒推離園時間",image:"",chips:[{label:"親子",class:""},{label:"時間控管",class:"menu"}]},
+    {type:"交通",title:"臨空城還車 → 關西機場",desc:"還車後前往航廈辦理 BR129 報到。",place:"りんくうタウン",hours:"15:00 還車",note:"BR129 18:10 起飛，請預留還車與報到緩衝",image:"",chips:[{label:"BR129",class:"book"},{label:"硬截止",class:"drive"}]}
+  ]}
 ];
 
 
