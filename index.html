@@ -1318,14 +1318,22 @@ function normalizeDays(days){
   }));
 }
 
-document.getElementById("saveCloudBtn").addEventListener("click", async ()=>{
-  if(!state.isOwner) return;
+let isSavingCloud = false;
+async function saveSharedDays(){
+  if(!state.isOwner || isSavingCloud) return;
+  isSavingCloud = true;
   updateSyncStatus("同步中...");
   try{
     await setDoc(doc(db,...DOC_PATH),{ days:normalizeDays(state.days), updatedAt:serverTimestamp() });
     updateSyncStatus("✅ 已同步到雲端");
   }catch(e){ updateSyncStatus("❌ 同步失敗："+e.message); }
-});
+  finally{ isSavingCloud = false; }
+}
+// 同時支援一般點擊與觸控結束；避免部分手機瀏覽器的 sticky header 吃掉按鈕事件。
+document.getElementById("saveCloudBtn").addEventListener("click", saveSharedDays);
+document.addEventListener("pointerup", e=>{
+  if(e.target.closest("#saveCloudBtn")) saveSharedDays();
+}, true);
 
 document.getElementById("reloadCloudBtn").addEventListener("click", async ()=>{
   if(!state.isOwner) return;
