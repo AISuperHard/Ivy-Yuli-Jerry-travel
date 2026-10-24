@@ -986,8 +986,8 @@ let dayObserver = null;
 function updateSyncStatus(text){ document.getElementById("syncStatus").textContent = "同步狀態：" + text; }
 function saveLocalState(){ localStorage.setItem(LOCAL_KEY, JSON.stringify(state.days)); }
 function loadLocalState(){
-  // v10 是舊版網站的本機資料；首次升級時保留它，避免 Ivy 已整理好的行程消失。
-  const raw = localStorage.getItem(LOCAL_KEY) || localStorage.getItem("trip_editor_state_v10");
+  // 僅讀取此定稿版之後的本機變更；舊 v10 資料是已淘汰路線，不能再覆蓋定稿預設。
+  const raw = localStorage.getItem(LOCAL_KEY);
   if(raw){
     try{
       const parsed = JSON.parse(raw);
