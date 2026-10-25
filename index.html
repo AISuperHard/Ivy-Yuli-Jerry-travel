@@ -378,6 +378,14 @@ const DOC_PATH = ["tripApps","yueyue-shikoku-trip-v12"];
 const LOCAL_KEY = "trip_editor_state_v12";
 const NOTES_KEY = "trip_notes_v12";
 const BUDGET_KEY = "trip_budget_v12";
+// 統一採用日式旅行插畫，避免不同來源的實拍照片混在同一份行程中。
+const ILLUSTRATION_IMAGE = "./assets/japan-roadtrip-illustration.jpg";
+const DAY_ILLUSTRATIONS = [
+  "./assets/days/day-1.jpg", "./assets/days/day-2.jpg",
+  "./assets/days/day-3.jpg", "./assets/days/day-4.jpg",
+  "./assets/days/day-5.jpg", "./assets/days/day-6.jpg",
+  "./assets/days/day-7.jpg", "./assets/days/day-8.jpg"
+];
 
 // ★ 景點圖片對照表（直接使用，快速載入）
 const SPOT_IMAGE_MAP = {
@@ -413,16 +421,14 @@ const SPOT_IMAGE_MAP = {
   "Mosaic":          "https://images.unsplash.com/photo-1551361415-69c87624334f?auto=format&fit=crop&w=1200&q=80",
   "Kansai International Airport": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
 };
-const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1200&q=80";
+const DEFAULT_IMAGE = ILLUSTRATION_IMAGE;
 
 // 圖片來源：優先抓 GitHub /photos/景點名.jpg，找不到才用對照表
 const GITHUB_PHOTOS_BASE = "https://raw.githubusercontent.com/AISuperHard/Ivy-Yuli-Jerry-travel/main/photos/";
 
 function resolveSpotImage(item){
-  if(item.image) return item.image;
-  const key = item.place || item.title || "";
-  // 先用 GitHub photos（若上傳了就會顯示）
-  return GITHUB_PHOTOS_BASE + encodeURIComponent(key) + ".jpg";
+  // 不讀取景點實拍或使用者自訂照片；全站維持同一套日式插畫語言。
+  return ILLUSTRATION_IMAGE;
 }
 
 function onPhotoError(img, item){
@@ -1078,10 +1084,6 @@ function renderDays(){
 
       itemsHtml += `
         <div class="item-card">
-          <div class="item-photo-wrap">
-            <div class="item-photo-loading" id="loading-${dayIndex}-${itemIndex}">🗾</div>
-            <img class="item-photo" id="photo-${dayIndex}-${itemIndex}" src="" alt="${escapeAttr(item.title||'')}">
-          </div>
           <div class="item-type">${item.type||"景點"}</div>
           <div class="item-title">${item.title||""}</div>
           <div class="item-desc">${item.desc||""}</div>
@@ -1118,7 +1120,7 @@ function renderDays(){
 
     html += `
       <article class="day-card" id="day-${dayIndex+1}">
-        <div class="day-cover" style="background-image:url('${d.cover||DEFAULT_IMAGE}')">
+        <div class="day-cover" style="background-image:url('${DAY_ILLUSTRATIONS[dayIndex] || ILLUSTRATION_IMAGE}')">
           <div class="day-cover-inner">
             <div class="day-no">${d.day} · ${d.date}</div>
             <div class="day-title">${d.title}</div>
@@ -1150,7 +1152,6 @@ function renderDays(){
 
   wrap.innerHTML = html;
   bindEvents();
-  loadAllItemPhotos();
   state.days.forEach(fetchWeatherForDay);
   renderDayJumpBar();
 }
