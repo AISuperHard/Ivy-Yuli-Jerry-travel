@@ -317,6 +317,10 @@ input::placeholder,textarea::placeholder{color:#94a3b8}
       <div class="budget-row" style="margin-bottom:8px">
         <input id="budget-item" placeholder="項目" />
         <input id="budget-amount" type="number" placeholder="金額" />
+        <select id="budget-currency" aria-label="幣別">
+          <option value="JPY">日幣 ¥</option>
+          <option value="TWD">台幣 NT$</option>
+        </select>
         <select id="budget-category">
           <option value="餐飲">餐飲</option><option value="交通">交通</option>
           <option value="門票">門票</option><option value="購物">購物</option>
@@ -325,7 +329,7 @@ input::placeholder,textarea::placeholder{color:#94a3b8}
         <button class="btn primary" id="addBudgetBtn">新增</button>
       </div>
       <div class="budget-actions">
-        <div class="budget-total">總計：<span id="budget-total">¥0</span></div>
+        <div class="budget-total">總計：<span id="budget-total-jpy">¥0</span>　<span id="budget-total-twd">NT$0</span></div>
         <button class="btn secondary" id="clearBudgetBtn">清空</button>
       </div>
       <div id="budget-list" style="margin-top:14px"></div>
@@ -444,10 +448,16 @@ function onPhotoError(img, item){
 const SPOT_COORDS = {
   "Kansai International Airport Rent a Car": { lat: 34.4361, lon: 135.2442 },
   "關西機場": { lat: 34.4347, lon: 135.2440 },
+  "國營明石海峽公園": { lat: 34.6438, lon: 134.9978 },
   "明石海峽公園": { lat: 34.6438, lon: 134.9978 },
+  "亀の井ホテル 淡路島": { lat: 34.5486, lon: 134.8946 },
+  "ニジゲンノモリ ゴジラ迎撃作戦": { lat: 34.5818, lon: 135.0123 },
+  "吹き戻しの里": { lat: 34.5298, lon: 134.8944 },
   "二次元之森": { lat: 34.5818, lon: 135.0123 },
   "二次元之森（蠟筆小新、哥吉拉）": { lat: 34.5818, lon: 135.0123 },
   "淡路花さじき": { lat: 34.5934, lon: 135.0033 },
+  "伊弉諾神宮": { lat: 34.4528, lon: 134.8515 },
+  "淡路ファームパーク イングランドの丘": { lat: 34.2947, lon: 134.7415 },
   "うずの丘 大鳴門橋記念館": { lat: 34.2587, lon: 134.7152 },
   "道之驛うずしお in うずまちテラス": { lat: 34.2598, lon: 134.7140 },
   "大塚國際美術館": { lat: 34.2381, lon: 134.6544 },
@@ -455,6 +465,15 @@ const SPOT_COORDS = {
   "鳴門觀潮船": { lat: 34.2468, lon: 134.6515 },
   "阿波舞會館": { lat: 34.0672, lon: 134.5548 },
   "四國水族館": { lat: 34.3117, lon: 133.8236 },
+  "LiveMax Resort 讃岐塩江温泉": { lat: 34.1599, lon: 134.1236 },
+  "高松港": { lat: 34.3505, lon: 134.0467 },
+  "池田港": { lat: 34.4800, lon: 134.1937 },
+  "edit x seven 瀬戸内小豆島": { lat: 34.4667, lon: 134.2911 },
+  "寒霞溪": { lat: 34.5369, lon: 134.2888 },
+  "小豆島オリーブ公園": { lat: 34.4818, lon: 134.2777 },
+  "富丘八幡神社": { lat: 34.4864, lon: 134.1878 },
+  "土庄港": { lat: 34.4802, lon: 134.1841 },
+  "新岡山港": { lat: 34.6315, lon: 133.9966 },
   "栗林公園": { lat: 34.3248, lon: 134.0435 },
   "高松讚岐烏龍麵": { lat: 34.3428, lon: 134.0466 },
   "琴平溫泉": { lat: 34.1911, lon: 133.8215 },
@@ -463,12 +482,16 @@ const SPOT_COORDS = {
   "三井 OUTLET 倉敷": { lat: 34.6027, lon: 133.7664 },
   "倉敷美觀地區": { lat: 34.5978, lon: 133.7720 },
   "岡山城": { lat: 34.6655, lon: 133.9350 },
+  "岡山": { lat: 34.6669, lon: 133.9187 },
   "岡山後樂園": { lat: 34.6662, lon: 133.9345 },
   "吉備津神社": { lat: 34.6916, lon: 133.8544 },
   "AEON MALL 岡山": { lat: 34.6669, lon: 133.9187 },
   "姬路城": { lat: 34.8394, lon: 134.6939 },
   "姬路市立動物園": { lat: 34.8383, lon: 134.6927 },
   "姬路 穴子飯": { lat: 34.8290, lon: 134.6907 },
+  "SETRE Highland Villa Himeji": { lat: 34.9173, lon: 134.6698 },
+  "姫路セントラルパーク": { lat: 34.9184, lon: 134.7264 },
+  "りんくうタウン": { lat: 34.4087, lon: 135.2991 },
   "神戶麵包超人博物館": { lat: 34.6790, lon: 135.1877 },
   "Kobe Harborland": { lat: 34.6797, lon: 135.1834 },
   "Mosaic": { lat: 34.6794, lon: 135.1832 },
@@ -1401,14 +1424,19 @@ let budgetItems = [];
 try{ budgetItems = JSON.parse(localStorage.getItem(BUDGET_KEY)||"[]"); }catch(e){}
 
 function renderBudget(){
-  const total = budgetItems.reduce((s,i)=>s+Number(i.amount||0),0);
-  document.getElementById("budget-total").textContent = "¥"+total.toLocaleString();
+  const totals = budgetItems.reduce((s,i)=>{
+    const currency = i.currency === "TWD" ? "TWD" : "JPY";
+    s[currency] += Number(i.amount||0);
+    return s;
+  },{JPY:0,TWD:0});
+  document.getElementById("budget-total-jpy").textContent = "¥"+totals.JPY.toLocaleString();
+  document.getElementById("budget-total-twd").textContent = "NT$"+totals.TWD.toLocaleString();
   const list = document.getElementById("budget-list");
   if(!budgetItems.length){ list.innerHTML='<div class="empty">尚無記帳項目</div>'; return; }
   list.innerHTML='<ul class="small-list">'+budgetItems.map((item,i)=>`
     <li><span><b>${item.name}</b><br><span style="color:#9ca3af;font-size:12px">${item.cat}</span></span>
       <span style="display:flex;align-items:center;gap:8px">
-        <span style="font-weight:800">¥${Number(item.amount||0).toLocaleString()}</span>
+        <span style="font-weight:800">${item.currency === "TWD" ? "NT$" : "¥"}${Number(item.amount||0).toLocaleString()}</span>
         <button class="btn danger small" onclick="deleteBudgetItem(${i})">✕</button>
       </span></li>
   `).join('')+'</ul>';
@@ -1417,9 +1445,10 @@ window.deleteBudgetItem = function(i){ budgetItems.splice(i,1); localStorage.set
 document.getElementById("addBudgetBtn").addEventListener("click",()=>{
   const name = document.getElementById("budget-item").value.trim();
   const amount = document.getElementById("budget-amount").value;
+  const currency = document.getElementById("budget-currency").value;
   const cat = document.getElementById("budget-category").value;
   if(!name||!amount) return alert("請填寫項目與金額");
-  budgetItems.push({name,amount,cat});
+  budgetItems.push({name,amount,currency,cat});
   localStorage.setItem(BUDGET_KEY,JSON.stringify(budgetItems));
   document.getElementById("budget-item").value='';
   document.getElementById("budget-amount").value='';
