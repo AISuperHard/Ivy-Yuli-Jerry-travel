@@ -80,6 +80,12 @@ h1 span{color:var(--brand);}
 
 /* ITEM CARD */
 .item-card,.transport-card{border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff}
+.item-card.collapsed{padding-bottom:12px}
+.item-card-summary{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.item-expand-toggle{flex:0 0 auto;width:32px;height:32px;border-radius:999px;border:1px solid var(--line);background:#f8fafc;color:var(--brand-dark);font-size:17px;font-weight:800;line-height:1;cursor:pointer}
+.item-card.expanded .item-expand-toggle{background:#fff0e6;color:var(--brand);border-color:#f5c9a8}
+.item-expandable{margin-top:10px}
+.item-card.collapsed .item-expandable{display:none}
 
 /* ★ 升級：景點圖片 wrapper */
 .item-photo-wrap{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;
@@ -1079,10 +1085,16 @@ function renderDays(){
         : `https://maps.apple.com/?q=${encodeURIComponent((item.place||item.title||'')+" Japan")}`;
 
       itemsHtml += `
-        <div class="item-card">
-          <div class="item-type">${item.type||"景點"}</div>
-          <div class="item-title">${item.title||""}</div>
-          <div class="item-desc">${item.desc||""}</div>
+        <div class="item-card ${state.isEditing?'expanded':'collapsed'}">
+          <div class="item-card-summary">
+            <div>
+              <div class="item-type">${item.type||"景點"}</div>
+              <div class="item-title">${item.title||""}</div>
+              <div class="item-desc">${item.desc||""}</div>
+            </div>
+            <button class="item-expand-toggle" type="button" aria-label="展開行程詳細內容">${state.isEditing?'−':'＋'}</button>
+          </div>
+          <div class="item-expandable">
           ${item.hours?`<div class="item-hours">🕐 ${item.hours}</div>`:''}
           ${(SPOT_PHONE[item.place]||SPOT_PHONE[item.title])?`<div class="item-phone" onclick="event.stopPropagation();navigator.clipboard.writeText('${SPOT_PHONE[item.place]||SPOT_PHONE[item.title]}').then(()=>alert('已複製電話，可貼到車機導航'))">📞 車機導航：${SPOT_PHONE[item.place]||SPOT_PHONE[item.title]} <span style="opacity:.6">（點擊複製）</span></div>`:''}
           ${item.note?`<div class="item-note">📝 ${item.note}</div>`:''}
@@ -1099,8 +1111,7 @@ function renderDays(){
               <button class="btn danger small delete-item-btn" data-day-index="${dayIndex}" data-item-index="${itemIndex}">刪除</button>
             `:''}
           </div>
-
-
+          </div>
         </div>
       `;
 
@@ -1201,6 +1212,16 @@ async function fetchWeatherForDay(d, dayIndex){
 
 // ===== EVENT BINDING =====
 function bindEvents(){
+  document.querySelectorAll('.item-card-summary').forEach(summary => {
+    summary.addEventListener('click', () => {
+      const card = summary.closest('.item-card');
+      if(!card || state.isEditing) return;
+      const expanded = card.classList.toggle('expanded');
+      card.classList.toggle('collapsed', !expanded);
+      const toggle = card.querySelector('.item-expand-toggle');
+      if(toggle) toggle.textContent = expanded ? '−' : '＋';
+    });
+  });
   document.querySelectorAll('.copy-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       navigator.clipboard.writeText(btn.dataset.place||'').then(() => alert('已複製：'+(btn.dataset.place||'')));
