@@ -516,11 +516,11 @@ function getMapEmbedUrl(item){
 }
 
 function getGoogleMapsUrl(item){
-  const coords = getCoords(item);
-  if(coords){
-    return `https://www.google.com/maps/search/?api=1&query=${coords.lat},${coords.lon}`;
-  }
+  // 導航以景點正式名稱搜尋，避免舊座標或區域中心點導錯目的地。
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((item.place || item.title || "") + " Japan")}`;
+}
+function getAppleMapsUrl(item){
+  return `https://maps.apple.com/?q=${encodeURIComponent((item.place || item.title || "") + " Japan")}`;
 }
 
 function haversineKm(lat1, lon1, lat2, lon2){
@@ -1109,9 +1109,7 @@ function renderDays(){
         ? `https://www.openstreetmap.org/export/embed.html?bbox=${coords.lon-0.008},${coords.lat-0.006},${coords.lon+0.008},${coords.lat+0.006}&layer=mapnik&marker=${coords.lat},${coords.lon}`
         : null;
       const gmapsUrl = getGoogleMapsUrl(item);
-      const appleUrl = coords
-        ? `https://maps.apple.com/?ll=${coords.lat},${coords.lon}&q=${encodeURIComponent(item.title||item.place||'')}`
-        : `https://maps.apple.com/?q=${encodeURIComponent((item.place||item.title||'')+" Japan")}`;
+      const appleUrl = getAppleMapsUrl(item);
 
       itemsHtml += `
         <div class="item-card ${state.isEditing?'expanded':'collapsed'}">
@@ -1489,9 +1487,7 @@ window.openDrawer = function(dayIndex, itemIndex){
   const detail = SPOT_DETAIL[key];
   const gmapsUrl = getGoogleMapsUrl(item);
   const coords = getCoords(item);
-  const appleUrl = coords
-    ? `https://maps.apple.com/?ll=${coords.lat},${coords.lon}&q=${encodeURIComponent(item.title||item.place||'')}`
-    : `https://maps.apple.com/?q=${encodeURIComponent((item.place||item.title||'')+" Japan")}`;
+  const appleUrl = getAppleMapsUrl(item);
 
   document.getElementById('drawerType').textContent = item.type || '景點';
   document.getElementById('drawerTitle').textContent = item.title || '';
